@@ -8,7 +8,7 @@ body:
     attributes:
       label: 📄 설명
       description: 새로운 기능에 대한 설명을 작성해 주세요.
-      placeholder: 최대한 자세히 작성!
+      placeholder: 최대한 자세하게 작성!
     validations:
       required: true
   - type: textarea
