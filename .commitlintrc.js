@@ -46,5 +46,7 @@ module.exports = {
 
     // 2-4) “마지막에 #이슈번호가 있어야 한다”는 커스텀 검사
     'subject-has-issue': [2, 'always'],
+
+    'subject-case': [0],
   },
 };
