@@ -4,9 +4,9 @@ import localFont from 'next/font/local';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 
-const pretendard = localFont({
-  src: '../../public/fonts/Pretendard-Variable.woff2',
-  variable: '--font-pretendard',
+const nanumSquareRound = localFont({
+  src: '../../public/fonts/NanumSquareRound.ttf',
+  variable: '--font-nanumSquareRound',
 });
 
 const recipekorea = localFont({
@@ -25,7 +25,10 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang='ko' className={(pretendard.variable, recipekorea.variable)}>
+    <html
+      lang='ko'
+      className={`${nanumSquareRound.variable} ${recipekorea.variable}`}
+    >
       <body>
         <Header />
         <main className='container flex-1 mx-auto p-4 mt-16'>{children}</main>

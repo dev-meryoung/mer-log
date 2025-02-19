@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        pretendard: ['var(--font-pretendard)', 'sans-serif'],
+        nanumSquareRound: ['var(--font-nanumSquareRound)', 'sans-serif'],
         recipekorea: ['var(--font-recipekorea)', 'sans-serif'],
       },
       colors: {
