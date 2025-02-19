@@ -29,7 +29,11 @@ const Header = () => {
               </svg>
             }
             onClick={() => {
-              return window.open('https://github.com/dev-meryoung', '_blank');
+              return window.open(
+                'https://github.com/dev-meryoung',
+                '_blank',
+                'noopener,noreferrer'
+              );
             }}
             title='GitHub'
           />
