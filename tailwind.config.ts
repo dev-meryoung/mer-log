@@ -10,11 +10,12 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-pretendard)', 'sans-serif'],
+        nanumSquareRound: ['var(--font-nanumSquareRound)', 'sans-serif'],
+        recipekorea: ['var(--font-recipekorea)', 'sans-serif'],
       },
       colors: {
         primary: '#233067',
-        secondary: '#575e9b',
+        secondary: '#38427b',
         background: {
           light: '#f5f5f5',
           dark: '#212121',
@@ -22,6 +23,14 @@ export default {
         text: {
           light: '#333',
           dark: '#f5f5f5',
+        },
+      },
+      container: {
+        center: true,
+        screens: {
+          sm: '100%',
+          md: '800px',
+          lg: '1024px',
         },
       },
     },
