@@ -7,7 +7,11 @@ interface IconButtonProps
 
 const IconButton: React.FC<IconButtonProps> = ({ icon, ...props }) => {
   return (
-    <button className='p-2 rounded-xl hover:bg-gray-200' {...props}>
+    <button
+      type='button'
+      className='p-2 rounded-xl hover:bg-gray-200'
+      {...props}
+    >
       {icon}
     </button>
   );
