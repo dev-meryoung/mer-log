@@ -15,7 +15,7 @@ export default {
       },
       colors: {
         primary: '#233067',
-        secondary: '#575e9b',
+        secondary: '#38427b',
         background: {
           light: '#f5f5f5',
           dark: '#212121',
@@ -30,7 +30,7 @@ export default {
         screens: {
           sm: '100%',
           md: '800px',
-          lg: '1280px',
+          lg: '1024px',
         },
       },
     },

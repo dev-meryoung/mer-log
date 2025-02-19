@@ -25,9 +25,9 @@ const Home = () => {
   ];
 
   return (
-    <div className='w-full px-4 select-none'>
+    <div className='w-full px-2 select-none'>
       <div className='py-6'>
-        <h1 className='inline font-recipekorea text-3xl font-bold hover:text-primary'>
+        <h1 className='inline font-recipekorea text-3xl font-bold hover:text-secondary'>
           TAGS
         </h1>
         <div className='flex py-4 gap-2 flex-wrap'>
@@ -37,7 +37,7 @@ const Home = () => {
         </div>
       </div>
       <div className='py-6'>
-        <h1 className='font-recipekorea text-3xl font-bold hover:text-primary'>
+        <h1 className='font-recipekorea text-3xl font-bold hover:text-secondary'>
           POSTS
         </h1>
       </div>
