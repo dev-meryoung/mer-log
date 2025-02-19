@@ -10,7 +10,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['var(--font-pretendard)', 'sans-serif'],
+        pretendard: ['var(--font-pretendard)', 'sans-serif'],
+        recipekorea: ['var(--font-recipekorea)', 'sans-serif'],
       },
       colors: {
         primary: '#233067',
@@ -22,6 +23,14 @@ export default {
         text: {
           light: '#333',
           dark: '#f5f5f5',
+        },
+      },
+      container: {
+        center: true,
+        screens: {
+          sm: '100%',
+          md: '800px',
+          lg: '1280px',
         },
       },
     },

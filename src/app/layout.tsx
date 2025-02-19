@@ -9,6 +9,11 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 });
 
+const recipekorea = localFont({
+  src: '../../public/fonts/Recipekorea.ttf',
+  variable: '--font-recipekorea',
+});
+
 export const metadata: Metadata = {
   title: 'mer-log | 기술 블로그',
   description: '현재 구현 진행 중인 기술 블로그입니다.',
@@ -20,7 +25,7 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   return (
-    <html lang='ko' className={pretendard.variable}>
+    <html lang='ko' className={(pretendard.variable, recipekorea.variable)}>
       <body>
         <Header />
         <main className='container flex-1 mx-auto p-4 mt-16'>{children}</main>
