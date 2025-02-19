@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import localFont from 'next/font/local';
-import { Footer } from '@/components/Footer';
-import { Header } from '@/components/Header';
+import Footer from '@/components/Footer';
+import Header from '@/components/Header';
 
 const pretendard = localFont({
   src: '../../public/fonts/Pretendard-Variable.woff2',
@@ -18,14 +18,16 @@ const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
-}>) => (
-  <html lang='ko' className={pretendard.variable}>
-    <body>
-      <Header />
-      <main className='flex-1 container mx-auto p-4'>{children}</main>
-      <Footer />
-    </body>
-  </html>
-);
+}>) => {
+  return (
+    <html lang='ko' className={pretendard.variable}>
+      <body>
+        <Header />
+        <main className='container flex-1 mx-auto p-4 mt-16'>{children}</main>
+        <Footer />
+      </body>
+    </html>
+  );
+};
 
 export default RootLayout;
