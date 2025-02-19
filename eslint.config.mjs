@@ -56,7 +56,7 @@ const eslintConfig = [
           unnamedComponents: 'arrow-function',
         },
       ],
-      'arrow-body-style': ['error', 'as-needed'],
+      'arrow-body-style': ['error', 'always'],
       'react/jsx-pascal-case': 'error',
       camelcase: ['error', { properties: 'never' }],
       'react/jsx-handler-names': [
