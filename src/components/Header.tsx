@@ -7,7 +7,7 @@ import IconButton from '@/components/IconButton';
 
 const Header = () => {
   return (
-    <header className='fixed top-0 w-full h-16 px-4 flex items-center justify-center border-b border-gray-200 bg-background-light z50'>
+    <header className='fixed top-0 w-full h-16 px-4 flex items-center justify-center border-b border-gray-200 bg-background-light z50 select-none'>
       <div className='container flex justify-between items-center'>
         <Link href='/'>
           <Image src='/logo-light.svg' alt='logo' width={150} height={100} />
