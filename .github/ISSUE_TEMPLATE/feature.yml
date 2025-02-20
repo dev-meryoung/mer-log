@@ -1,6 +1,6 @@
 name: ⚡ Feature
 description: 새로운 기능이나 변경사항이 있나요?
-title: '[Feature] '
+title: '[Feat] '
 labels: ['⚡ Feature']
 body:
   - type: textarea
