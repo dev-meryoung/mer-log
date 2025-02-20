@@ -1,3 +1,4 @@
+import { formatDate } from '@/utils/dateUtils';
 import Image from 'next/image';
 
 interface PostCardProps {
@@ -14,7 +15,7 @@ const PostCard: React.FC<PostCardProps> = ({
   date,
 }: PostCardProps) => {
   return (
-    <div className='group flex w-full h-48 items-center rounded-lg shadow-md bg-white overflow-hidden hover:cursor-pointer'>
+    <div className='group flex w-full h-48 items-center rounded-lg shadow-md bg-white overflow-hidden'>
       <div className='flex-[2] h-full overflow-hidden'>
         <Image
           src={thumbnail}
@@ -29,7 +30,9 @@ const PostCard: React.FC<PostCardProps> = ({
           {title}
         </h2>
         <p className='line-clamp-2 pt-1'>{description}</p>
-        <p className='absolute bottom-4 text-sm text-gray-500'>{date}</p>
+        <p className='absolute bottom-4 text-sm text-gray-500'>
+          {formatDate(date)}
+        </p>
       </div>
     </div>
   );
