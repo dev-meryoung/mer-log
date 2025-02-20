@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        nanumSquareRound: ['var(--font-nanumSquareRound)', 'sans-serif'],
+        ibmPlexSansKR: ['var(--font-ibmPlexSansKR)', 'sans-serif'],
         recipekorea: ['var(--font-recipekorea)', 'sans-serif'],
       },
       colors: {
@@ -35,5 +35,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 } satisfies Config;
