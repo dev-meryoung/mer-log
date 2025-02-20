@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 interface PostCardProps {
   title: string;
   description: string;
@@ -12,20 +14,22 @@ const PostCard: React.FC<PostCardProps> = ({
   date,
 }: PostCardProps) => {
   return (
-    <div className='group flex w-full h-40 items-center gap-8 hover:cursor-pointer'>
-      <div className='flex-[1.5] h-full overflow-hidden rounded-lg'>
-        <img
+    <div className='group flex w-full h-48 items-center rounded-lg bg-white overflow-hidden hover:cursor-pointer'>
+      <div className='flex-[2] h-full overflow-hidden'>
+        <Image
           src={thumbnail}
           alt={title}
-          className='w-full h-full object-cover rounded-lg transition-all duration-500 group-hover:scale-105'
+          className='w-full h-full object-cover transition-all duration-500 group-hover:scale-105'
+          width={500}
+          height={500}
         />
       </div>
-      <div className='flex-[3.5] flex flex-col h-full p-2 gap-2'>
+      <div className='flex-[4] flex relative flex-col h-full px-10 py-6 gap-2'>
         <h2 className='font-bold text-2xl line-clamp-2 transition-all duration-500 group-hover:text-secondary'>
           {title}
         </h2>
-        <p className='line-clamp-2'>{description}</p>
-        <p className='text-sm text-gray-500'>{date}</p>
+        <p className='line-clamp-2 pt-1'>{description}</p>
+        <p className='absolute bottom-4 text-sm text-gray-500'>{date}</p>
       </div>
     </div>
   );
