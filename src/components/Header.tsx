@@ -10,7 +10,13 @@ const Header = () => {
     <header className='fixed top-0 w-full h-16 px-4 flex items-center justify-center border-b border-gray-200 bg-background-light z-50 select-none'>
       <div className='container flex justify-between items-center'>
         <Link href='/'>
-          <Image src='/logo-light.svg' alt='logo' width={150} height={100} />
+          <Image
+            src='/logo-light.svg'
+            alt='logo'
+            width={150}
+            height={100}
+            className='w-[150px] h-[100px]'
+          />
         </Link>
         <div className='flex space-x-2'>
           <IconButton
