@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import PostCard from '@/components/PostCard';
 import Tag from '@/components/Tag';
 import { getAllPosts, getAllTags } from '@/lib/posts';
@@ -25,13 +26,19 @@ const Home = async () => {
         <div className='flex py-4 gap-8 flex-wrap'>
           {posts.map((post, index) => {
             return (
-              <PostCard
-                key={index}
-                title={post.title}
-                description={post.description}
-                thumbnail={post.thumbnail}
-                date={post.date}
-              />
+              <Link
+                key={post.slug}
+                href={`/post/${post.slug}`}
+                className='w-full'
+              >
+                <PostCard
+                  key={index}
+                  title={post.title}
+                  description={post.description}
+                  thumbnail={post.thumbnail}
+                  date={post.date}
+                />
+              </Link>
             );
           })}
         </div>

@@ -1,5 +1,5 @@
-import { formatDate } from '@/utils/dateUtils';
 import Image from 'next/image';
+import { formatDate } from '@/utils/dateUtils';
 
 interface PostCardProps {
   title: string;
