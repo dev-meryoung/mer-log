@@ -3,6 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
+import { compareDatesDesc } from '@/utils/dateUtils';
 
 export interface PostMetadata {
   title: string;
@@ -10,6 +11,7 @@ export interface PostMetadata {
   thumbnail: string;
   date: string;
   tags: string[];
+  slug: string;
 }
 
 export interface PostData {
@@ -17,7 +19,7 @@ export interface PostData {
   contentHtml: string;
 }
 
-export function getAllPosts(): PostMetadata[] {
+export const getAllPosts = (): PostMetadata[] => {
   const postsDir = path.join(process.cwd(), 'public', 'posts');
   const postFolders = fs.readdirSync(postsDir);
   const posts: PostMetadata[] = postFolders.map((folderName) => {
@@ -31,17 +33,18 @@ export function getAllPosts(): PostMetadata[] {
       date: data.date,
       thumbnail: data.thumbnail,
       tags: data.tags,
+      slug: folderName,
     };
   });
 
   posts.sort((a, b) => {
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
+    return compareDatesDesc(a.date, b.date);
   });
 
   return posts;
-}
+};
 
-export function getAllTags(): string[] {
+export const getAllTags = (): string[] => {
   const posts = getAllPosts();
   const tagSet = new Set<string>();
 
@@ -54,4 +57,19 @@ export function getAllTags(): string[] {
   });
 
   return Array.from(tagSet);
-}
+};
+
+export const getPost = async (slug: string): Promise<PostData> => {
+  const postDir = path.join(process.cwd(), 'public', 'posts', slug);
+  const filePath = path.join(postDir, 'index.md');
+  const fileContents = await fs.promises.readFile(filePath, 'utf8');
+  const { data, content } = matter(fileContents);
+
+  const processedContent = await remark().use(html).process(content);
+  const contentHtml = processedContent.toString();
+
+  return {
+    metadata: { ...data, slug } as PostMetadata,
+    contentHtml,
+  };
+};

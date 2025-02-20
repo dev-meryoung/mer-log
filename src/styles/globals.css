@@ -8,5 +8,5 @@ html {
 
 body {
   @apply bg-background-light text-text-light;
-  font-family: var(--font-nanumSquareRound), sans-serif;
+  font-family: var(--font-ibmPlexSansKR), sans-serif;
 }

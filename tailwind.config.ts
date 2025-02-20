@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        nanumSquareRound: ['var(--font-nanumSquareRound)', 'sans-serif'],
+        ibmPlexSansKR: ['var(--font-ibmPlexSansKR)', 'sans-serif'],
         recipekorea: ['var(--font-recipekorea)', 'sans-serif'],
       },
       colors: {
@@ -33,7 +33,39 @@ export default {
           lg: '1024px',
         },
       },
+      typography: (theme: any) => ({
+        DEFAULT: {
+          css: {
+            h1: {
+              marginBottom: '0.5em',
+              lineHeight: '1.2',
+            },
+            h2: {
+              marginBottom: '0.5em',
+              lineHeight: '1.3',
+            },
+            h3: {
+              marginBottom: '0.5em',
+              lineHeight: '1.4',
+            },
+            img: {
+              display: 'block',
+              marginLeft: 'auto',
+              marginRight: 'auto',
+            },
+            blockquote: {
+              fontStyle: 'italic',
+              color: theme('colors.gray.500'),
+              borderLeft: `4px solid ${theme('colors.secondary')}`,
+              padding: '0 1rem',
+              margin: '1.5rem 0',
+              'p::before': { content: 'none' },
+              'p::after': { content: 'none' },
+            },
+          },
+        },
+      }),
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 } satisfies Config;

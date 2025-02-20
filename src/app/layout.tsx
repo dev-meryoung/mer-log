@@ -4,9 +4,9 @@ import localFont from 'next/font/local';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 
-const nanumSquareRound = localFont({
-  src: '../../public/fonts/NanumSquareRound.ttf',
-  variable: '--font-nanumSquareRound',
+const ibmPlexSansKR = localFont({
+  src: '../../public/fonts/IBMPlexSansKR.woff2',
+  variable: '--font-ibmPlexSansKR',
 });
 
 const recipekorea = localFont({
@@ -27,7 +27,7 @@ const RootLayout = ({
   return (
     <html
       lang='ko'
-      className={`${nanumSquareRound.variable} ${recipekorea.variable}`}
+      className={`${ibmPlexSansKR.variable} ${recipekorea.variable}`}
     >
       <body>
         <Header />
