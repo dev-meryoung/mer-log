@@ -8,17 +8,17 @@ const Home = async () => {
 
   return (
     <div className='w-full px-2 select-none'>
-      <div className='py-6'>
+      <div className='py-5'>
         <h1 className='inline font-recipekorea text-3xl font-bold transition-all duration-300 ease-in-out hover:text-secondary'>
           TAGS
         </h1>
-        <div className='flex my-4 p-4 gap-2 flex-wrap bg-white rounded-lg'>
+        <div className='flex my-4 p-4 gap-2 flex-wrap shadow-md bg-white rounded-lg'>
           {tags.map((tag, index) => {
             return <Tag key={index} label={tag} />;
           })}
         </div>
       </div>
-      <div className='py-6'>
+      <div className='py-5'>
         <h1 className='font-recipekorea text-3xl font-bold transition-all duration-300 ease-in-out hover:text-secondary'>
           POSTS
         </h1>

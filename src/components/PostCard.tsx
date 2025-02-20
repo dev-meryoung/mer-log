@@ -14,7 +14,7 @@ const PostCard: React.FC<PostCardProps> = ({
   date,
 }: PostCardProps) => {
   return (
-    <div className='group flex w-full h-48 items-center rounded-lg bg-white overflow-hidden hover:cursor-pointer'>
+    <div className='group flex w-full h-48 items-center rounded-lg shadow-md bg-white overflow-hidden hover:cursor-pointer'>
       <div className='flex-[2] h-full overflow-hidden'>
         <Image
           src={thumbnail}
