@@ -62,7 +62,7 @@ export const getAllTags = (): string[] => {
 export const getPost = async (slug: string): Promise<PostData> => {
   const postDir = path.join(process.cwd(), 'public', 'posts', slug);
   const filePath = path.join(postDir, 'index.md');
-  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const fileContents = await fs.promises.readFile(filePath, 'utf8');
   const { data, content } = matter(fileContents);
 
   const processedContent = await remark().use(html).process(content);
