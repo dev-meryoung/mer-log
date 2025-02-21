@@ -57,8 +57,11 @@ export const getAllTags = (): string[] => {
   });
 
   const sortedTags = Object.keys(tagFrequency).sort((a, b) => {
-    return tagFrequency[b] - tagFrequency[a];
+    const freqDiff = tagFrequency[b] - tagFrequency[a];
+    if (freqDiff !== 0) return freqDiff;
+    return a.localeCompare(b);
   });
+
   return sortedTags;
 };
 
