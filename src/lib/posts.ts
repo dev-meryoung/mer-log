@@ -46,17 +46,23 @@ export const getAllPosts = (): PostMetadata[] => {
 
 export const getAllTags = (): string[] => {
   const posts = getAllPosts();
-  const tagSet = new Set<string>();
+  const tagFrequency: Record<string, number> = {};
 
   posts.forEach((post) => {
     if (Array.isArray(post.tags)) {
       post.tags.forEach((tag) => {
-        return tagSet.add(tag);
+        tagFrequency[tag] = (tagFrequency[tag] || 0) + 1;
       });
     }
   });
 
-  return Array.from(tagSet);
+  const sortedTags = Object.keys(tagFrequency).sort((a, b) => {
+    const freqDiff = tagFrequency[b] - tagFrequency[a];
+    if (freqDiff !== 0) return freqDiff;
+    return a.localeCompare(b);
+  });
+
+  return sortedTags;
 };
 
 export const getPost = async (slug: string): Promise<PostData> => {
