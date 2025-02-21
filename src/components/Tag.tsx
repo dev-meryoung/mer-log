@@ -12,7 +12,9 @@ const Tag: React.FC<TagProps> = ({ label }: TagProps) => {
   const router = useRouter();
   const tagsQuery = searchParams.get('tags') || '';
   const tagsArray = tagsQuery
-    ? tagsQuery.split(',').map((tag) => tag.trim())
+    ? tagsQuery.split(',').map((tag) => {
+        return tag.trim();
+      })
     : [];
 
   const active = tagsArray.includes(label);
@@ -21,7 +23,9 @@ const Tag: React.FC<TagProps> = ({ label }: TagProps) => {
     let newTagsArray = [...tagsArray];
 
     if (active) {
-      newTagsArray = newTagsArray.filter((tag) => tag !== label);
+      newTagsArray = newTagsArray.filter((tag) => {
+        return tag !== label;
+      });
     } else {
       newTagsArray.push(label);
     }
