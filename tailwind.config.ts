@@ -16,6 +16,7 @@ export default {
       colors: {
         primary: '#233067',
         secondary: '#38427b',
+        darkActive: '#171717',
         background: {
           light: '#f5f5f5',
           dark: '#212121',
@@ -61,6 +62,48 @@ export default {
               margin: '1.5rem 0',
               'p::before': { content: 'none' },
               'p::after': { content: 'none' },
+            },
+            code: {
+              backgroundColor: theme('colors.gray.200'),
+              color: theme('colors.text.light'),
+              padding: '0.2em 0.4em',
+              borderRadius: '0.25rem',
+            },
+            pre: {
+              backgroundColor: theme('colors.gray.200'),
+              color: theme('colors.text.light'),
+            },
+          },
+        },
+        dark: {
+          css: {
+            color: theme('colors.text.dark'),
+            a: {
+              color: theme('colors.secondary'),
+              '&:hover': {
+                color: theme('colors.primary'),
+              },
+            },
+            blockquote: {
+              borderLeftColor: theme('colors.primary'),
+              color: theme('colors.gray.300'),
+            },
+            h1: {
+              color: theme('colors.text.dark'),
+            },
+            h2: {
+              color: theme('colors.text.dark'),
+            },
+            h3: {
+              color: theme('colors.text.dark'),
+            },
+            strong: { color: theme('colors.text.dark') },
+            code: {
+              backgroundColor: theme('colors.gray.500'),
+              color: theme('colors.text.dark'),
+            },
+            pre: {
+              backgroundColor: theme('colors.gray.500'),
             },
           },
         },

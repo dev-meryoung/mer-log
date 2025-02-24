@@ -11,7 +11,9 @@ const ScrollProgressBar = () => {
   };
 
   useEffect(() => {
+    updateProgress();
     window.addEventListener('scroll', updateProgress);
+
     return () => {
       return window.removeEventListener('scroll', updateProgress);
     };

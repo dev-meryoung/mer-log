@@ -46,8 +46,8 @@ const Tag: React.FC<TagProps> = ({ label }: TagProps) => {
   return (
     <button
       type='button'
-      className={`flex justify-center items-center gap-1 px-2.5 py-1.5 font-bold border border-secondary bg-background-light rounded-3xl transition-all duration-300 ease-in-out
-        ${active ? 'bg-secondary text-white' : 'text-secondary hover:bg-secondary hover:text-white'}
+      className={`flex justify-center items-center gap-1 px-2.5 py-1.5 font-bold border rounded-3xl border-secondary dark:bg-secondary
+        ${active ? 'bg-secondary text-white dark:bg-text-dark dark:text-secondary' : 'text-secondary dark:bg-secondary dark:text-text-dark'}
       `}
       onClick={handleClick}
     >

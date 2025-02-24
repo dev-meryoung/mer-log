@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  * {
+    @apply transition-all duration-300 ease-in-out;
+  }
+}
+
 html {
   @apply text-base;
 }
@@ -9,4 +15,9 @@ html {
 body {
   @apply bg-background-light text-text-light;
   font-family: var(--font-ibmPlexSansKR), sans-serif;
+}
+
+.prose code::before,
+.prose code::after {
+  content: none;
 }

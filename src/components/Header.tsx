@@ -1,26 +1,33 @@
 'use client';
 
-import { MoonIcon } from '@heroicons/react/16/solid';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import IconButton from '@/components/IconButton';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
+import ThemeToggleButton from '@/components/ThemeToggleButton';
 
 const Header = () => {
   const pathname = usePathname();
 
   return (
-    <header className='fixed top-0 w-full h-16 px-4 flex items-center justify-center border-b border-gray-200 bg-background-light z-50 select-none'>
+    <header className='fixed top-0 w-full h-16 px-4 flex items-center justify-center border-b border-gray-200 bg-background-light z-50 select-none dark:bg-background-dark dark:border-darkActive'>
       {pathname.startsWith('/post') && <ScrollProgressBar />}
       <div className='container flex justify-between items-center'>
-        <Link href='/'>
+        <Link href='/' tabIndex={-1}>
           <Image
             src='/logo-light.svg'
             alt='logo'
             width={150}
             height={100}
-            className='w-[150px] h-[100px]'
+            className='w-[150px] h-[100px] block dark:hidden'
+          />
+          <Image
+            src='/logo-dark.svg'
+            alt='dark logo'
+            width={150}
+            height={100}
+            className='w-[150px] h-[100px] hidden dark:block'
           />
         </Link>
         <div className='flex space-x-2'>
@@ -47,13 +54,9 @@ const Header = () => {
               );
             }}
             title='GitHub'
+            suppressHydrationWarning
           />
-          <IconButton
-            icon={<MoonIcon className='h-5 w-5' />}
-            onClick={() => {
-              return alert('다크모드 구현 예정');
-            }}
-          />
+          <ThemeToggleButton />
         </div>
       </div>
     </header>
