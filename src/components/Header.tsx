@@ -3,11 +3,16 @@
 import { MoonIcon } from '@heroicons/react/16/solid';
 import Image from 'next/image';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import IconButton from '@/components/IconButton';
+import ScrollProgressBar from '@/components/ScrollProgressBar';
 
 const Header = () => {
+  const pathname = usePathname();
+
   return (
     <header className='fixed top-0 w-full h-16 px-4 flex items-center justify-center border-b border-gray-200 bg-background-light z-50 select-none'>
+      {pathname.startsWith('/post') && <ScrollProgressBar />}
       <div className='container flex justify-between items-center'>
         <Link href='/'>
           <Image
