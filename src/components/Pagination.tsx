@@ -25,7 +25,7 @@ const Pagination: React.FC<PaginationProps> = ({
   const disabledClasses = 'opacity-50 cursor-not-allowed';
 
   return (
-    <div className='my-4 flex justify-center items-center space-x-2'>
+    <div className='my-4 flex justify-center items-center space-x-2 dark:text-text-dark'>
       {currentPage > 1 ? (
         <Link
           href={`/?page=1${tagQueryString}`}

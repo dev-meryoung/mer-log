@@ -11,15 +11,17 @@ const PostPage = async ({ params }: PostPageProps) => {
   const { metadata, contentHtml } = post;
 
   return (
-    <article className='w-full mx-auto p-10 rounded-lg bg-white shadow-md'>
+    <article className='w-full mx-auto p-10 rounded-lg bg-white shadow-md dark:bg-darkActive'>
       <div>
-        <h1 className='text-4xl font-bold mb-4 pl-0.5'>{metadata.title}</h1>
+        <h1 className='text-4xl font-bold mb-4 pl-0.5 dark:text-text-dark'>
+          {metadata.title}
+        </h1>
         <p className='text-gray-500 mb-4 pl-1'>{formatDate(metadata.date)}</p>
-        <ul className='pb-4 mb-4 border-b border-gray-200'>
+        <ul className='pb-4 mb-4 border-b border-gray-200 dark:border-text-light'>
           {metadata.tags.map((tag) => {
             return (
               <li key={tag} className='inline-block leading-9 mr-2'>
-                <span className='bg-gray-100 rounded-3xl px-2.5 py-1 text-sm text-gray-700'>
+                <span className='bg-gray-200 rounded-3xl px-2.5 py-1 text-sm text-gray-70 dark:bg-gray-500 dark:text-text-dark'>
                   {tag}
                 </span>
               </li>
@@ -36,7 +38,7 @@ const PostPage = async ({ params }: PostPageProps) => {
         />
       </div>
       <div
-        className='prose max-w-none'
+        className='prose dark:prose-dark max-w-none'
         dangerouslySetInnerHTML={{ __html: contentHtml }}
       />
     </article>

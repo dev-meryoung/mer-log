@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import localFont from 'next/font/local';
+import Script from 'next/script';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 
@@ -24,12 +25,38 @@ const RootLayout = ({
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+  const setInitialTheme = `
+    (function() {
+      try {
+        const theme = localStorage.getItem('theme');
+
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else if (theme === 'light') {
+          document.documentElement.classList.remove('dark');
+        } else {
+          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+          if (prefersDark) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        }
+      } catch (e) {}
+    })();
+  `;
+
   return (
     <html
       lang='ko'
       className={`${ibmPlexSansKR.variable} ${recipekorea.variable}`}
+      suppressHydrationWarning={true}
     >
-      <body>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: setInitialTheme }} />
+      </head>
+      <body className='dark:bg-background-dark'>
         <Header />
         <main className='container flex-1 mx-auto p-4 mt-16'>{children}</main>
         <Footer />
