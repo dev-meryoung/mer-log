@@ -1,6 +1,5 @@
 'use client';
 
-import { XMarkIcon } from '@heroicons/react/16/solid';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 interface TagProps extends React.HTMLProps<HTMLButtonElement> {
@@ -52,7 +51,6 @@ const Tag: React.FC<TagProps> = ({ label }: TagProps) => {
       onClick={handleClick}
     >
       {label}
-      {active ? <XMarkIcon className='w-5 h-5' /> : ''}
     </button>
   );
 };
