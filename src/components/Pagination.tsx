@@ -29,12 +29,14 @@ const Pagination: React.FC<PaginationProps> = ({
       {currentPage > 1 ? (
         <Link
           href={`/?page=1${tagQueryString}`}
-          className='px-3 py-1 border border-gray-200 rounded'
+          className='px-3 py-1 border border-gray-300 rounded dark:border-gray-500'
         >
           처음
         </Link>
       ) : (
-        <span className={`px-3 py-1 border rounded ${disabledClasses}`}>
+        <span
+          className={`px-3 py-1 border rounded ${disabledClasses} dark:border-gray-500`}
+        >
           처음
         </span>
       )}
@@ -42,12 +44,14 @@ const Pagination: React.FC<PaginationProps> = ({
       {currentGroupStart > 1 ? (
         <Link
           href={`/?page=${currentGroupStart - 1}${tagQueryString}`}
-          className='px-3 py-1 border border-gray-200 rounded'
+          className='px-3 py-1 border border-gray-300 rounded dark:border-gray-500'
         >
           이전
         </Link>
       ) : (
-        <span className={`px-3 py-1 border rounded ${disabledClasses}`}>
+        <span
+          className={`px-3 py-1 border rounded ${disabledClasses} dark:border-gray-500`}
+        >
           이전
         </span>
       )}
@@ -56,7 +60,7 @@ const Pagination: React.FC<PaginationProps> = ({
         return page === currentPage ? (
           <span
             key={page}
-            className='px-3 py-1 border rounded bg-secondary text-white'
+            className='px-3 py-1 border rounded bg-secondary text-white dark:border-gray-500'
           >
             {page}
           </span>
@@ -64,7 +68,7 @@ const Pagination: React.FC<PaginationProps> = ({
           <Link
             key={page}
             href={`/?page=${page}${tagQueryString}`}
-            className='px-3 py-1 border border-gray-200 rounded'
+            className='px-3 py-1 border border-gray-300 rounded dark:border-gray-500'
           >
             {page}
           </Link>
@@ -74,12 +78,14 @@ const Pagination: React.FC<PaginationProps> = ({
       {currentGroupEnd < totalPages ? (
         <Link
           href={`/?page=${currentGroupEnd + 1}${tagQueryString}`}
-          className='px-3 py-1 border border-gray-200 rounded'
+          className='px-3 py-1 border border-gray-300 rounded dark:border-gray-500'
         >
           다음
         </Link>
       ) : (
-        <span className={`px-3 py-1 border rounded ${disabledClasses}`}>
+        <span
+          className={`px-3 py-1 border rounded ${disabledClasses} dark:border-gray-500`}
+        >
           다음
         </span>
       )}
@@ -87,12 +93,14 @@ const Pagination: React.FC<PaginationProps> = ({
       {currentPage < totalPages ? (
         <Link
           href={`/?page=${totalPages}${tagQueryString}`}
-          className='px-3 py-1 border border-gray-200 rounded'
+          className='px-3 py-1 border border-gray-300 rounded dark:border-gray-500'
         >
           끝
         </Link>
       ) : (
-        <span className={`px-3 py-1 border rounded ${disabledClasses}`}>
+        <span
+          className={`px-3 py-1 border rounded ${disabledClasses} dark:border-gray-500`}
+        >
           끝
         </span>
       )}

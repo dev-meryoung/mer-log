@@ -54,7 +54,6 @@ const Header = () => {
               );
             }}
             title='GitHub'
-            suppressHydrationWarning
           />
           <ThemeToggleButton />
         </div>
