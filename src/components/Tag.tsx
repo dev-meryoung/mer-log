@@ -11,9 +11,7 @@ const Tag: React.FC<TagProps> = ({ label }: TagProps) => {
   const router = useRouter();
   const tagsQuery = searchParams.get('tags') || '';
   const tagsArray = tagsQuery
-    ? tagsQuery.split(',').map((tag) => {
-        return tag.trim();
-      })
+    ? tagsQuery.split(',').map((tag) => tag.trim())
     : [];
 
   const active = tagsArray.includes(label);
@@ -22,9 +20,7 @@ const Tag: React.FC<TagProps> = ({ label }: TagProps) => {
     let newTagsArray = [...tagsArray];
 
     if (active) {
-      newTagsArray = newTagsArray.filter((tag) => {
-        return tag !== label;
-      });
+      newTagsArray = newTagsArray.filter((tag) => tag !== label);
     } else {
       newTagsArray.push(label);
     }
@@ -45,7 +41,7 @@ const Tag: React.FC<TagProps> = ({ label }: TagProps) => {
   return (
     <button
       type='button'
-      className={`flex justify-center items-center gap-1 px-2.5 py-1.5 rounded-3xl bg-gray-200 dark:bg-gray-500 dark:text-text-dark
+      className={`flex justify-center items-center text-sm md:text-base gap-1 px-2.5 py-1.5 rounded-3xl bg-gray-200 dark:bg-gray-500 dark:text-text-dark
         ${active ? 'bg-secondary text-text-dark dark:bg-secondary' : ''}
       `}
       onClick={handleClick}

@@ -46,13 +46,13 @@ const Header = () => {
                 />
               </svg>
             }
-            onClick={() => {
-              return window.open(
+            onClick={() =>
+              window.open(
                 'https://github.com/dev-meryoung',
                 '_blank',
                 'noopener,noreferrer'
-              );
-            }}
+              )
+            }
             title='GitHub'
           />
           <ThemeToggleButton />

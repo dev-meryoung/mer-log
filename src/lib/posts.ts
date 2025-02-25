@@ -37,9 +37,7 @@ export const getAllPosts = (): PostMetadata[] => {
     };
   });
 
-  posts.sort((a, b) => {
-    return compareDatesDesc(a.date, b.date);
-  });
+  posts.sort((a, b) => compareDatesDesc(a.date, b.date));
 
   return posts;
 };

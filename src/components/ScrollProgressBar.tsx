@@ -14,9 +14,7 @@ const ScrollProgressBar = () => {
     updateProgress();
     window.addEventListener('scroll', updateProgress);
 
-    return () => {
-      return window.removeEventListener('scroll', updateProgress);
-    };
+    return () => window.removeEventListener('scroll', updateProgress);
   }, []);
 
   return (
