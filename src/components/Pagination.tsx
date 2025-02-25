@@ -22,79 +22,69 @@ const Pagination: React.FC<PaginationProps> = ({
   for (let i = currentGroupStart; i <= currentGroupEnd; i++) {
     paginationGroup.push(i);
   }
+
+  const baseLinkClasses =
+    'px-2.5 py-1 text-sm md:text-base md:px-3 md:py-1 border border-gray-300 rounded dark:border-gray-500';
   const disabledClasses = 'opacity-50 cursor-not-allowed';
+  const activeClasses = 'bg-secondary text-white';
 
   return (
     <div className='my-4 flex justify-center items-center space-x-2 dark:text-text-dark'>
       {currentPage > 1 ? (
-        <Link
-          href={`/?page=1${tagQueryString}`}
-          className='px-3 py-1 border border-gray-200 rounded'
-        >
+        <Link href={`/?page=1${tagQueryString}`} className={baseLinkClasses}>
           처음
         </Link>
       ) : (
-        <span className={`px-3 py-1 border rounded ${disabledClasses}`}>
-          처음
-        </span>
+        <span className={`${baseLinkClasses} ${disabledClasses}`}>처음</span>
       )}
 
       {currentGroupStart > 1 ? (
         <Link
           href={`/?page=${currentGroupStart - 1}${tagQueryString}`}
-          className='px-3 py-1 border border-gray-200 rounded'
+          className={baseLinkClasses}
         >
           이전
         </Link>
       ) : (
-        <span className={`px-3 py-1 border rounded ${disabledClasses}`}>
-          이전
-        </span>
+        <span className={`${baseLinkClasses} ${disabledClasses}`}>이전</span>
       )}
 
-      {paginationGroup.map((page) => {
-        return page === currentPage ? (
-          <span
-            key={page}
-            className='px-3 py-1 border rounded bg-secondary text-white'
-          >
+      {paginationGroup.map((page) =>
+        page === currentPage ? (
+          <span key={page} className={`${baseLinkClasses} ${activeClasses}`}>
             {page}
           </span>
         ) : (
           <Link
             key={page}
             href={`/?page=${page}${tagQueryString}`}
-            className='px-3 py-1 border border-gray-200 rounded'
+            className={baseLinkClasses}
           >
             {page}
           </Link>
-        );
-      })}
+        )
+      )}
 
       {currentGroupEnd < totalPages ? (
         <Link
           href={`/?page=${currentGroupEnd + 1}${tagQueryString}`}
-          className='px-3 py-1 border border-gray-200 rounded'
+          className={baseLinkClasses}
         >
           다음
         </Link>
       ) : (
-        <span className={`px-3 py-1 border rounded ${disabledClasses}`}>
-          다음
-        </span>
+        <span className={`${baseLinkClasses} ${disabledClasses}`}>다음</span>
       )}
 
       {currentPage < totalPages ? (
         <Link
           href={`/?page=${totalPages}${tagQueryString}`}
-          className='px-3 py-1 border border-gray-200 rounded'
+          className={baseLinkClasses}
         >
           끝
         </Link>
       ) : (
-        <span className={`px-3 py-1 border rounded ${disabledClasses}`}>
-          끝
-        </span>
+        <span className={`${baseLinkClasses} ${disabledClasses}`}>끝</span>
       )}
     </div>
   );

@@ -3,7 +3,11 @@
 @tailwind utilities;
 
 @layer base {
-  * {
+  body,
+  header,
+  footer,
+  article,
+  div {
     @apply transition-all duration-300 ease-in-out;
   }
 }
