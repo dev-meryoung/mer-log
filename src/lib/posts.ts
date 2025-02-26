@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import matter from 'gray-matter';
+import { JSDOM } from 'jsdom';
 import { remark } from 'remark';
 import html from 'remark-html';
 import { compareDatesDesc } from '@/utils/dateUtils';
@@ -17,6 +18,12 @@ export interface PostMetadata {
 export interface PostData {
   metadata: PostMetadata;
   contentHtml: string;
+}
+
+export interface Heading {
+  id: string;
+  text: string;
+  level: number;
 }
 
 export const getAllPosts = (): PostMetadata[] => {
@@ -76,4 +83,27 @@ export const getPost = async (slug: string): Promise<PostData> => {
     metadata: { ...data, slug } as PostMetadata,
     contentHtml,
   };
+};
+
+export const extractHeadings = (html: string): Heading[] => {
+  const dom = new JSDOM(html);
+  const { document } = dom.window;
+  const headings: Heading[] = [];
+
+  document.querySelectorAll('h1, h2, h3').forEach((heading: Element, idx) => {
+    const id =
+      heading.id ||
+      heading.textContent?.trim().replace(/\s+/g, '-').toLowerCase() ||
+      `heading-${idx}`;
+
+    heading.id = id;
+
+    headings.push({
+      id,
+      text: heading.textContent || '',
+      level: parseInt(heading.tagName.replace('H', ''), 10),
+    });
+  });
+
+  return headings;
 };

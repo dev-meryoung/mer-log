@@ -1,5 +1,6 @@
 import Image from 'next/image';
-import { getPost } from '@/lib/posts';
+import IndexNavigation from '@/components/IndexNavigation';
+import { extractHeadings, getPost } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
 
 interface PostPageProps {
@@ -9,38 +10,51 @@ interface PostPageProps {
 const PostPage = async ({ params }: PostPageProps) => {
   const post = await getPost(params.slug);
   const { metadata, contentHtml } = post;
+  const headings = extractHeadings(contentHtml);
+
+  const addIdToHeadings = (html: string) =>
+    html.replace(/<h([1-3])>(.*?)<\/h\1>/g, (match, level, text) => {
+      const id = text.trim().replace(/\s+/g, '-').toLowerCase();
+
+      return `<h${level} id="${id}">${text}</h${level}>`;
+    });
+
+  const updatedContentHtml = addIdToHeadings(contentHtml);
 
   return (
     <article className='w-full mx-auto p-10 rounded-lg bg-white shadow-md dark:bg-darkActive'>
-      <div>
-        <h1 className='text-2xl md:text-3xl lg:text-4xl font-bold mb-4 pl-0.5 dark:text-text-dark'>
-          {metadata.title}
-        </h1>
-        <p className='text-sm md:text-base text-gray-500 mb-4 pl-1'>
-          {formatDate(metadata.date)}
-        </p>
-        <ul className='pb-4 mb-4 border-b border-gray-200 dark:border-text-light'>
-          {metadata.tags.map((tag) => (
-            <li key={tag} className='inline-block leading-9 mr-2'>
-              <span className='bg-gray-200 rounded-3xl px-2.5 py-1 text-sm text-gray-70 dark:bg-gray-500 dark:text-text-dark'>
-                {tag}
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <div className='relative w-full aspect-video mb-8'>
-        <Image
-          src={metadata.thumbnail}
-          alt={metadata.title}
-          fill
-          className='rounded-lg object-cover'
+      <div className='relative'>
+        <IndexNavigation headings={headings} />
+        <div>
+          <p className='text-2xl md:text-3xl lg:text-4xl font-bold mb-4 pl-0.5 dark:text-text-dark'>
+            {metadata.title}
+          </p>
+          <p className='text-sm md:text-base text-gray-500 mb-4 pl-1'>
+            {formatDate(metadata.date)}
+          </p>
+          <ul className='pb-4 mb-4 border-b border-gray-200 dark:border-text-light'>
+            {metadata.tags.map((tag) => (
+              <li key={tag} className='inline-block leading-9 mr-2'>
+                <span className='bg-gray-200 rounded-3xl px-2.5 py-1 text-sm text-gray-70 dark:bg-gray-500 dark:text-text-dark'>
+                  {tag}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className='relative w-full aspect-video mb-8'>
+          <Image
+            src={metadata.thumbnail}
+            alt={metadata.title}
+            fill
+            className='rounded-lg object-cover'
+          />
+        </div>
+        <div
+          className='prose dark:prose-dark max-w-none'
+          dangerouslySetInnerHTML={{ __html: updatedContentHtml }}
         />
       </div>
-      <div
-        className='prose dark:prose-dark max-w-none'
-        dangerouslySetInnerHTML={{ __html: contentHtml }}
-      />
     </article>
   );
 };
