@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import IndexNavigation from '@/components/IndexNavigation';
-import { extractHeadings, getPost } from '@/lib/posts';
+import { extractHeadings, getPost, processHeadings } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
 
 interface PostPageProps {
@@ -10,16 +10,7 @@ interface PostPageProps {
 const PostPage = async ({ params }: PostPageProps) => {
   const post = await getPost(params.slug);
   const { metadata, contentHtml } = post;
-  const headings = extractHeadings(contentHtml);
-
-  const addIdToHeadings = (html: string) =>
-    html.replace(/<h([1-3])>(.*?)<\/h\1>/g, (match, level, text) => {
-      const id = text.trim().replace(/\s+/g, '-').toLowerCase();
-
-      return `<h${level} id="${id}">${text}</h${level}>`;
-    });
-
-  const updatedContentHtml = addIdToHeadings(contentHtml);
+  const { headings, updatedHtml } = processHeadings(contentHtml);
 
   return (
     <article className='w-full mx-auto p-10 rounded-lg bg-white shadow-md dark:bg-darkActive'>
@@ -52,7 +43,7 @@ const PostPage = async ({ params }: PostPageProps) => {
         </div>
         <div
           className='prose dark:prose-dark max-w-none'
-          dangerouslySetInnerHTML={{ __html: updatedContentHtml }}
+          dangerouslySetInnerHTML={{ __html: updatedHtml }}
         />
       </div>
     </article>

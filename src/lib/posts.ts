@@ -107,3 +107,17 @@ export const extractHeadings = (html: string): Heading[] => {
 
   return headings;
 };
+
+export const processHeadings = (html: string) => {
+  const headings = extractHeadings(html);
+
+  const updatedHtml = html.replace(
+    /<h([1-3])>(.*?)<\/h\1>/g,
+    (match, level, text) => {
+      const id = text.trim().replace(/\s+/g, '-').toLowerCase();
+      return `<h${level} id="${id}">${text}</h${level}>`;
+    }
+  );
+
+  return { headings, updatedHtml };
+};
