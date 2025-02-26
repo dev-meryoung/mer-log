@@ -10,7 +10,7 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   tagQueryString = '',
-}: PaginationProps) => {
+}) => {
   const groupSize = 5;
   const currentGroupStart =
     Math.floor((currentPage - 1) / groupSize) * groupSize + 1;

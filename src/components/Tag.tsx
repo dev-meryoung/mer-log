@@ -6,7 +6,7 @@ interface TagProps extends React.HTMLProps<HTMLButtonElement> {
   label: string;
 }
 
-const Tag: React.FC<TagProps> = ({ label }: TagProps) => {
+const Tag: React.FC<TagProps> = ({ label }) => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const tagsQuery = searchParams.get('tags') || '';
