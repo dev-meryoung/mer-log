@@ -19,7 +19,10 @@ const ScrollProgressBar = () => {
 
   return (
     <div className='absolute top-0 left-0 w-full h-1 bg-gray-200'>
-      <div className='h-full bg-secondary' style={{ width: `${progress}%` }} />
+      <div
+        className='h-full bg-secondary dark:bg-blue-600'
+        style={{ width: `${progress}%` }}
+      />
     </div>
   );
 };

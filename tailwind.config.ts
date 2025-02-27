@@ -49,6 +49,10 @@ export default {
               marginBottom: '0.5em',
               lineHeight: '1.4',
             },
+            p: {
+              marginBottom: '0.8em',
+              lineHeight: '1.6',
+            },
             img: {
               display: 'block',
               marginLeft: 'auto',
