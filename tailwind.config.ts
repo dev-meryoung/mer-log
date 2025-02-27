@@ -38,16 +38,40 @@ export default {
         DEFAULT: {
           css: {
             h1: {
+              marginTop: '1.7em',
               marginBottom: '0.5em',
               lineHeight: '1.2',
+              fontSize: '1.5rem',
+              '@screen md': {
+                fontSize: '1.8rem',
+              },
+              '@screen lg': {
+                fontSize: '2rem',
+              },
             },
             h2: {
+              marginTop: '1.6em',
               marginBottom: '0.5em',
               lineHeight: '1.3',
+              fontSize: '1.25rem',
+              '@screen md': {
+                fontSize: '1.5rem',
+              },
+              '@screen lg': {
+                fontSize: '1.75rem',
+              },
             },
             h3: {
+              marginTop: '1.5em',
               marginBottom: '0.5em',
               lineHeight: '1.4',
+              fontSize: '1.125rem',
+              '@screen md': {
+                fontSize: '1.25rem',
+              },
+              '@screen lg': {
+                fontSize: '1.5rem',
+              },
             },
             p: {
               marginBottom: '0.8em',

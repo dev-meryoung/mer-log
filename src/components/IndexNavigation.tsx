@@ -20,6 +20,11 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
   };
 
   const handleScroll = useCallback(() => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      setActiveId(headings[headings.length - 1]?.id || null);
+      return;
+    }
+
     const scrollPosition = window.scrollY;
     let closestId: string | null = null;
     let closestDistance = Number.POSITIVE_INFINITY;

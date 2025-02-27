@@ -24,14 +24,14 @@ const PostCard: React.FC<PostCardProps> = ({
         height={500}
       />
     </div>
-    <div className='relative flex flex-col w-full min-h-[164] md:min-h-[180] md:w-2/3 lg:min-h-[220] lg:w-2/3 p-4 md:px-8 md:py-4 lg:py-6 gap-2'>
+    <div className='relative flex flex-col w-full min-h-[164] md:w-2/3 lg:w-2/3 p-4 md:px-8 md:py-4 lg:py-6 gap-2'>
       <h2 className='font-bold text-lg md:text-xl lg:text-2xl line-clamp-2 group-hover:text-secondary dark:group-hover:text-blue-600 dark:text-text-dark'>
         {title}
       </h2>
       <p className='line-clamp-2 text-sm md:text-base text-gray-600 dark:text-gray-300'>
         {description}
       </p>
-      <p className='text-xs absolute bottom-4 md:text-sm text-gray-500 dark:text-gray-500'>
+      <p className='mt-auto text-xs md:text-sm text-gray-500 dark:text-gray-500'>
         {formatDate(date)}
       </p>
     </div>
