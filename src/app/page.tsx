@@ -5,14 +5,11 @@ import Tag from '@/components/Tag';
 import { getAllPosts, getAllTags } from '@/lib/posts';
 
 interface HomeProps {
-  searchParams: {
-    page?: string;
-    tags?: string;
-  };
+  searchParams: Promise<{ page?: string; tags?: string }>;
 }
 
 const Home = async (props: HomeProps) => {
-  const searchParams = await Promise.resolve(props.searchParams);
+  const searchParams = await props.searchParams;
   const allPosts = getAllPosts();
   const allTags = getAllTags();
 
