@@ -6,11 +6,12 @@ import { getPost, processHeadings } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
 
 interface PostPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 const PostPage = async ({ params }: PostPageProps) => {
-  const post = await getPost(params.slug);
+  const { slug } = await params;
+  const post = await getPost(slug);
   const { metadata, contentHtml } = post;
   const { headings, updatedHtml } = processHeadings(contentHtml);
 
