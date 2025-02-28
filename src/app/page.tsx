@@ -42,7 +42,7 @@ const Home = async (props: HomeProps) => {
   return (
     <div className='w-full px-2 select-none'>
       <div className='py-5'>
-        <h1 className='inline font-recipekorea text-2xl md:text-3xl font-bold hover:text-secondary dark:text-text-dark dark:hover:text-blue-600'>
+        <h1 className='inline font-recipekorea text-2xl md:text-3xl font-bold hover:text-secondary dark:text-text-dark dark:hover:text-blue-400'>
           TAGS
         </h1>
         <div className='flex my-4 p-3 md:p-4 gap-1.5 md:gap-2 flex-wrap shadow-md bg-white rounded-lg dark:bg-darkActive'>
@@ -52,7 +52,7 @@ const Home = async (props: HomeProps) => {
         </div>
       </div>
       <div className='py-2 md:py-5'>
-        <h1 className='inline font-recipekorea text-2xl md:text-3xl font-bold hover:text-secondary dark:text-text-dark dark:hover:text-blue-600'>
+        <h1 className='inline font-recipekorea text-2xl md:text-3xl font-bold hover:text-secondary dark:text-text-dark dark:hover:text-blue-400'>
           POSTS
         </h1>
         <div className='flex py-4 gap-8 flex-wrap'>
