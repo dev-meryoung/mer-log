@@ -24,7 +24,7 @@ const PostCard: React.FC<PostCardProps> = ({
         height={500}
       />
     </div>
-    <div className='relative flex flex-col w-full min-h-[164] md:w-2/3 lg:w-2/3 p-4 md:px-8 md:py-6 gap-2 flex-grow'>
+    <div className='relative flex flex-col w-full min-h-[164px] p-4 md:min-h-[188px] md:w-2/3 md:px-8 md:py-6 gap-2 flex-grow'>
       <h2 className='font-bold text-lg md:text-xl lg:text-2xl line-clamp-2 group-hover:text-secondary dark:group-hover:text-blue-600 dark:text-text-dark'>
         {title}
       </h2>
