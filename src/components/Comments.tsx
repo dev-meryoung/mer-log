@@ -6,7 +6,7 @@ const Comments = () => {
   const getInitialTheme = () =>
     typeof window !== 'undefined' &&
     document.documentElement.classList.contains('dark')
-      ? 'dark'
+      ? 'noborder_dark'
       : 'light';
 
   const [theme, setTheme] = useState(getInitialTheme);
@@ -14,7 +14,7 @@ const Comments = () => {
   useEffect(() => {
     const checkTheme = () => {
       const isDark = document.documentElement.classList.contains('dark');
-      setTheme(isDark ? 'dark' : 'light');
+      setTheme(isDark ? 'noborder_dark' : 'light');
 
       const iframe = document.querySelector<HTMLIFrameElement>(
         'iframe.giscus-frame'
@@ -22,7 +22,11 @@ const Comments = () => {
 
       if (iframe) {
         iframe.contentWindow?.postMessage(
-          { giscus: { setConfig: { theme: isDark ? 'dark' : 'light' } } },
+          {
+            giscus: {
+              setConfig: { theme: isDark ? 'noborder_dark' : 'light' },
+            },
+          },
           'https://giscus.app'
         );
       }
@@ -50,7 +54,7 @@ const Comments = () => {
     script.setAttribute('data-repo', 'dev-meryoung/mer-log');
     script.setAttribute('data-repo-id', 'R_kgDON6ue9Q');
     script.setAttribute('data-category', 'Comments');
-    script.setAttribute('data-category-id', 'DIC_kwDON6ue9c4YnYFV');
+    script.setAttribute('data-category-id', 'DIC_kwDON6ue9c4CnYFV');
     script.setAttribute('data-mapping', 'pathname');
     script.setAttribute('data-strict', '0');
     script.setAttribute('data-reactions-enabled', '1');
