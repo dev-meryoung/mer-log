@@ -16,7 +16,7 @@ const Header = () => {
       <div className='container flex justify-between items-center'>
         <Link href='/' tabIndex={-1}>
           <Image
-            src='/logo-light.svg'
+            src='/images/logo-light.svg'
             alt='logo'
             width={150}
             height={100}
@@ -24,7 +24,7 @@ const Header = () => {
             priority
           />
           <Image
-            src='/logo-dark.svg'
+            src='/images/logo-dark.svg'
             alt='dark logo'
             width={150}
             height={100}
