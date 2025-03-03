@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Comments from '@/components/Comments';
 import IndexNavigation from '@/components/IndexNavigation';
+import { generateBlurDataForImage } from '@/lib/images';
 import { getPost, processHeadings } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
 
@@ -14,6 +15,7 @@ const PostPage = async ({ params }: PostPageProps) => {
   const post = await getPost(slug);
   const { metadata, contentHtml } = post;
   const { headings, updatedHtml } = processHeadings(contentHtml);
+  const thumbnailBlur = await generateBlurDataForImage(metadata.thumbnail);
 
   return (
     <>
@@ -43,8 +45,10 @@ const PostPage = async ({ params }: PostPageProps) => {
             <Image
               src={metadata.thumbnail}
               alt={metadata.title}
-              fill
               className='rounded-lg object-cover'
+              fill
+              placeholder='blur'
+              blurDataURL={thumbnailBlur}
             />
           </div>
           <div

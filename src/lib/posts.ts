@@ -28,21 +28,35 @@ export interface Heading {
 
 export const getAllPosts = (): PostMetadata[] => {
   const postsDir = path.join(process.cwd(), 'public', 'posts');
-  const postFolders = fs.readdirSync(postsDir);
-  const posts: PostMetadata[] = postFolders.map((folderName) => {
-    const filePath = path.join(postsDir, folderName, 'index.md');
-    const fileContents = fs.readFileSync(filePath, 'utf8');
-    const { data } = matter(fileContents);
 
-    return {
-      title: data.title,
-      description: data.description,
-      date: data.date,
-      thumbnail: data.thumbnail,
-      tags: data.tags,
-      slug: folderName,
-    };
-  });
+  if (!fs.existsSync(postsDir)) {
+    console.warn(`Posts directory not found: ${postsDir}`);
+    return [];
+  }
+
+  const postFolders = fs.readdirSync(postsDir);
+  const posts: PostMetadata[] = postFolders
+    .map((folderName) => {
+      const filePath = path.join(postsDir, folderName, 'index.md');
+
+      if (!fs.existsSync(filePath)) {
+        console.warn(`Post file not found: ${filePath}`);
+        return null;
+      }
+
+      const fileContents = fs.readFileSync(filePath, 'utf8');
+      const { data } = matter(fileContents);
+
+      return {
+        title: data.title,
+        description: data.description,
+        date: data.date,
+        thumbnail: data.thumbnail,
+        tags: data.tags,
+        slug: folderName,
+      };
+    })
+    .filter((post): post is PostMetadata => post !== null);
 
   posts.sort((a, b) => compareDatesDesc(a.date, b.date));
 
