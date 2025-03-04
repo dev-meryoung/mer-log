@@ -4,59 +4,25 @@ import Link from 'next/link';
 import Comments from '@/components/Comments';
 import IndexNavigation from '@/components/IndexNavigation';
 import { generateBlurDataForImage } from '@/lib/images';
+import { defaultMetadata } from '@/lib/metadata';
 import { getPost, processHeadings } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
 
 interface PostPageProps {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }
 
-export async function generateMetadata({
-  params,
-}: PostPageProps): Promise<Metadata> {
-  const { slug } = await params;
+export async function generateMetadata({ params }: PostPageProps) {
+  const { slug } = params;
   const post = await getPost(slug);
   const { postInfo } = post;
 
-  return {
-    title: `${postInfo.title}`,
-    description: `${postInfo.description}`,
-    keywords: [
-      '프론트엔드',
-      '개발자',
-      '기술 블로그',
-      'Web',
-      'Frontend',
-      'Blog',
-      'Junior',
-      'Developer',
-      ...postInfo.tags,
-    ],
-    openGraph: {
-      type: 'website',
-      locale: 'ko_KR',
-      url: 'https://www.merlog.kr',
-      siteName: 'mer-log',
-      images: [
-        {
-          url: `${postInfo.thumbnail}`,
-          width: 1200,
-          height: 630,
-          alt: 'thumbnail',
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      site: '@mer-log',
-      creator: '@meryoung',
-      images: [`${postInfo.thumbnail}`],
-    },
-    robots: 'index, follow',
-    alternates: {
-      canonical: 'https://www.merlog.kr',
-    },
-  };
+  return defaultMetadata({
+    title: postInfo.title,
+    description: postInfo.description,
+    keywords: postInfo.tags,
+    image: postInfo.thumbnail,
+  });
 }
 
 const PostPage = async ({ params }: PostPageProps) => {
