@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-const BASE_URL = 'https://www.merlog.kr';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const DEFAULT_TITLE = 'mer-log';
 const DEFAULT_DESCRIPTION = '프론트엔드 기술 블로그, mer-log';
 const DEFAULT_KEYWORDS = [
@@ -25,11 +25,13 @@ export function defaultMetadata({
   description = DEFAULT_DESCRIPTION,
   keywords = [],
   image = DEFAULT_IMAGE.url,
+  url = BASE_URL,
 }: {
   title?: string;
   description?: string;
   keywords?: string[];
   image?: string;
+  url?: string;
 }): Metadata {
   return {
     title: title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE,
@@ -40,6 +42,8 @@ export function defaultMetadata({
       locale: 'ko_KR',
       title: title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE,
       description,
+      url,
+      siteName: 'mer-log',
       images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
     },
     twitter: {
@@ -52,7 +56,7 @@ export function defaultMetadata({
     },
     robots: 'index, follow',
     alternates: {
-      canonical: BASE_URL,
+      canonical: url,
     },
   };
 }

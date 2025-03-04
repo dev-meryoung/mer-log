@@ -12,18 +12,22 @@ interface PostPageProps {
   params: Promise<{ slug: string }>;
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 export async function generateMetadata({
   params,
 }: PostPageProps): Promise<Metadata> {
   const { slug } = await params;
   const post = await getPost(slug);
   const { postInfo } = post;
+  const postURL = `${BASE_URL}/post/${slug}`;
 
   return defaultMetadata({
     title: postInfo.title,
     description: postInfo.description,
     keywords: postInfo.tags,
     image: postInfo.thumbnail,
+    url: postURL,
   });
 }
 
