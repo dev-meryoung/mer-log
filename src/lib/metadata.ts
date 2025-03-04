@@ -2,17 +2,15 @@ import type { Metadata } from 'next';
 
 const BASE_URL = 'https://www.merlog.kr';
 const DEFAULT_TITLE = 'mer-log';
-const DEFAULT_DESCRIPTION =
-  '웹 프론트엔드 개발자 meryoung의 기술 블로그, mer-log입니다.';
+const DEFAULT_DESCRIPTION = '프론트엔드 기술 블로그, mer-log';
 const DEFAULT_KEYWORDS = [
   '프론트엔드',
-  '개발',
   '기술 블로그',
   'Web',
-  'Frontend',
-  'Blog',
   'Junior',
+  'Frontend',
   'Developer',
+  'Blog',
 ];
 
 const DEFAULT_IMAGE = {
@@ -40,15 +38,17 @@ export function defaultMetadata({
     openGraph: {
       type: 'website',
       locale: 'ko_KR',
-      url: BASE_URL,
-      siteName: 'mer-log',
+      title: title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE,
+      description,
       images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
     },
     twitter: {
       card: 'summary_large_image',
       site: '@mer-log',
       creator: '@meryoung',
-      images: [image],
+      title: title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE,
+      description,
+      images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
     },
     robots: 'index, follow',
     alternates: {
