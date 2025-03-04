@@ -21,7 +21,7 @@ const DEFAULT_IMAGE = {
 };
 
 export function defaultMetadata({
-  title,
+  title = DEFAULT_TITLE,
   description = DEFAULT_DESCRIPTION,
   keywords = [],
   image = DEFAULT_IMAGE.url,
@@ -34,13 +34,13 @@ export function defaultMetadata({
   url?: string;
 }): Metadata {
   return {
-    title: title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE,
+    title,
     description,
     keywords: [...DEFAULT_KEYWORDS, ...keywords],
     openGraph: {
       type: 'website',
       locale: 'ko_KR',
-      title: title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE,
+      title,
       description,
       url,
       siteName: 'mer-log',
@@ -50,7 +50,7 @@ export function defaultMetadata({
       card: 'summary_large_image',
       site: '@mer-log',
       creator: '@meryoung',
-      title: title ? `${title} | ${DEFAULT_TITLE}` : DEFAULT_TITLE,
+      title,
       description,
       images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
     },
