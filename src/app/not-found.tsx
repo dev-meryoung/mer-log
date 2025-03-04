@@ -9,7 +9,7 @@ const NotFound = () => (
       페이지를 찾을 수 없습니다.
     </h2>
     <div className='text-gray-600 dark:text-gray-300'>
-      <p>죄송합니다. 요청하신 페이지를 찾을 수 없습니다.</p>
+      <p>요청하신 페이지를 찾을 수 없습니다.</p>
       <p>URL 주소가 정확한지 확인해 주세요.</p>
     </div>
     <Link

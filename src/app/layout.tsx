@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import localFont from 'next/font/local';
+import Head from 'next/head';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import { defaultMetadata } from '@/lib/metadata';
 
 const ibmPlexSansKR = localFont({
   src: '../../public/fonts/IBMPlexSansKR.woff2',
@@ -14,10 +16,9 @@ const recipekorea = localFont({
   variable: '--font-recipekorea',
 });
 
-export const metadata: Metadata = {
-  title: 'mer-log | 기술 블로그',
-  description: '현재 구현 진행 중인 기술 블로그입니다.',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return defaultMetadata({});
+}
 
 const RootLayout = ({
   children,
@@ -52,9 +53,13 @@ const RootLayout = ({
       className={`${ibmPlexSansKR.variable} ${recipekorea.variable}`}
       suppressHydrationWarning={true}
     >
-      <head>
+      <Head>
+        <meta
+          name='google-site-verification'
+          content='2HAw1C-cpAskXgHSDXNzfvo_ZcGuEyEC4DAqCATGaUw'
+        />
         <script dangerouslySetInnerHTML={{ __html: setInitialTheme }} />
-      </head>
+      </Head>
       <body className='dark:bg-background-dark'>
         <Header />
         <main className='container flex-1 mx-auto p-4 mt-16'>{children}</main>
