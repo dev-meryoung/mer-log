@@ -30,7 +30,6 @@ export const getAllPosts = (): PostInfo[] => {
   const postsDir = path.join(process.cwd(), 'public', 'posts');
 
   if (!fs.existsSync(postsDir)) {
-    console.warn(`Posts directory not found: ${postsDir}`);
     return [];
   }
 
@@ -40,7 +39,6 @@ export const getAllPosts = (): PostInfo[] => {
       const filePath = path.join(postsDir, folderName, 'index.md');
 
       if (!fs.existsSync(filePath)) {
-        console.warn(`Post file not found: ${filePath}`);
         return null;
       }
 

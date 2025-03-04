@@ -9,11 +9,13 @@ import { getPost, processHeadings } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
 
 interface PostPageProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: PostPageProps) {
-  const { slug } = params;
+export async function generateMetadata({
+  params,
+}: PostPageProps): Promise<Metadata> {
+  const { slug } = await params;
   const post = await getPost(slug);
   const { postInfo } = post;
 
