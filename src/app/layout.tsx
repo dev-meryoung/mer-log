@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import localFont from 'next/font/local';
-import Head from 'next/head';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { defaultMetadata } from '@/lib/metadata';
@@ -53,13 +52,13 @@ const RootLayout = ({
       className={`${ibmPlexSansKR.variable} ${recipekorea.variable}`}
       suppressHydrationWarning={true}
     >
-      <Head>
+      <head>
         <meta
           name='google-site-verification'
           content='2HAw1C-cpAskXgHSDXNzfvo_ZcGuEyEC4DAqCATGaUw'
         />
         <script dangerouslySetInnerHTML={{ __html: setInitialTheme }} />
-      </Head>
+      </head>
       <body className='dark:bg-background-dark'>
         <Header />
         <main className='container flex-1 mx-auto p-4 mt-16'>{children}</main>
