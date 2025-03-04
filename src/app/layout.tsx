@@ -53,6 +53,10 @@ const RootLayout = ({
       suppressHydrationWarning={true}
     >
       <head>
+        <meta
+          name='google-site-verification'
+          content='2HAw1C-cpAskXgHSDXNzfvo_ZcGuEyEC4DAqCATGaUw'
+        />
         <script dangerouslySetInnerHTML={{ __html: setInitialTheme }} />
       </head>
       <body className='dark:bg-background-dark'>
