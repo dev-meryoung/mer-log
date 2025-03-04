@@ -6,7 +6,7 @@ import { remark } from 'remark';
 import html from 'remark-html';
 import { compareDatesDesc } from '@/utils/dateUtils';
 
-export interface PostMetadata {
+export interface PostInfo {
   title: string;
   description: string;
   thumbnail: string;
@@ -16,7 +16,7 @@ export interface PostMetadata {
 }
 
 export interface PostData {
-  metadata: PostMetadata;
+  postInfo: PostInfo;
   contentHtml: string;
 }
 
@@ -26,7 +26,7 @@ export interface Heading {
   level: number;
 }
 
-export const getAllPosts = (): PostMetadata[] => {
+export const getAllPosts = (): PostInfo[] => {
   const postsDir = path.join(process.cwd(), 'public', 'posts');
 
   if (!fs.existsSync(postsDir)) {
@@ -35,7 +35,7 @@ export const getAllPosts = (): PostMetadata[] => {
   }
 
   const postFolders = fs.readdirSync(postsDir);
-  const posts: PostMetadata[] = postFolders
+  const posts: PostInfo[] = postFolders
     .map((folderName) => {
       const filePath = path.join(postsDir, folderName, 'index.md');
 
@@ -56,7 +56,7 @@ export const getAllPosts = (): PostMetadata[] => {
         slug: folderName,
       };
     })
-    .filter((post): post is PostMetadata => post !== null);
+    .filter((post): post is PostInfo => post !== null);
 
   posts.sort((a, b) => compareDatesDesc(a.date, b.date));
 
@@ -94,7 +94,7 @@ export const getPost = async (slug: string): Promise<PostData> => {
   const contentHtml = processedContent.toString();
 
   return {
-    metadata: { ...data, slug } as PostMetadata,
+    postInfo: { ...data, slug } as PostInfo,
     contentHtml,
   };
 };
