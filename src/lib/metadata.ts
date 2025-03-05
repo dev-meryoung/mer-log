@@ -34,7 +34,10 @@ export function defaultMetadata({
   url?: string;
 }): Metadata {
   return {
-    title,
+    title: {
+      default: title,
+      template: `%s | ${DEFAULT_TITLE}`,
+    },
     description,
     keywords: [...DEFAULT_KEYWORDS, ...keywords],
     openGraph: {
