@@ -62,14 +62,16 @@ const PostPage = async ({ params }: PostPageProps) => {
               ))}
             </ul>
           </div>
-          <div className='relative w-full aspect-video mb-8'>
+          <div className='relative w-full rounded-lg overflow-hidden aspect-video mb-8'>
             <Image
               src={postInfo.thumbnail}
               alt={postInfo.title}
-              className='rounded-lg object-cover'
-              fill
+              className='w-full h-full object-cover'
+              width={1280}
+              height={720}
               placeholder='blur'
               blurDataURL={thumbnailBlur}
+              priority
             />
           </div>
           <div

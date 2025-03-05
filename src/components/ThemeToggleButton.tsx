@@ -40,6 +40,7 @@ const ThemeToggleButton = () => {
       type='button'
       className='p-2 rounded-xl hover:bg-gray-200 dark:hover:bg-darkActive'
       onClick={toggleTheme}
+      aria-label='테마 전환'
     >
       {theme === 'dark' ? (
         <SunIcon className='h-5 w-5 text-text-dark' />

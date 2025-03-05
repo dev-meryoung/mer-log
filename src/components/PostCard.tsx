@@ -17,18 +17,17 @@ const PostCard: React.FC<PostCardProps> = ({
   date,
 }) => (
   <div className='group flex flex-col md:flex-row w-full rounded-lg shadow-md bg-white overflow-hidden dark:bg-darkActive min-h-[370px] md:min-h-[196px]'>
-    <div
-      className='relative w-full md:w-1/3 overflow-hidden'
-      style={{ aspectRatio: '16/9' }}
-    >
+    <div className='relative w-full md:w-1/3 aspect-video overflow-hidden'>
       <Image
         src={thumbnail}
         alt={title}
         className='w-full h-full object-cover transition-all duration-500 group-hover:scale-105'
-        fill
+        width={400}
+        height={225}
         sizes='(max-width: 768px) 100vw, 33vw'
         placeholder='blur'
         blurDataURL={blurDataURL}
+        priority
       />
     </div>
     <div className='relative flex flex-col w-full min-h-[164px] p-4 md:min-h-[188px] md:w-2/3 md:px-8 md:py-6 gap-2 flex-grow'>

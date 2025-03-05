@@ -2,7 +2,7 @@
 title: "테스트 포스팅"
 description: "테스트 포스팅"
 date: "2023-09-01"
-thumbnail: "/posts/test/0.png"
+thumbnail: "/posts/test/0.jpg"
 tags: ["markdown", "예시", "문법", "테스트"]
 ---
 
