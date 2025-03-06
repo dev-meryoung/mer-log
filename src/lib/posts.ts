@@ -30,35 +30,27 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
   const postsDir = path.join(process.cwd(), 'public', 'posts');
 
   try {
-    await fs.access(postsDir);
-  } catch (error) {
-    return [];
-  }
-
-  try {
-    const postFolders: string[] = await fs.readdir(postsDir);
+    const postFolders = await fs.readdir(postsDir);
 
     const posts = await Promise.all(
       postFolders.map(async (folderName) => {
         const filePath = path.join(postsDir, folderName, 'index.md');
 
         try {
-          await fs.access(filePath);
-        } catch (error) {
+          const fileContents = await fs.readFile(filePath, 'utf8');
+          const { data } = matter(fileContents);
+
+          return {
+            title: data.title,
+            description: data.description,
+            date: data.date,
+            thumbnail: data.thumbnail,
+            tags: data.tags,
+            slug: folderName,
+          } as PostInfo;
+        } catch {
           return null;
         }
-
-        const fileContents = await fs.readFile(filePath, 'utf8');
-        const { data } = matter(fileContents);
-
-        return {
-          title: data.title,
-          description: data.description,
-          date: data.date,
-          thumbnail: data.thumbnail,
-          tags: data.tags,
-          slug: folderName,
-        };
       })
     );
 
@@ -66,7 +58,7 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
       .filter((post): post is PostInfo => post !== null)
       .sort((a, b) => compareDatesDesc(a.date, b.date));
   } catch (error) {
-    console.error('Error reading posts:', error);
+    console.error(error);
 
     return [];
   }
