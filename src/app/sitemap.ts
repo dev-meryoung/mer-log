@@ -5,7 +5,7 @@ export const dynamic = 'force-static';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = 'https://www.merlog.kr';
-  const posts = getAllPosts();
+  const posts = await getAllPosts();
 
   const urls = posts.map((post) => ({
     url: `${baseUrl}/post/${post.slug}`,
