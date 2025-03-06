@@ -22,6 +22,7 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
   const handleScroll = useCallback(() => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       setActiveId(headings[headings.length - 1]?.id || null);
+
       return;
     }
 
@@ -48,9 +49,11 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
   useEffect(() => {
     headings.forEach(({ id }) => {
       const element = document.getElementById(id);
+
       if (!element) {
         return;
       }
+
       element.id = id;
     });
   }, [headings]);
@@ -58,6 +61,7 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     handleScroll();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
@@ -70,6 +74,7 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
 
     handleResize();
     window.addEventListener('resize', handleResize);
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 

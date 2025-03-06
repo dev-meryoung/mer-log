@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 import { JSDOM } from 'jsdom';
@@ -26,43 +26,54 @@ export interface Heading {
   level: number;
 }
 
-export const getAllPosts = (): PostInfo[] => {
+export const getAllPosts = async (): Promise<PostInfo[]> => {
   const postsDir = path.join(process.cwd(), 'public', 'posts');
 
-  if (!fs.existsSync(postsDir)) {
+  try {
+    await fs.access(postsDir);
+  } catch (error) {
     return [];
   }
 
-  const postFolders = fs.readdirSync(postsDir);
-  const posts: PostInfo[] = postFolders
-    .map((folderName) => {
-      const filePath = path.join(postsDir, folderName, 'index.md');
+  try {
+    const postFolders: string[] = await fs.readdir(postsDir);
 
-      if (!fs.existsSync(filePath)) {
-        return null;
-      }
+    const posts = await Promise.all(
+      postFolders.map(async (folderName) => {
+        const filePath = path.join(postsDir, folderName, 'index.md');
 
-      const fileContents = fs.readFileSync(filePath, 'utf8');
-      const { data } = matter(fileContents);
+        try {
+          await fs.access(filePath);
+        } catch (error) {
+          return null;
+        }
 
-      return {
-        title: data.title,
-        description: data.description,
-        date: data.date,
-        thumbnail: data.thumbnail,
-        tags: data.tags,
-        slug: folderName,
-      };
-    })
-    .filter((post): post is PostInfo => post !== null);
+        const fileContents = await fs.readFile(filePath, 'utf8');
+        const { data } = matter(fileContents);
 
-  posts.sort((a, b) => compareDatesDesc(a.date, b.date));
+        return {
+          title: data.title,
+          description: data.description,
+          date: data.date,
+          thumbnail: data.thumbnail,
+          tags: data.tags,
+          slug: folderName,
+        };
+      })
+    );
 
-  return posts;
+    return posts
+      .filter((post): post is PostInfo => post !== null)
+      .sort((a, b) => compareDatesDesc(a.date, b.date));
+  } catch (error) {
+    console.error('Error reading posts:', error);
+
+    return [];
+  }
 };
 
-export const getAllTags = (): string[] => {
-  const posts = getAllPosts();
+export const getAllTags = async (): Promise<string[]> => {
+  const posts = await getAllPosts();
   const tagFrequency: Record<string, number> = {};
 
   posts.forEach((post) => {
@@ -75,7 +86,9 @@ export const getAllTags = (): string[] => {
 
   const sortedTags = Object.keys(tagFrequency).sort((a, b) => {
     const freqDiff = tagFrequency[b] - tagFrequency[a];
+
     if (freqDiff !== 0) return freqDiff;
+
     return a.localeCompare(b);
   });
 
@@ -85,7 +98,7 @@ export const getAllTags = (): string[] => {
 export const getPost = async (slug: string): Promise<PostData> => {
   const postDir = path.join(process.cwd(), 'public', 'posts', slug);
   const filePath = path.join(postDir, 'index.md');
-  const fileContents = await fs.promises.readFile(filePath, 'utf8');
+  const fileContents = await fs.readFile(filePath, 'utf8');
   const { data, content } = matter(fileContents);
 
   const processedContent = await remark().use(html).process(content);
@@ -127,6 +140,7 @@ export const processHeadings = (html: string) => {
     /<h([1-3])>(.*?)<\/h\1>/g,
     (match, level, text) => {
       const id = text.trim().replace(/\s+/g, '-').toLowerCase();
+
       return `<h${level} id="${id}">${text}</h${level}>`;
     }
   );
