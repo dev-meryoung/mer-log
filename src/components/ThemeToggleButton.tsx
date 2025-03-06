@@ -24,7 +24,7 @@ const ThemeToggleButton = () => {
         document.documentElement.classList.toggle('dark', initTheme === 'dark');
       }
     } catch (error) {
-      console.error('테마 전환 오류 : ', error);
+      console.error(error);
     }
   }, []);
 

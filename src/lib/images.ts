@@ -6,7 +6,7 @@ export const generateBlurDataForImage = async (imagePath: string) => {
   const fullPath = path.join(process.cwd(), 'public', imagePath);
 
   if (!fs.existsSync(fullPath)) {
-    throw new Error(`Input file is missing: ${fullPath}`);
+    throw new Error(fullPath);
   }
 
   const fileBuffer = fs.readFileSync(fullPath);
