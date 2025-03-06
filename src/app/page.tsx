@@ -1,3 +1,5 @@
+export const dynamic = 'force-static';
+
 import Link from 'next/link';
 import Pagination from '@/components/Pagination';
 import PostCard from '@/components/PostCard';
@@ -11,8 +13,8 @@ interface HomeProps {
 
 const Home = async (props: HomeProps) => {
   const searchParams = await props.searchParams;
-  const allPosts = getAllPosts();
-  const allTags = getAllTags();
+  const allPosts = await getAllPosts();
+  const allTags = await getAllTags();
 
   const selectedTags = searchParams.tags
     ? searchParams.tags
@@ -39,6 +41,7 @@ const Home = async (props: HomeProps) => {
   const postsWithPlaceholder = await Promise.all(
     currentPosts.map(async (post) => {
       const blurDataURL = await generateBlurDataForImage(post.thumbnail);
+
       return { ...post, blurDataURL };
     })
   );

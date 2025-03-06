@@ -1,3 +1,5 @@
+export const dynamic = 'force-static';
+
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -5,7 +7,7 @@ import Comments from '@/components/Comments';
 import IndexNavigation from '@/components/IndexNavigation';
 import { generateBlurDataForImage } from '@/lib/images';
 import { defaultMetadata } from '@/lib/metadata';
-import { getPost, processHeadings } from '@/lib/posts';
+import { getAllPosts, getPost, processHeadings } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
 
 interface PostPageProps {
@@ -29,6 +31,12 @@ export async function generateMetadata({
     image: postInfo.thumbnail,
     url: postURL,
   });
+}
+
+export async function generateStaticParams() {
+  const allPosts = await getAllPosts();
+
+  return allPosts.map((post) => ({ slug: post.slug }));
 }
 
 const PostPage = async ({ params }: PostPageProps) => {
