@@ -10,6 +10,14 @@
   div {
     @apply transition-all duration-300 ease-in-out;
   }
+
+  ::selection {
+    @apply bg-primary text-text-dark;
+  }
+
+  .dark ::selection {
+    @apply bg-blue-400 text-text-dark;
+  }
 }
 
 html {

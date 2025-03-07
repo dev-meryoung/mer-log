@@ -1,8 +1,8 @@
 ---
-title: "다양한 마크다운 문법 테스트에 대한 포스트인데 제목이 길면 이렇게 노출됩니다. 2줄로 보여요!"
-description: "이 예시는 다양한 마크다운 문법을 한 번에 확인할 수 있도록 작성되었습니다. 그리고 설명 글 또한 내용이 길어지면 이렇게 2줄로 노출됩니다!"
+title: "테스트 포스팅"
+description: "테스트 포스팅"
 date: "2023-09-01"
-thumbnail: "/posts/exam-1/0.png"
+thumbnail: "/posts/test/0.jpg"
 tags: ["markdown", "예시", "문법", "테스트"]
 ---
 

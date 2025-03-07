@@ -22,6 +22,7 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
   const handleScroll = useCallback(() => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       setActiveId(headings[headings.length - 1]?.id || null);
+
       return;
     }
 
@@ -48,9 +49,11 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
   useEffect(() => {
     headings.forEach(({ id }) => {
       const element = document.getElementById(id);
+
       if (!element) {
         return;
       }
+
       element.id = id;
     });
   }, [headings]);
@@ -58,6 +61,7 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     handleScroll();
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, [handleScroll]);
 
@@ -70,6 +74,7 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
 
     handleResize();
     window.addEventListener('resize', handleResize);
+
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
@@ -92,8 +97,8 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
                   onClick={() => handleClick(heading.id)}
                   className={`text-left w-full ${
                     activeId === heading.id
-                      ? 'text-secondary font-bold dark:text-blue-600'
-                      : 'text-gray-700 dark:text-white'
+                      ? 'text-secondary font-bold dark:text-blue-400'
+                      : 'text-gray-700 dark:text-text-dark'
                   } hover:underline`}
                 >
                   {heading.text}
