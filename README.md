@@ -1,5 +1,7 @@
 # 📄 프론트엔드 기술 블로그, [mer-log](https://www.merlog.kr)
 
+함께하고 싶은 프론트엔드 개발자가 되어가는 과정을 기록하기 위해 만든 기술 블로그입니다.
+
 ## 📚 기술 스택
 
 ![Next.js](https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
