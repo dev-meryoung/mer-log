@@ -139,3 +139,24 @@ export const processHeadings = (html: string) => {
 
   return { headings, updatedHtml };
 };
+
+export const extractParagraphs = (html: string, limit: number = 150) => {
+  const dom = new JSDOM(html);
+  const { document } = dom.window;
+
+  const paragraphs = Array.from(document.querySelectorAll('p'))
+    .map((p) => (p.textContent ?? '').trim())
+    .filter((text) => text.length > 0);
+
+  let combinedText = '';
+
+  for (const paragraph of paragraphs) {
+    if (combinedText.length + paragraph.length > limit) {
+      combinedText += ' ' + paragraph.substring(0, limit - combinedText.length);
+      break;
+    }
+    combinedText += ' ' + paragraph;
+  }
+
+  return combinedText.trim() + '...';
+};

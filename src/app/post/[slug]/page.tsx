@@ -7,7 +7,12 @@ import Comments from '@/components/Comments';
 import IndexNavigation from '@/components/IndexNavigation';
 import { generateBlurDataForImage } from '@/lib/images';
 import { defaultMetadata } from '@/lib/metadata';
-import { getAllPosts, getPost, processHeadings } from '@/lib/posts';
+import {
+  extractParagraphs,
+  getAllPosts,
+  getPost,
+  processHeadings,
+} from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
 
 interface PostPageProps {
@@ -21,12 +26,14 @@ export const generateMetadata = async ({
 }: PostPageProps): Promise<Metadata> => {
   const { slug } = await params;
   const post = await getPost(slug);
-  const { postInfo } = post;
+  const { postInfo, contentHtml } = post;
   const postURL = `${BASE_URL}/post/${slug}`;
+
+  const trimmedDescription = extractParagraphs(contentHtml, 150);
 
   return defaultMetadata({
     title: postInfo.title,
-    description: postInfo.description,
+    description: trimmedDescription,
     keywords: postInfo.tags,
     image: postInfo.thumbnail,
     url: postURL,
