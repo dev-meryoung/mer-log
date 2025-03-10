@@ -3,7 +3,7 @@ import { getAllPosts } from '@/lib/posts';
 
 export const dynamic = 'force-static';
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
   const baseUrl = 'https://www.merlog.kr';
   const posts = await getAllPosts();
 
@@ -18,4 +18,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   });
 
   return urls;
-}
+};
+
+export default sitemap;

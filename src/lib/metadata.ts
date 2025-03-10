@@ -20,7 +20,7 @@ const DEFAULT_IMAGE = {
   alt: 'thumbnail',
 };
 
-export function defaultMetadata({
+export const defaultMetadata = ({
   title = DEFAULT_TITLE,
   description = DEFAULT_DESCRIPTION,
   keywords = [],
@@ -32,34 +32,32 @@ export function defaultMetadata({
   keywords?: string[];
   image?: string;
   url?: string;
-}): Metadata {
-  return {
-    title: {
-      default: title,
-      template: `%s | ${DEFAULT_TITLE}`,
-    },
+}): Metadata => ({
+  title: {
+    default: title,
+    template: `%s | ${DEFAULT_TITLE}`,
+  },
+  description,
+  keywords: [...DEFAULT_KEYWORDS, ...keywords],
+  openGraph: {
+    type: 'website',
+    locale: 'ko_KR',
+    title,
     description,
-    keywords: [...DEFAULT_KEYWORDS, ...keywords],
-    openGraph: {
-      type: 'website',
-      locale: 'ko_KR',
-      title,
-      description,
-      url,
-      siteName: 'mer-log',
-      images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      site: '@mer-log',
-      creator: '@meryoung',
-      title,
-      description,
-      images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
-    },
-    robots: 'index, follow',
-    alternates: {
-      canonical: url,
-    },
-  };
-}
+    url,
+    siteName: 'mer-log',
+    images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    site: '@mer-log',
+    creator: '@meryoung',
+    title,
+    description,
+    images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
+  },
+  robots: 'index, follow',
+  alternates: {
+    canonical: url,
+  },
+});
