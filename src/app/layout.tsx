@@ -15,9 +15,8 @@ const recipekorea = localFont({
   variable: '--font-recipekorea',
 });
 
-export async function generateMetadata(): Promise<Metadata> {
-  return defaultMetadata({});
-}
+export const generateMetadata = async (): Promise<Metadata> =>
+  defaultMetadata({});
 
 const RootLayout = ({
   children,
@@ -25,7 +24,7 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   const setInitialTheme = `
-    (function() {
+    (() => {
       try {
         const theme = localStorage.getItem('theme');
 

@@ -16,9 +16,9 @@ interface PostPageProps {
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export async function generateMetadata({
+export const generateMetadata = async ({
   params,
-}: PostPageProps): Promise<Metadata> {
+}: PostPageProps): Promise<Metadata> => {
   const { slug } = await params;
   const post = await getPost(slug);
   const { postInfo } = post;
@@ -31,7 +31,7 @@ export async function generateMetadata({
     image: postInfo.thumbnail,
     url: postURL,
   });
-}
+};
 
 export async function generateStaticParams() {
   const allPosts = await getAllPosts();
