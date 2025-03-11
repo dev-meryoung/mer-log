@@ -24,7 +24,7 @@ const Pagination: React.FC<PaginationProps> = ({
   }
 
   const baseLinkClasses =
-    'px-2.5 py-1 text-sm md:text-base md:px-3 md:py-1 border border-gray-300 rounded dark:border-gray-500';
+    'px-2.5 py-1 text-sm md:text-[16px] md:px-3 md:py-1 border border-gray-300 rounded dark:border-gray-500';
   const disabledClasses = 'opacity-50 cursor-not-allowed';
   const activeClasses = 'bg-secondary text-text-dark dark:bg-blue-400';
 

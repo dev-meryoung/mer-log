@@ -62,7 +62,7 @@ const PostPage = async ({ params }: PostPageProps) => {
             <p className='text-2xl md:text-3xl lg:text-4xl font-bold mb-4 pl-0.5 dark:text-text-dark'>
               {postInfo.title}
             </p>
-            <p className='text-sm md:text-base text-gray-500 mb-4 pl-1'>
+            <p className='text-sm md:text-[16px] text-gray-500 mb-4 pl-1'>
               {formatDate(postInfo.date)}
             </p>
             <ul className='pb-4 mb-4 border-b border-gray-200 dark:border-text-light'>
