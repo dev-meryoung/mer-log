@@ -94,7 +94,7 @@ export const getPost = async (slug: string): Promise<PostData> => {
   const fileContents = await fs.readFile(filePath, 'utf8');
   const { data, content } = matter(fileContents);
 
-  const { headings, updatedMdx } = processHeadings(content);
+  const { headings, updatedMdx } = parseHeadings(content);
 
   const { content: mdxSource } = await compileMDX<MDXRemoteProps>({
     source: updatedMdx,
@@ -111,31 +111,15 @@ export const getPost = async (slug: string): Promise<PostData> => {
   };
 };
 
-export const extractHeadings = (mdxContent: string): Heading[] => {
+export const parseHeadings = (mdxContent: string) => {
   const headings: Heading[] = [];
-
-  mdxContent.split('\n').forEach((line) => {
-    const match = line.match(/^(#{1,3})\s+(.*)/);
-
-    if (match) {
-      headings.push({
-        id: match[2].trim().replace(/\s+/g, '-').toLowerCase(),
-        text: match[2].trim(),
-        level: match[1].length,
-      });
-    }
-  });
-
-  return headings;
-};
-
-export const processHeadings = (mdxContent: string) => {
-  const headings = extractHeadings(mdxContent);
 
   const updatedMdx = mdxContent.replace(
     /^(#{1,3})\s+(.*)/gm,
     (match, hashes, text) => {
       const id = text.trim().replace(/\s+/g, '-').toLowerCase();
+
+      headings.push({ id, text, level: hashes.length });
 
       return `${hashes} ${text} <span id="${id}"></span>`;
     }
