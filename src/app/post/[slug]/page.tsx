@@ -7,12 +7,7 @@ import Comments from '@/components/Comments';
 import IndexNavigation from '@/components/IndexNavigation';
 import { generateBlurDataForImage } from '@/lib/images';
 import { defaultMetadata } from '@/lib/metadata';
-import {
-  extractParagraphs,
-  getAllPosts,
-  getPost,
-  processHeadings,
-} from '@/lib/posts';
+import { getAllPosts, getPost } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
 
 interface PostPageProps {
@@ -26,14 +21,12 @@ export const generateMetadata = async ({
 }: PostPageProps): Promise<Metadata> => {
   const { slug } = await params;
   const post = await getPost(slug);
-  const { postInfo, contentHtml } = post;
+  const { postInfo, summary } = post;
   const postURL = `${BASE_URL}/post/${slug}`;
-
-  const trimmedDescription = extractParagraphs(contentHtml, 150);
 
   return defaultMetadata({
     title: postInfo.title,
-    description: trimmedDescription,
+    description: summary,
     keywords: postInfo.tags,
     image: postInfo.thumbnail,
     url: postURL,
@@ -49,8 +42,7 @@ export async function generateStaticParams() {
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
   const post = await getPost(slug);
-  const { postInfo, contentHtml } = post;
-  const { headings, updatedHtml } = processHeadings(contentHtml);
+  const { postInfo, mdxSource, headings } = post;
   const thumbnailBlur = await generateBlurDataForImage(postInfo.thumbnail);
 
   return (
@@ -89,10 +81,7 @@ const PostPage = async ({ params }: PostPageProps) => {
               priority
             />
           </div>
-          <div
-            className='prose dark:prose-dark max-w-none'
-            dangerouslySetInnerHTML={{ __html: updatedHtml }}
-          />
+          <div className='prose dark:prose-dark max-w-none'>{mdxSource}</div>
         </div>
       </article>
       <Comments />
