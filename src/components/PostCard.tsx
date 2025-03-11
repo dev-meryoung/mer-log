@@ -34,7 +34,7 @@ const PostCard: React.FC<PostCardProps> = ({
       <h2 className='font-bold text-lg md:text-xl lg:text-2xl line-clamp-2 group-hover:text-secondary dark:group-hover:text-blue-400 dark:text-text-dark'>
         {title}
       </h2>
-      <p className='line-clamp-2 text-sm md:text-base text-gray-600 dark:text-gray-300'>
+      <p className='line-clamp-2 text-sm md:text-[16px] text-gray-600 dark:text-gray-300'>
         {description}
       </p>
       <p className='mt-auto text-xs md:text-sm text-gray-500 dark:text-gray-500'>
