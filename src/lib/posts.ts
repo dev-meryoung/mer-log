@@ -1,9 +1,8 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { ReactElement } from 'react';
 import matter from 'gray-matter';
-import { JSDOM } from 'jsdom';
-import { remark } from 'remark';
-import html from 'remark-html';
+import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
 import { compareDatesDesc } from '@/utils/dateUtils';
 
 export interface PostInfo {
@@ -17,7 +16,9 @@ export interface PostInfo {
 
 export interface PostData {
   postInfo: PostInfo;
-  contentHtml: string;
+  mdxSource: ReactElement<MDXRemoteProps>;
+  headings: Heading[];
+  summary: string;
 }
 
 export interface Heading {
@@ -34,7 +35,7 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
 
     const posts = await Promise.all(
       postFolders.map(async (folderName) => {
-        const filePath = path.join(postsDir, folderName, 'index.md');
+        const filePath = path.join(postsDir, folderName, 'index.mdx');
 
         try {
           const fileContents = await fs.readFile(filePath, 'utf8');
@@ -89,72 +90,62 @@ export const getAllTags = async (): Promise<string[]> => {
 
 export const getPost = async (slug: string): Promise<PostData> => {
   const postDir = path.join(process.cwd(), 'public', 'posts', slug);
-  const filePath = path.join(postDir, 'index.md');
+  const filePath = path.join(postDir, 'index.mdx');
   const fileContents = await fs.readFile(filePath, 'utf8');
   const { data, content } = matter(fileContents);
 
-  const processedContent = await remark().use(html).process(content);
-  const contentHtml = processedContent.toString();
+  const { headings, updatedMdx } = parseHeadings(content);
+
+  const { content: mdxSource } = await compileMDX<MDXRemoteProps>({
+    source: updatedMdx,
+    options: { parseFrontmatter: false },
+  });
+
+  const summary = extractParagraphs(content, 150);
 
   return {
     postInfo: { ...data, slug } as PostInfo,
-    contentHtml,
+    mdxSource: mdxSource as ReactElement<MDXRemoteProps>,
+    headings,
+    summary,
   };
 };
 
-export const extractHeadings = (html: string): Heading[] => {
-  const dom = new JSDOM(html);
-  const { document } = dom.window;
+export const parseHeadings = (mdxContent: string) => {
   const headings: Heading[] = [];
 
-  document.querySelectorAll('h1, h2, h3').forEach((heading: Element, idx) => {
-    const id =
-      heading.id ||
-      heading.textContent?.trim().replace(/\s+/g, '-').toLowerCase() ||
-      `heading-${idx}`;
-
-    heading.id = id;
-
-    headings.push({
-      id,
-      text: heading.textContent || '',
-      level: parseInt(heading.tagName.replace('H', ''), 10),
-    });
-  });
-
-  return headings;
-};
-
-export const processHeadings = (html: string) => {
-  const headings = extractHeadings(html);
-
-  const updatedHtml = html.replace(
-    /<h([1-3])>(.*?)<\/h\1>/g,
-    (match, level, text) => {
+  const updatedMdx = mdxContent.replace(
+    /^(#{1,3})\s+(.*)/gm,
+    (match, hashes, text) => {
       const id = text.trim().replace(/\s+/g, '-').toLowerCase();
 
-      return `<h${level} id="${id}">${text}</h${level}>`;
+      headings.push({ id, text, level: hashes.length });
+
+      return `${hashes} ${text} <span id="${id}"></span>`;
     }
   );
 
-  return { headings, updatedHtml };
+  return { headings, updatedMdx };
 };
 
-export const extractParagraphs = (html: string, limit: number = 150) => {
-  const dom = new JSDOM(html);
-  const { document } = dom.window;
-
-  const paragraphs = Array.from(document.querySelectorAll('p'))
-    .map((p) => (p.textContent ?? '').trim())
-    .filter((text) => text.length > 0);
+export const extractParagraphs = (
+  mdxContent: string,
+  limit: number = 150
+): string => {
+  const paragraphs = mdxContent
+    .split('\n')
+    .filter((line) => line.trim() && !line.startsWith('#'))
+    .map((line) => line.trim());
 
   let combinedText = '';
 
   for (const paragraph of paragraphs) {
     if (combinedText.length + paragraph.length > limit) {
       combinedText += ' ' + paragraph.substring(0, limit - combinedText.length);
+
       break;
     }
+
     combinedText += ' ' + paragraph;
   }
 
