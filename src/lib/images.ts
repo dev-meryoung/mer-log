@@ -10,7 +10,7 @@ export const generateBlurDataForImage = async (imagePath: string) => {
   }
 
   const fileBuffer = fs.readFileSync(fullPath);
-  const { base64 } = await getPlaiceholder(fileBuffer);
+  const { base64 } = await getPlaiceholder(fileBuffer, { size: 32 });
 
   return base64;
 };
