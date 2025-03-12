@@ -9,15 +9,17 @@ interface MDXImageProps {
 }
 
 const MDXImage = async ({ src, alt = 'image' }: MDXImageProps) => {
-  const imageBlur = await generateBlurDataForImage(src);
-  const { width, height } = await getImageSize(src);
+  const [imageBlur, imageSize] = await Promise.all([
+    generateBlurDataForImage(src),
+    getImageSize(src),
+  ]);
 
   return (
     <Image
       src={src}
       alt={alt}
-      width={width}
-      height={height}
+      width={imageSize.width}
+      height={imageSize.height}
       className='max-w-full h-auto object-cover rounded-lg'
       placeholder='blur'
       blurDataURL={imageBlur}
