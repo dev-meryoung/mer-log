@@ -3,6 +3,7 @@ import path from 'path';
 import { ReactElement } from 'react';
 import matter from 'gray-matter';
 import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
+import MDXComponents from '@/components/MDXComponents';
 import { compareDatesDesc } from '@/utils/dateUtils';
 
 export interface PostInfo {
@@ -99,6 +100,7 @@ export const getPost = async (slug: string): Promise<PostData> => {
   const { content: mdxSource } = await compileMDX<MDXRemoteProps>({
     source: updatedMdx,
     options: { parseFrontmatter: false },
+    components: MDXComponents,
   });
 
   const summary = extractParagraphs(content, 150);
