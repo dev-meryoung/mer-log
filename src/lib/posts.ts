@@ -3,6 +3,7 @@ import path from 'path';
 import { ReactElement } from 'react';
 import matter from 'gray-matter';
 import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
+import rehypePrettyCode from 'rehype-pretty-code';
 import MDXComponents from '@/components/MDXComponents';
 import { compareDatesDesc } from '@/utils/dateUtils';
 
@@ -99,7 +100,24 @@ export const getPost = async (slug: string): Promise<PostData> => {
 
   const { content: mdxSource } = await compileMDX<MDXRemoteProps>({
     source: updatedMdx,
-    options: { parseFrontmatter: false },
+    options: {
+      parseFrontmatter: false,
+      mdxOptions: {
+        rehypePlugins: [
+          [
+            rehypePrettyCode,
+            {
+              theme: {
+                light: 'github-light',
+                dark: 'one-dark-pro',
+              },
+              keepBackground: false,
+              lineNumbers: true,
+            },
+          ],
+        ],
+      },
+    },
     components: MDXComponents,
   });
 
