@@ -16,7 +16,7 @@
   }
 
   .dark ::selection {
-    @apply bg-blue-400 text-text-dark;
+    @apply bg-blue-600 text-text-dark;
   }
 }
 
@@ -32,4 +32,51 @@ body {
 .prose code::before,
 .prose code::after {
   content: none;
+}
+
+[data-rehype-pretty-code-title] {
+  @apply text-sm font-semibold text-text-light rounded-t-lg bg-gray-300 px-3 py-1.5;
+}
+
+.dark [data-rehype-pretty-code-title] {
+  @apply text-text-dark bg-gray-800;
+}
+
+[data-rehype-pretty-code-title] + pre {
+  @apply rounded-b-lg;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+pre code {
+  counter-reset: line;
+}
+
+pre code > span {
+  display: block;
+  position: relative;
+  padding-left: 2.5rem;
+  line-height: 1.6rem;
+}
+
+pre code > span::before {
+  content: counter(line);
+  counter-increment: line;
+  position: absolute;
+  left: 0;
+  width: 0;
+  text-align: right;
+  color: #999;
+  font-size: 0.8rem;
+  line-height: 1.6rem;
+}
+
+code[data-theme~='github-light'],
+code[data-theme~='github-light'] span {
+  color: var(--shiki-light);
+}
+
+.dark code[data-theme~='one-dark-pro'],
+.dark code[data-theme~='one-dark-pro'] span {
+  color: var(--shiki-dark);
 }
