@@ -24,25 +24,21 @@ const RootLayout = ({
   children: React.ReactNode;
 }>) => {
   const setInitialTheme = `
-    (() => {
-      try {
-        const theme = localStorage.getItem('theme');
+  (() => {
+    let theme;
+    
+    try {
+      theme = localStorage.getItem('theme');
+    } catch (e) {
+      return;
+    }
 
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-        } else if (theme === 'light') {
-          document.documentElement.classList.remove('dark');
-        } else {
-          const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        
-          if (prefersDark) {
-            document.documentElement.classList.add('dark');
-          } else {
-            document.documentElement.classList.remove('dark');
-          }
-        }
-      } catch (e) {}
-    })();
+    if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  })();
   `;
 
   return (

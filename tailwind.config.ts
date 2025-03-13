@@ -84,7 +84,7 @@ export default {
             },
             blockquote: {
               fontStyle: 'italic',
-              color: theme('colors.gray.500'),
+              color: theme('colors.gray.700'),
               borderLeft: `4px solid ${theme('colors.secondary')}`,
               padding: '0 1rem',
               margin: '1.5rem 0',
@@ -113,7 +113,7 @@ export default {
               },
             },
             blockquote: {
-              borderLeftColor: theme('colors.primary'),
+              borderLeftColor: theme('colors.blue.600'),
               color: theme('colors.gray.300'),
             },
             h1: {
@@ -127,11 +127,11 @@ export default {
             },
             strong: { color: theme('colors.text.dark') },
             code: {
-              backgroundColor: theme('colors.gray.500'),
+              backgroundColor: theme('colors.gray.700'),
               color: theme('colors.text.dark'),
             },
             pre: {
-              backgroundColor: theme('colors.gray.500'),
+              backgroundColor: theme('colors.gray.700'),
             },
           },
         },

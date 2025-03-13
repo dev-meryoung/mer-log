@@ -9,6 +9,7 @@ const ThemeToggleButton = () => {
   useEffect(() => {
     try {
       const storedTheme = localStorage.getItem('theme');
+
       if (storedTheme === 'dark' || storedTheme === 'light') {
         setTheme(storedTheme as 'light' | 'dark');
         document.documentElement.classList.toggle(
@@ -20,6 +21,7 @@ const ThemeToggleButton = () => {
           '(prefers-color-scheme: dark)'
         ).matches;
         const initTheme = prefersDark ? 'dark' : 'light';
+
         setTheme(initTheme);
         document.documentElement.classList.toggle('dark', initTheme === 'dark');
       }
@@ -30,6 +32,7 @@ const ThemeToggleButton = () => {
 
   const toggleTheme = () => {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
+
     setTheme(newTheme);
     localStorage.setItem('theme', newTheme);
     document.documentElement.classList.toggle('dark', newTheme === 'dark');

@@ -8,7 +8,7 @@ const NotFound = () => (
     <h2 className='font-recipekorea text-xl md:text-2xl dark:text-text-dark'>
       페이지를 찾을 수 없습니다.
     </h2>
-    <div className='text-gray-600 dark:text-gray-300'>
+    <div className='text-sm md:text-base text-gray-600 dark:text-gray-300'>
       <p>요청하신 페이지를 찾을 수 없습니다.</p>
       <p>URL 주소가 정확한지 확인해 주세요.</p>
     </div>
