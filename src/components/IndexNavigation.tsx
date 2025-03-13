@@ -97,7 +97,7 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
                   onClick={() => handleClick(heading.id)}
                   className={`text-left w-full ${
                     activeId === heading.id
-                      ? 'text-secondary font-bold dark:text-blue-400'
+                      ? 'text-secondary font-bold dark:text-blue-600'
                       : 'text-gray-700 dark:text-text-dark'
                   } hover:underline`}
                 >

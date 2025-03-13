@@ -47,7 +47,7 @@ const PostPage = async ({ params }: PostPageProps) => {
 
   return (
     <>
-      <article className='w-full mx-auto p-10 rounded-lg bg-white shadow-md dark:bg-darkActive'>
+      <article className='w-full mx-auto p-5 md:p-10 rounded-lg bg-white shadow-md dark:bg-darkActive'>
         <div className='relative'>
           <IndexNavigation headings={headings} />
           <div>
@@ -61,7 +61,7 @@ const PostPage = async ({ params }: PostPageProps) => {
               {postInfo.tags.map((tag) => (
                 <li key={tag} className='inline-block leading-9 mr-2'>
                   <Link href={`/?tags=${tag}`} key={tag}>
-                    <span className='bg-gray-200 rounded-3xl px-2.5 py-1 text-sm text-gray-70 dark:bg-gray-500 dark:text-text-dark'>
+                    <span className='bg-gray-200 rounded-3xl px-2.5 py-1 text-sm text-gray-70 dark:bg-gray-700 dark:text-text-dark'>
                       {tag}
                     </span>
                   </Link>

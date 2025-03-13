@@ -51,7 +51,7 @@ const Home = async (props: HomeProps) => {
   return (
     <div className='w-full px-2 select-none'>
       <div className='py-5'>
-        <h1 className='inline font-recipekorea text-2xl md:text-3xl font-bold hover:text-secondary dark:text-text-dark dark:hover:text-blue-400'>
+        <h1 className='inline font-recipekorea text-2xl md:text-3xl font-bold hover:text-secondary dark:text-text-dark dark:hover:text-blue-600'>
           TAGS
         </h1>
         {allTags.length > 0 ? (
@@ -67,7 +67,7 @@ const Home = async (props: HomeProps) => {
         )}
       </div>
       <div className='py-2 md:py-5'>
-        <h1 className='inline font-recipekorea text-2xl md:text-3xl font-bold hover:text-secondary dark:text-text-dark dark:hover:text-blue-400'>
+        <h1 className='inline font-recipekorea text-2xl md:text-3xl font-bold hover:text-secondary dark:text-text-dark dark:hover:text-blue-600'>
           POSTS
         </h1>
         {allPosts.length > 0 ? (

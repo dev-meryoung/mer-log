@@ -71,7 +71,7 @@ const Comments = () => {
   return (
     <div
       id='giscus'
-      className='w-full mx-auto p-10 rounded-lg bg-white shadow-md dark:bg-darkActive mt-4'
+      className='w-full mx-auto p-5 md:p-10 rounded-lg bg-white shadow-md dark:bg-darkActive mt-4'
     />
   );
 };
