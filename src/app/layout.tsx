@@ -5,9 +5,9 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import { defaultMetadata } from '@/lib/metadata';
 
-const ibmPlexSansKR = localFont({
-  src: '../../public/fonts/IBMPlexSansKR.woff2',
-  variable: '--font-ibmPlexSansKR',
+const suit = localFont({
+  src: '../../public/fonts/Suit.woff2',
+  variable: '--font-suit',
 });
 
 const recipekorea = localFont({
@@ -44,7 +44,7 @@ const RootLayout = ({
   return (
     <html
       lang='ko'
-      className={`${ibmPlexSansKR.variable} ${recipekorea.variable}`}
+      className={`${suit.variable} ${recipekorea.variable}`}
       suppressHydrationWarning={true}
     >
       <head>
