@@ -26,7 +26,7 @@ html {
 
 body {
   @apply bg-background-light text-text-light;
-  font-family: var(--font-ibmPlexSansKR), sans-serif;
+  font-family: var(--font-suit), sans-serif;
 }
 
 .prose code::before,

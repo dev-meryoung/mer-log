@@ -10,7 +10,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        ibmPlexSansKR: ['var(--font-ibmPlexSansKR)', 'sans-serif'],
+        suit: ['var(--font-suit)', 'sans-serif'],
         recipekorea: ['var(--font-recipekorea)', 'sans-serif'],
       },
       colors: {
