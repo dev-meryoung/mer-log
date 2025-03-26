@@ -1,5 +1,3 @@
-export const dynamic = 'force-static';
-
 import Link from 'next/link';
 import Pagination from '@/components/Pagination';
 import PostCard from '@/components/PostCard';
