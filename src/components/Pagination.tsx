@@ -31,16 +31,14 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className='my-4 flex justify-center items-center space-x-2 dark:text-text-dark'>
       <button
-        className={`${baseLinkClasses} ${currentPage === 1 && disabledClasses}`}
+        className={`${baseLinkClasses} ${currentPage === 1 ? disabledClasses : ''}`}
         onClick={() => onPageChange(1)}
         disabled={currentPage === 1}
       >
         처음
       </button>
       <button
-        className={`${baseLinkClasses} ${
-          currentGroupStart === 1 && disabledClasses
-        }`}
+        className={`${baseLinkClasses} ${currentGroupStart === 1 ? disabledClasses : ''}`}
         onClick={() => onPageChange(currentGroupStart - 1)}
         disabled={currentGroupStart === 1}
       >
@@ -49,27 +47,21 @@ const Pagination: React.FC<PaginationProps> = ({
       {paginationGroup.map((page) => (
         <button
           key={page}
-          className={`${baseLinkClasses} ${
-            page === currentPage ? activeClasses : ''
-          }`}
+          className={`${baseLinkClasses} ${page === currentPage ? activeClasses : ''}`}
           onClick={() => onPageChange(page)}
         >
           {page}
         </button>
       ))}
       <button
-        className={`${baseLinkClasses} ${
-          currentGroupEnd === totalPages && disabledClasses
-        }`}
+        className={`${baseLinkClasses} ${currentGroupEnd === totalPages ? disabledClasses : ''}`}
         onClick={() => onPageChange(currentGroupEnd + 1)}
         disabled={currentGroupEnd === totalPages}
       >
         다음
       </button>
       <button
-        className={`${baseLinkClasses} ${
-          currentPage === totalPages && disabledClasses
-        }`}
+        className={`${baseLinkClasses} ${currentPage === totalPages ? disabledClasses : ''}`}
         onClick={() => onPageChange(totalPages)}
         disabled={currentPage === totalPages}
       >
