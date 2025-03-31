@@ -5,6 +5,7 @@ import matter from 'gray-matter';
 import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import MDXComponents from '@/components/MDXComponents';
+import { generateBlurDataForImage } from '@/lib/images';
 import { compareDatesDesc } from '@/utils/dateUtils';
 
 export interface PostInfo {
@@ -14,6 +15,7 @@ export interface PostInfo {
   date: string;
   tags: string[];
   slug: string;
+  blurDataURL: string;
 }
 
 export interface PostData {
@@ -42,6 +44,7 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
         try {
           const fileContents = await fs.readFile(filePath, 'utf8');
           const { data } = matter(fileContents);
+          const blurDataURL = await generateBlurDataForImage(data.thumbnail);
 
           return {
             title: data.title,
@@ -50,6 +53,7 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
             thumbnail: data.thumbnail,
             tags: data.tags,
             slug: folderName,
+            blurDataURL,
           } as PostInfo;
         } catch {
           return null;
@@ -122,9 +126,10 @@ export const getPost = async (slug: string): Promise<PostData> => {
   });
 
   const summary = extractParagraphs(content, 150);
+  const blurDataURL = await generateBlurDataForImage(data.thumbnail);
 
   return {
-    postInfo: { ...data, slug } as PostInfo,
+    postInfo: { ...data, slug, blurDataURL } as PostInfo,
     mdxSource: mdxSource as ReactElement<MDXRemoteProps>,
     headings,
     summary,
