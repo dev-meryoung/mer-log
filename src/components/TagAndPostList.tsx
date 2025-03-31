@@ -54,8 +54,8 @@ const TagAndPostList: React.FC<TagAndPostListProps> = ({
         </h1>
         {allTags.length > 0 ? (
           <div className='flex my-4 p-3 md:p-4 gap-1.5 md:gap-2 flex-wrap shadow-md bg-white rounded-lg dark:bg-darkActive'>
-            {allTags.map((tag, index) => (
-              <Tag key={index} label={tag} />
+            {allTags.map((tag) => (
+              <Tag key={tag} label={tag} />
             ))}
           </div>
         ) : (
