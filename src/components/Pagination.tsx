@@ -1,15 +1,13 @@
-import Link from 'next/link';
-
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
-  tagQueryString?: string;
+  onPageChange: (page: number) => void;
 }
 
 const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
-  tagQueryString = '',
+  onPageChange,
 }) => {
   const groupSize = 5;
   const currentGroupStart =
@@ -18,7 +16,9 @@ const Pagination: React.FC<PaginationProps> = ({
     currentGroupStart + groupSize - 1,
     totalPages
   );
+
   const paginationGroup = [];
+
   for (let i = currentGroupStart; i <= currentGroupEnd; i++) {
     paginationGroup.push(i);
   }
@@ -30,62 +30,51 @@ const Pagination: React.FC<PaginationProps> = ({
 
   return (
     <div className='my-4 flex justify-center items-center space-x-2 dark:text-text-dark'>
-      {currentPage > 1 ? (
-        <Link href={`/?page=1${tagQueryString}`} className={baseLinkClasses}>
-          처음
-        </Link>
-      ) : (
-        <span className={`${baseLinkClasses} ${disabledClasses}`}>처음</span>
-      )}
-
-      {currentGroupStart > 1 ? (
-        <Link
-          href={`/?page=${currentGroupStart - 1}${tagQueryString}`}
-          className={baseLinkClasses}
+      <button
+        className={`${baseLinkClasses} ${currentPage === 1 && disabledClasses}`}
+        onClick={() => onPageChange(1)}
+        disabled={currentPage === 1}
+      >
+        처음
+      </button>
+      <button
+        className={`${baseLinkClasses} ${
+          currentGroupStart === 1 && disabledClasses
+        }`}
+        onClick={() => onPageChange(currentGroupStart - 1)}
+        disabled={currentGroupStart === 1}
+      >
+        이전
+      </button>
+      {paginationGroup.map((page) => (
+        <button
+          key={page}
+          className={`${baseLinkClasses} ${
+            page === currentPage ? activeClasses : ''
+          }`}
+          onClick={() => onPageChange(page)}
         >
-          이전
-        </Link>
-      ) : (
-        <span className={`${baseLinkClasses} ${disabledClasses}`}>이전</span>
-      )}
-
-      {paginationGroup.map((page) =>
-        page === currentPage ? (
-          <span key={page} className={`${baseLinkClasses} ${activeClasses}`}>
-            {page}
-          </span>
-        ) : (
-          <Link
-            key={page}
-            href={`/?page=${page}${tagQueryString}`}
-            className={baseLinkClasses}
-          >
-            {page}
-          </Link>
-        )
-      )}
-
-      {currentGroupEnd < totalPages ? (
-        <Link
-          href={`/?page=${currentGroupEnd + 1}${tagQueryString}`}
-          className={baseLinkClasses}
-        >
-          다음
-        </Link>
-      ) : (
-        <span className={`${baseLinkClasses} ${disabledClasses}`}>다음</span>
-      )}
-
-      {currentPage < totalPages ? (
-        <Link
-          href={`/?page=${totalPages}${tagQueryString}`}
-          className={baseLinkClasses}
-        >
-          끝
-        </Link>
-      ) : (
-        <span className={`${baseLinkClasses} ${disabledClasses}`}>끝</span>
-      )}
+          {page}
+        </button>
+      ))}
+      <button
+        className={`${baseLinkClasses} ${
+          currentGroupEnd === totalPages && disabledClasses
+        }`}
+        onClick={() => onPageChange(currentGroupEnd + 1)}
+        disabled={currentGroupEnd === totalPages}
+      >
+        다음
+      </button>
+      <button
+        className={`${baseLinkClasses} ${
+          currentPage === totalPages && disabledClasses
+        }`}
+        onClick={() => onPageChange(totalPages)}
+        disabled={currentPage === totalPages}
+      >
+        끝
+      </button>
     </div>
   );
 };
