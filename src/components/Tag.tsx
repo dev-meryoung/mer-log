@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 interface TagProps extends React.HTMLProps<HTMLButtonElement> {
@@ -7,41 +8,36 @@ interface TagProps extends React.HTMLProps<HTMLButtonElement> {
 }
 
 const Tag: React.FC<TagProps> = ({ label }) => {
-  const searchParams = useSearchParams();
   const router = useRouter();
-  const tagsQuery = searchParams.get('tags') || '';
-  const tagsArray = tagsQuery
-    ? tagsQuery.split(',').map((tag) => tag.trim())
-    : [];
+  const searchParams = useSearchParams();
 
-  const active = tagsArray.includes(label);
+  const [tagsArray, setTagsArray] = useState<string[]>([]);
+
+  useEffect(() => {
+    setTagsArray(searchParams.getAll('tag'));
+  }, [searchParams]);
+
+  const isActive = tagsArray.includes(label);
 
   const handleClick = () => {
     let newTagsArray = [...tagsArray];
 
-    if (active) {
+    if (isActive) {
       newTagsArray = newTagsArray.filter((tag) => tag !== label);
     } else {
       newTagsArray.push(label);
     }
 
-    const newTagsQuery = newTagsArray.join(',');
-    const newSearchParams = new URLSearchParams(searchParams.toString());
+    const newSearchParams = new URLSearchParams();
 
-    if (newTagsQuery) {
-      newSearchParams.set('tags', newTagsQuery);
-    } else {
-      newSearchParams.delete('tags');
-    }
-
-    newSearchParams.set('page', '1');
+    newTagsArray.forEach((tag) => newSearchParams.append('tag', tag));
     router.push(`?${newSearchParams.toString()}`);
   };
 
   return (
     <button
       type='button'
-      className={`flex justify-center items-center text-sm md:text-[16px] gap-1 px-2.5 py-1.5 rounded-3xl ${active ? 'bg-secondary text-text-dark dark:bg-blue-600' : 'bg-gray-200 dark:bg-gray-700 dark:text-text-dark'}
+      className={`flex justify-center items-center text-sm md:text-[16px] gap-1 px-2.5 py-1.5 rounded-3xl ${isActive ? 'bg-secondary text-text-dark dark:bg-blue-600' : 'bg-gray-200 dark:bg-gray-700 dark:text-text-dark'}
       `}
       onClick={handleClick}
     >

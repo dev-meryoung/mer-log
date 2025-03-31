@@ -1,5 +1,3 @@
-export const dynamic = 'force-static';
-
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -43,7 +41,6 @@ const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
   const post = await getPost(slug);
   const { postInfo, mdxSource, headings } = post;
-  const thumbnailBlur = await generateBlurDataForImage(postInfo.thumbnail);
 
   return (
     <>
@@ -77,7 +74,7 @@ const PostPage = async ({ params }: PostPageProps) => {
               width={1280}
               height={720}
               placeholder='blur'
-              blurDataURL={thumbnailBlur}
+              blurDataURL={postInfo.blurDataURL}
               priority
             />
           </div>
