@@ -3,7 +3,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Comments from '@/components/Comments';
 import IndexNavigation from '@/components/IndexNavigation';
-import { generateBlurDataForImage } from '@/lib/images';
 import { defaultMetadata } from '@/lib/metadata';
 import { getAllPosts, getPost } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
