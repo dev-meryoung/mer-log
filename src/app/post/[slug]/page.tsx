@@ -56,7 +56,7 @@ const PostPage = async ({ params }: PostPageProps) => {
             <ul className='pb-4 mb-4 border-b border-gray-200 dark:border-text-light'>
               {postInfo.tags.map((tag) => (
                 <li key={tag} className='inline-block leading-9 mr-2'>
-                  <Link href={`/?tags=${tag}`} key={tag}>
+                  <Link href={`/?tag=${tag}`} key={tag}>
                     <span className='bg-gray-200 rounded-3xl px-2.5 py-1 text-sm text-gray-70 dark:bg-gray-700 dark:text-text-dark'>
                       {tag}
                     </span>
