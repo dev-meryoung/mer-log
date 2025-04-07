@@ -5,7 +5,7 @@ import matter from 'gray-matter';
 import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import MDXComponents from '@/components/MDXComponents';
-import { generateBlurDataForImage } from '@/lib/images';
+import { getThumbnailAndBlur } from '@/lib/images';
 import { compareDatesDesc } from '@/utils/dateUtils';
 
 export interface PostInfo {
@@ -23,6 +23,8 @@ export interface PostData {
   mdxSource: ReactElement<MDXRemoteProps>;
   headings: Heading[];
   summary: string;
+  prevPost?: PostInfo | null;
+  nextPost?: PostInfo | null;
 }
 
 export interface Heading {
@@ -44,13 +46,15 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
         try {
           const fileContents = await fs.readFile(filePath, 'utf8');
           const { data } = matter(fileContents);
-          const blurDataURL = await generateBlurDataForImage(data.thumbnail);
+          const { thumbnailURL, blurDataURL } = await getThumbnailAndBlur(
+            data.thumbnail
+          );
 
           return {
             title: data.title,
             description: data.description,
             date: data.date,
-            thumbnail: data.thumbnail,
+            thumbnail: thumbnailURL,
             tags: data.tags,
             slug: folderName,
             blurDataURL,
@@ -126,13 +130,27 @@ export const getPost = async (slug: string): Promise<PostData> => {
   });
 
   const summary = extractParagraphs(content, 150);
-  const blurDataURL = await generateBlurDataForImage(data.thumbnail);
+  const { thumbnailURL, blurDataURL } = await getThumbnailAndBlur(
+    data.thumbnail
+  );
+
+  const allPosts = await getAllPosts();
+  const currentIndex = allPosts.findIndex((post) => post.slug === slug);
+  const prevPost = allPosts[currentIndex + 1] || null;
+  const nextPost = allPosts[currentIndex - 1] || null;
 
   return {
-    postInfo: { ...data, slug, blurDataURL } as PostInfo,
+    postInfo: {
+      ...data,
+      slug,
+      thumbnail: thumbnailURL,
+      blurDataURL,
+    } as PostInfo,
     mdxSource: mdxSource as ReactElement<MDXRemoteProps>,
     headings,
     summary,
+    prevPost,
+    nextPost,
   };
 };
 

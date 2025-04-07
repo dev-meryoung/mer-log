@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Pagination from '@/components/Pagination';
 import PostCard from '@/components/PostCard';
 import Tag from '@/components/Tag';
@@ -18,15 +18,18 @@ const TagAndPostList: React.FC<TagAndPostListProps> = ({
   allPosts,
 }) => {
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const selectedTags = useMemo(
     () => searchParams.getAll('tag'),
     [searchParams]
   );
-  const [currentPage, setCurrentPage] = useState(1);
+  const pageParam = searchParams.get('page');
+  const [currentPage, setCurrentPage] = useState(Number(pageParam) || 1);
 
   useEffect(() => {
-    setCurrentPage(1);
-  }, [selectedTags]);
+    setCurrentPage(Number(pageParam) || 1);
+  }, [pageParam, selectedTags]);
 
   const filteredPosts = useMemo(
     () =>
@@ -45,6 +48,12 @@ const TagAndPostList: React.FC<TagAndPostListProps> = ({
     startIndex,
     startIndex + postsPerPage
   );
+
+  const handlePageChange = (page: number) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set('page', page.toString());
+    router.push(`${pathname}?${params.toString()}`);
+  };
 
   return (
     <div className='w-full px-2 select-none'>
@@ -93,11 +102,15 @@ const TagAndPostList: React.FC<TagAndPostListProps> = ({
           </div>
         )}
       </div>
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={(page) => setCurrentPage(page)}
-      />
+      {filteredPosts.length > postsPerPage ? (
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+        />
+      ) : (
+        ''
+      )}
     </div>
   );
 };
