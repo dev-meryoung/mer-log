@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Comments from '@/components/Comments';
 import IndexNavigation from '@/components/IndexNavigation';
+import PostNavigation from '@/components/PostNavigation';
 import { defaultMetadata } from '@/lib/metadata';
 import { getAllPosts, getPost } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
@@ -39,7 +40,7 @@ export async function generateStaticParams() {
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
   const post = await getPost(slug);
-  const { postInfo, mdxSource, headings } = post;
+  const { postInfo, mdxSource, headings, prevPost, nextPost } = post;
 
   return (
     <>
@@ -80,6 +81,7 @@ const PostPage = async ({ params }: PostPageProps) => {
           <div className='prose dark:prose-dark max-w-none'>{mdxSource}</div>
         </div>
       </article>
+      <PostNavigation prevPost={prevPost} nextPost={nextPost} />
       <Comments />
     </>
   );

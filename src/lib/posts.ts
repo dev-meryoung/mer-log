@@ -23,6 +23,8 @@ export interface PostData {
   mdxSource: ReactElement<MDXRemoteProps>;
   headings: Heading[];
   summary: string;
+  prevPost?: PostInfo | null;
+  nextPost?: PostInfo | null;
 }
 
 export interface Heading {
@@ -138,6 +140,11 @@ export const getPost = async (slug: string): Promise<PostData> => {
   const thumbnailURL = isValidThumbnail ? data.thumbnail : defaultThumbnail;
   const blurDataURL = await generateBlurDataForImage(thumbnailURL);
 
+  const allPosts = await getAllPosts();
+  const currentIndex = allPosts.findIndex((post) => post.slug === slug);
+  const prevPost = allPosts[currentIndex + 1] || null;
+  const nextPost = allPosts[currentIndex - 1] || null;
+
   return {
     postInfo: {
       ...data,
@@ -148,6 +155,8 @@ export const getPost = async (slug: string): Promise<PostData> => {
     mdxSource: mdxSource as ReactElement<MDXRemoteProps>,
     headings,
     summary,
+    prevPost,
+    nextPost,
   };
 };
 
