@@ -48,3 +48,14 @@ export const generateBlurDataForImage = async (imagePath: string) => {
 
   return base64;
 };
+
+export const getThumbnailAndBlur = async (
+  thumbnail: unknown,
+  defaultThumbnail: string = '/images/thumbnail.png'
+) => {
+  const isValid = typeof thumbnail === 'string' && thumbnail.trim() !== '';
+  const thumbnailURL = isValid ? thumbnail : defaultThumbnail;
+  const blurDataURL = await generateBlurDataForImage(thumbnailURL);
+
+  return { thumbnailURL, blurDataURL };
+};

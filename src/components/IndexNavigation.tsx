@@ -81,8 +81,9 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (!showNav) return null;
-  if (headings.length === 0) return null;
+  if (!showNav || headings.length === 0) {
+    return null;
+  }
 
   const minLevel = Math.min(...headings.map((h) => h.level));
 

@@ -5,7 +5,7 @@ import matter from 'gray-matter';
 import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import MDXComponents from '@/components/MDXComponents';
-import { generateBlurDataForImage } from '@/lib/images';
+import { getThumbnailAndBlur } from '@/lib/images';
 import { compareDatesDesc } from '@/utils/dateUtils';
 
 export interface PostInfo {
@@ -42,17 +42,13 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
     const posts = await Promise.all(
       postFolders.map(async (folderName) => {
         const filePath = path.join(postsDir, folderName, 'index.mdx');
-        const defaultThumbnail = '/images/thumbnail.png';
 
         try {
           const fileContents = await fs.readFile(filePath, 'utf8');
           const { data } = matter(fileContents);
-          const isValidThumbnail =
-            typeof data.thumbnail === 'string' && data.thumbnail.trim() !== '';
-          const thumbnailURL = isValidThumbnail
-            ? data.thumbnail
-            : defaultThumbnail;
-          const blurDataURL = await generateBlurDataForImage(thumbnailURL);
+          const { thumbnailURL, blurDataURL } = await getThumbnailAndBlur(
+            data.thumbnail
+          );
 
           return {
             title: data.title,
@@ -134,11 +130,9 @@ export const getPost = async (slug: string): Promise<PostData> => {
   });
 
   const summary = extractParagraphs(content, 150);
-  const defaultThumbnail = '/images/thumbnail.png';
-  const isValidThumbnail =
-    typeof data.thumbnail === 'string' && data.thumbnail.trim() !== '';
-  const thumbnailURL = isValidThumbnail ? data.thumbnail : defaultThumbnail;
-  const blurDataURL = await generateBlurDataForImage(thumbnailURL);
+  const { thumbnailURL, blurDataURL } = await getThumbnailAndBlur(
+    data.thumbnail
+  );
 
   const allPosts = await getAllPosts();
   const currentIndex = allPosts.findIndex((post) => post.slug === slug);
