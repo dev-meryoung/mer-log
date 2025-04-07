@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Comments from '@/components/Comments';
 import IndexNavigation from '@/components/IndexNavigation';
+import PostNavigation from '@/components/PostNavigation';
 import { defaultMetadata } from '@/lib/metadata';
 import { getAllPosts, getPost } from '@/lib/posts';
 import { formatDate } from '@/utils/dateUtils';
@@ -39,7 +40,7 @@ export async function generateStaticParams() {
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
   const post = await getPost(slug);
-  const { postInfo, mdxSource, headings } = post;
+  const { postInfo, mdxSource, headings, prevPost, nextPost } = post;
 
   return (
     <>
@@ -56,7 +57,7 @@ const PostPage = async ({ params }: PostPageProps) => {
             <ul className='pb-4 mb-4 border-b border-gray-200 dark:border-text-light'>
               {postInfo.tags.map((tag) => (
                 <li key={tag} className='inline-block leading-9 mr-2'>
-                  <Link href={`/?tags=${tag}`} key={tag}>
+                  <Link href={`/?tag=${tag}`} key={tag}>
                     <span className='bg-gray-200 rounded-3xl px-2.5 py-1 text-sm text-gray-70 dark:bg-gray-700 dark:text-text-dark'>
                       {tag}
                     </span>
@@ -67,7 +68,7 @@ const PostPage = async ({ params }: PostPageProps) => {
           </div>
           <div className='relative w-full rounded-lg overflow-hidden aspect-video mb-8'>
             <Image
-              src={postInfo.thumbnail}
+              src={postInfo.thumbnail || '/images/thumbnail.png'}
               alt={postInfo.title}
               className='w-full h-full object-cover'
               width={1280}
@@ -80,6 +81,7 @@ const PostPage = async ({ params }: PostPageProps) => {
           <div className='prose dark:prose-dark max-w-none'>{mdxSource}</div>
         </div>
       </article>
+      <PostNavigation prevPost={prevPost} nextPost={nextPost} />
       <Comments />
     </>
   );

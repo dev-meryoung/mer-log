@@ -12,6 +12,7 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
 
   const handleClick = (id: string) => {
     const element = document.getElementById(id);
+
     if (element) {
       const position =
         element.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
@@ -32,10 +33,12 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
 
     headings.forEach(({ id }) => {
       const element = document.getElementById(id);
+
       if (element) {
         const elementTop =
           element.getBoundingClientRect().top + window.scrollY - HEADER_OFFSET;
         const distance = Math.abs(scrollPosition - elementTop);
+
         if (distance < closestDistance && elementTop < scrollPosition + 4) {
           closestDistance = distance;
           closestId = id;
@@ -78,7 +81,9 @@ const IndexNavigation = ({ headings }: IndexNavigationProps) => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  if (!showNav) return null;
+  if (!showNav || headings.length === 0) {
+    return null;
+  }
 
   const minLevel = Math.min(...headings.map((h) => h.level));
 
