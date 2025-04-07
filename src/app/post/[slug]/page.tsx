@@ -67,7 +67,7 @@ const PostPage = async ({ params }: PostPageProps) => {
           </div>
           <div className='relative w-full rounded-lg overflow-hidden aspect-video mb-8'>
             <Image
-              src={postInfo.thumbnail}
+              src={postInfo.thumbnail || '/images/thumbnail.png'}
               alt={postInfo.title}
               className='w-full h-full object-cover'
               width={1280}

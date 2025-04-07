@@ -40,17 +40,23 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
     const posts = await Promise.all(
       postFolders.map(async (folderName) => {
         const filePath = path.join(postsDir, folderName, 'index.mdx');
+        const defaultThumbnail = '/images/thumbnail.png';
 
         try {
           const fileContents = await fs.readFile(filePath, 'utf8');
           const { data } = matter(fileContents);
-          const blurDataURL = await generateBlurDataForImage(data.thumbnail);
+          const isValidThumbnail =
+            typeof data.thumbnail === 'string' && data.thumbnail.trim() !== '';
+          const thumbnailURL = isValidThumbnail
+            ? data.thumbnail
+            : defaultThumbnail;
+          const blurDataURL = await generateBlurDataForImage(thumbnailURL);
 
           return {
             title: data.title,
             description: data.description,
             date: data.date,
-            thumbnail: data.thumbnail,
+            thumbnail: thumbnailURL,
             tags: data.tags,
             slug: folderName,
             blurDataURL,
@@ -126,10 +132,19 @@ export const getPost = async (slug: string): Promise<PostData> => {
   });
 
   const summary = extractParagraphs(content, 150);
-  const blurDataURL = await generateBlurDataForImage(data.thumbnail);
+  const defaultThumbnail = '/images/thumbnail.png';
+  const isValidThumbnail =
+    typeof data.thumbnail === 'string' && data.thumbnail.trim() !== '';
+  const thumbnailURL = isValidThumbnail ? data.thumbnail : defaultThumbnail;
+  const blurDataURL = await generateBlurDataForImage(thumbnailURL);
 
   return {
-    postInfo: { ...data, slug, blurDataURL } as PostInfo,
+    postInfo: {
+      ...data,
+      slug,
+      thumbnail: thumbnailURL,
+      blurDataURL,
+    } as PostInfo,
     mdxSource: mdxSource as ReactElement<MDXRemoteProps>,
     headings,
     summary,
