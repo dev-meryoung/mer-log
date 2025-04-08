@@ -2,14 +2,18 @@ import type { Metadata } from 'next';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const DEFAULT_TITLE = 'mer-log';
-const DEFAULT_DESCRIPTION = '프론트엔드 기술 블로그, mer-log';
+const DEFAULT_DESCRIPTION =
+  '함께하고 싶은 프론트엔드 개발자가 되어가는 과정을 기록하는 기술 블로그, mer-log';
 const DEFAULT_KEYWORDS = [
   '프론트엔드',
+  '개발자',
   '기술 블로그',
   'Web',
-  'Junior',
   'Frontend',
   'Developer',
+  'Next.js',
+  'React',
+  'Markdown',
   'Blog',
 ];
 
