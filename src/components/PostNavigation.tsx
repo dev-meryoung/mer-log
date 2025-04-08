@@ -12,7 +12,7 @@ const PostNavigation = ({ prevPost, nextPost }: PostNavigationProps) => (
       {prevPost ? (
         <Link
           href={`/post/${prevPost.slug}`}
-          className='w-full flex flex-col gap-1.5 p-4 md:p-5 dark:text-text-dark hover:underline'
+          className='w-full flex flex-col gap-1.5 p-4 md:p-5 hover:text-secondary dark:text-text-dark dark:hover:text-blue-600'
         >
           <p className='text-base md:text-lg font-bold'>← 이전 글</p>
           <p className='text-sm md:text-base'>{prevPost.title}</p>
@@ -23,7 +23,7 @@ const PostNavigation = ({ prevPost, nextPost }: PostNavigationProps) => (
             ← 이전 글
           </p>
           <p className='text-sm md:text-base text-gray-400 dark:text-gray-500'>
-            이전 글이 존재하지 않습니다.
+            -
           </p>
         </div>
       )}
@@ -32,7 +32,7 @@ const PostNavigation = ({ prevPost, nextPost }: PostNavigationProps) => (
       {nextPost ? (
         <Link
           href={`/post/${nextPost.slug}`}
-          className='w-full grid grid-rows-[auto_1fr] gap-1.5 p-4 md:p-5 text-right dark:text-text-dark hover:underline'
+          className='w-full grid grid-rows-[auto_1fr] gap-1.5 p-4 md:p-5 text-right hover:text-secondary dark:text-text-dark dark:hover:text-blue-600'
         >
           <p className='text-base md:text-lg font-bold'>다음 글 →</p>
           <p className='text-sm md:text-base'>{nextPost.title}</p>
@@ -43,7 +43,7 @@ const PostNavigation = ({ prevPost, nextPost }: PostNavigationProps) => (
             다음 글 →
           </p>
           <p className='text-sm md:text-base text-gray-400 dark:text-gray-500'>
-            다음 글이 존재하지 않습니다.
+            -
           </p>
         </div>
       )}

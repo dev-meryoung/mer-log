@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { ReactElement } from 'react';
 import matter from 'gray-matter';
+import { notFound } from 'next/navigation';
 import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
 import rehypePrettyCode from 'rehype-pretty-code';
 import MDXComponents from '@/components/MDXComponents';
@@ -101,6 +102,13 @@ export const getAllTags = async (): Promise<string[]> => {
 export const getPost = async (slug: string): Promise<PostData> => {
   const postDir = path.join(process.cwd(), 'public', 'posts', slug);
   const filePath = path.join(postDir, 'index.mdx');
+
+  try {
+    await fs.access(filePath);
+  } catch {
+    notFound();
+  }
+
   const fileContents = await fs.readFile(filePath, 'utf8');
   const { data, content } = matter(fileContents);
 
