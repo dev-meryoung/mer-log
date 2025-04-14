@@ -10,8 +10,14 @@ const Pagination: React.FC<PaginationProps> = ({
   onPageChange,
 }) => {
   const groupSize = 5;
+  const safeCurrentPage =
+    !Number.isInteger(currentPage) ||
+    currentPage < 1 ||
+    currentPage > totalPages
+      ? 1
+      : currentPage;
   const currentGroupStart =
-    Math.floor((currentPage - 1) / groupSize) * groupSize + 1;
+    Math.floor((safeCurrentPage - 1) / groupSize) * groupSize + 1;
   const currentGroupEnd = Math.min(
     currentGroupStart + groupSize - 1,
     totalPages
@@ -31,9 +37,9 @@ const Pagination: React.FC<PaginationProps> = ({
   return (
     <div className='my-4 flex justify-center items-center space-x-2 dark:text-text-dark'>
       <button
-        className={`${baseLinkClasses} ${currentPage === 1 ? disabledClasses : ''}`}
+        className={`${baseLinkClasses} ${safeCurrentPage === 1 ? disabledClasses : ''}`}
         onClick={() => onPageChange(1)}
-        disabled={currentPage === 1}
+        disabled={safeCurrentPage === 1}
       >
         처음
       </button>
@@ -47,7 +53,7 @@ const Pagination: React.FC<PaginationProps> = ({
       {paginationGroup.map((page) => (
         <button
           key={page}
-          className={`${baseLinkClasses} ${page === currentPage ? activeClasses : ''}`}
+          className={`${baseLinkClasses} ${page === safeCurrentPage ? activeClasses : ''}`}
           onClick={() => onPageChange(page)}
         >
           {page}
@@ -61,9 +67,9 @@ const Pagination: React.FC<PaginationProps> = ({
         다음
       </button>
       <button
-        className={`${baseLinkClasses} ${currentPage === totalPages ? disabledClasses : ''}`}
+        className={`${baseLinkClasses} ${safeCurrentPage === totalPages ? disabledClasses : ''}`}
         onClick={() => onPageChange(totalPages)}
-        disabled={currentPage === totalPages}
+        disabled={safeCurrentPage === totalPages}
       >
         끝
       </button>
