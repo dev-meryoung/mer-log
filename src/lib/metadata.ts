@@ -37,10 +37,7 @@ export const defaultMetadata = ({
   image?: string;
   url?: string;
 }): Metadata => ({
-  title: {
-    default: title,
-    template: `%s | ${DEFAULT_TITLE}`,
-  },
+  title,
   description,
   keywords: [...DEFAULT_KEYWORDS, ...keywords],
   openGraph: {
