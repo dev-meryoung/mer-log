@@ -43,11 +43,16 @@ const TagAndPostList: React.FC<TagAndPostListProps> = ({
 
   const postsPerPage = 5;
   const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-  const startIndex = (currentPage - 1) * postsPerPage;
-  const currentPosts = filteredPosts.slice(
-    startIndex,
-    startIndex + postsPerPage
-  );
+
+  const isPageValid =
+    !isNaN(currentPage) && currentPage >= 1 && currentPage <= totalPages;
+
+  const currentPosts = isPageValid
+    ? filteredPosts.slice(
+        (currentPage - 1) * postsPerPage,
+        currentPage * postsPerPage
+      )
+    : [];
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -97,12 +102,12 @@ const TagAndPostList: React.FC<TagAndPostListProps> = ({
             ))}
           </div>
         ) : (
-          <div className='flex justify-center my-4 p-12 md:p-20 shadow-md bg-white rounded-lg dark:bg-darkActive dark:text-text-dark'>
-            현재 작성된 게시글이 없습니다.
+          <div className='flex justify-center my-4 p-12 text-sm md:text-[16px] md:p-20 shadow-md bg-white rounded-lg dark:bg-darkActive dark:text-text-dark'>
+            포스트가 존재하지 않습니다.
           </div>
         )}
       </div>
-      {filteredPosts.length > postsPerPage ? (
+      {filteredPosts.length > postsPerPage && isPageValid ? (
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
