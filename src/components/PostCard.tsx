@@ -31,7 +31,7 @@ const PostCard: React.FC<PostCardProps> = ({
       />
     </div>
     <div className='relative flex flex-col w-full min-h-[164px] p-4 md:min-h-[188px] md:w-2/3 md:px-8 md:py-6 gap-2 flex-grow'>
-      <h2 className='font-bold text-lg md:text-xl lg:text-2xl line-clamp-2 group-hover:text-secondary dark:group-hover:text-blue-600 dark:text-text-dark'>
+      <h2 className='font-bold text-lg md:text-xl lg:text-2xl line-clamp-2 group-hover:text-secondary dark:group-hover:text-blue-700 dark:text-text-dark'>
         {title}
       </h2>
       <p className='line-clamp-2 text-sm md:text-[16px] text-gray-600 dark:text-gray-300'>

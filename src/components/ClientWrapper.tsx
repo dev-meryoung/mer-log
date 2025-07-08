@@ -66,7 +66,7 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ allTags, allPosts }) => {
 
   return (
     <div
-      className={`w-full px-2 select-none transition-opacity duration-300 ${isPending ? 'opacity-50 cursor-default pointer-events-none' : 'opacity-100'}`}
+      className={`w-full px-2 transition-opacity duration-300 ${isPending ? 'opacity-50 cursor-default pointer-events-none' : 'opacity-100'}`}
     >
       <TagList
         allTags={allTags}
