@@ -1,5 +1,3 @@
-export const dynamic = 'force-static';
-
 import type { Metadata } from 'next';
 import '@/styles/globals.css';
 import localFont from 'next/font/local';
