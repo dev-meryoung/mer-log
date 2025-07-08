@@ -16,7 +16,7 @@
   }
 
   .dark ::selection {
-    @apply bg-blue-600 text-text-dark;
+    @apply bg-blue-700 text-text-dark;
   }
 }
 
