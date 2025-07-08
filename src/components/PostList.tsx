@@ -27,7 +27,6 @@ const PostList: React.FC<PostListProps> = ({
         {posts.map((post) => (
           <Link key={post.slug} href={`/post/${post.slug}`} className='w-full'>
             <PostCard
-              key={post.slug}
               title={post.title}
               description={post.description}
               thumbnail={post.thumbnail}

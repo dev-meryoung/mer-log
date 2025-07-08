@@ -1,6 +1,6 @@
 'use client';
 
-interface TagProps extends React.HTMLProps<HTMLButtonElement> {
+interface TagProps {
   label: string;
   isActive: boolean;
   onClick: () => void;
