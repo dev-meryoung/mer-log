@@ -1,21 +1,26 @@
 'use client';
 
-import { useMemo, useTransition } from 'react';
+import { useEffect, useMemo, useState, useTransition } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PostInfo } from '@/lib/posts';
 import PostList from './PostList';
 import TagList from './TagList';
 
-interface ClientWrapperProps {
+interface HomeWrapperProps {
   allTags: string[];
   allPosts: PostInfo[];
 }
 
-const ClientWrapper: React.FC<ClientWrapperProps> = ({ allTags, allPosts }) => {
+const HomeWrapper: React.FC<HomeWrapperProps> = ({ allTags, allPosts }) => {
   const [isPending, startTransition] = useTransition();
+  const [isMounted, setIsMounted] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const selectedTags = useMemo(
     () => searchParams.getAll('tag'),
@@ -66,7 +71,7 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ allTags, allPosts }) => {
 
   return (
     <div
-      className={`w-full px-2 transition-opacity duration-300 ${isPending ? 'opacity-50 cursor-default pointer-events-none' : 'opacity-100'}`}
+      className={`w-full px-2 ${isMounted ? 'animate-fadeIn' : 'opacity-0'} ${isPending ? 'opacity-50 cursor-default pointer-events-none' : ''}`}
     >
       <TagList
         allTags={allTags}
@@ -83,4 +88,4 @@ const ClientWrapper: React.FC<ClientWrapperProps> = ({ allTags, allPosts }) => {
   );
 };
 
-export default ClientWrapper;
+export default HomeWrapper;
