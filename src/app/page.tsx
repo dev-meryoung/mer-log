@@ -1,6 +1,5 @@
 import { Suspense } from 'react';
-import ClientWrapper from '@/components/ClientWrapper';
-import HomeSkeleton from '@/components/HomeSkeleton';
+import HomeWrapper from '@/components/HomeWrapper';
 import { getAllPosts, getAllTags } from '@/lib/posts';
 
 const Home = async () => {
@@ -8,8 +7,8 @@ const Home = async () => {
   const allTags = await getAllTags();
 
   return (
-    <Suspense fallback={<HomeSkeleton />}>
-      <ClientWrapper allPosts={allPosts} allTags={allTags} />
+    <Suspense fallback={<div className='h-[1400px]' />}>
+      <HomeWrapper allPosts={allPosts} allTags={allTags} />
     </Suspense>
   );
 };

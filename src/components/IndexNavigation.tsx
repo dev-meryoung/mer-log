@@ -8,7 +8,7 @@ interface IndexNavigationProps {
 
 const IndexNavigation = ({ headings }: IndexNavigationProps) => {
   const [activeId, setActiveId] = useState<string | null>(null);
-  const HEADER_OFFSET = 64;
+  const HEADER_OFFSET = 70;
 
   const handleClick = (id: string) => {
     const element = document.getElementById(id);
