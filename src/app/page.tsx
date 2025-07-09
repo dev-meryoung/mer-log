@@ -7,7 +7,7 @@ const Home = async () => {
   const allTags = await getAllTags();
 
   return (
-    <Suspense fallback={null}>
+    <Suspense fallback={<div className='h-[1400px]' />}>
       <HomeWrapper allPosts={allPosts} allTags={allTags} />
     </Suspense>
   );
