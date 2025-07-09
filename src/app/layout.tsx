@@ -35,12 +35,10 @@ const RootLayout = ({
         content='2HAw1C-cpAskXgHSDXNzfvo_ZcGuEyEC4DAqCATGaUw'
       />
     </head>
-    <body className='dark:bg-background-dark flex flex-col min-h-screen'>
+    <body className='dark:bg-background-dark'>
       <ThemeProvider attribute='class'>
         <Header />
-        <main className='container flex-grow mx-auto p-4 mt-16'>
-          {children}
-        </main>
+        <main className='container flex-1 mx-auto p-4 mt-16'>{children}</main>
         <Footer />
       </ThemeProvider>
     </body>
