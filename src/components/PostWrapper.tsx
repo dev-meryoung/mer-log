@@ -32,7 +32,11 @@ const PostWrapper: React.FC<PostWrapperProps> = ({
   }, []);
 
   return (
-    <div className={`${isMounted ? 'animate-fadeIn' : 'opacity-0'}`}>
+    <div
+      className={`transition-opacity duration-500 ease-in-out ${
+        isMounted ? 'opacity-100' : 'opacity-0'
+      }`}
+    >
       <article className='w-full mx-auto p-5 md:p-10 rounded-lg bg-white shadow-md dark:bg-darkActive'>
         <div className='relative'>
           <IndexNavigation headings={headings} />

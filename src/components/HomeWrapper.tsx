@@ -71,7 +71,9 @@ const HomeWrapper: React.FC<HomeWrapperProps> = ({ allTags, allPosts }) => {
 
   return (
     <div
-      className={`w-full px-2 ${isMounted ? 'animate-fadeIn' : 'opacity-0'} ${isPending ? 'opacity-50 cursor-default pointer-events-none' : ''}`}
+      className={`transition-opacity duration-500 ease-in-out ${
+        isMounted ? 'opacity-100' : 'opacity-0'
+      } ${isPending ? 'opacity-50 pointer-events-none' : ''}`}
     >
       <TagList
         allTags={allTags}
