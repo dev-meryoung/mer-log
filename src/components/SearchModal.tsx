@@ -37,6 +37,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isModalOpen, onClose }) => {
     }
 
     router.push(`/search?keyword=${encodeURIComponent(keyword)}`);
+    setKeyword('');
     onClose();
   };
 

@@ -99,6 +99,62 @@ export const getAllTags = async (): Promise<string[]> => {
   return sortedTags;
 };
 
+export const getSearchedPosts = async (
+  keyword: string
+): Promise<PostInfo[]> => {
+  const postsDir = path.join(process.cwd(), 'public', 'posts');
+
+  if (!keyword) {
+    return [];
+  }
+
+  try {
+    const postFolders = await fs.readdir(postsDir);
+    const target = keyword.toLowerCase();
+
+    const matchedPosts = await Promise.all(
+      postFolders.map(async (folderName) => {
+        const filePath = path.join(postsDir, folderName, 'index.mdx');
+
+        try {
+          const fileContents = await fs.readFile(filePath, 'utf8');
+          const { data, content } = matter(fileContents);
+
+          const titleMatch = data.title.toLowerCase().includes(target);
+          const contentMatch = content.toLowerCase().includes(target);
+
+          if (titleMatch || contentMatch) {
+            const { thumbnailURL, blurDataURL } = await getThumbnailAndBlur(
+              data.thumbnail
+            );
+            return {
+              title: data.title,
+              description: data.description,
+              date: data.date,
+              thumbnail: thumbnailURL,
+              tags: data.tags,
+              slug: folderName,
+              blurDataURL,
+            } as PostInfo;
+          }
+
+          return null;
+        } catch {
+          return null;
+        }
+      })
+    );
+
+    return matchedPosts
+      .filter((post): post is PostInfo => post !== null)
+      .sort((a, b) => compareDatesDesc(a.date, b.date));
+  } catch (error) {
+    console.error(error);
+
+    return [];
+  }
+};
+
 export const getPost = async (slug: string): Promise<PostData> => {
   const postDir = path.join(process.cwd(), 'public', 'posts', slug);
   const filePath = path.join(postDir, 'index.mdx');
