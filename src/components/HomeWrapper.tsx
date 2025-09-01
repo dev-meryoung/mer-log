@@ -55,6 +55,7 @@ const HomeWrapper: React.FC<HomeWrapperProps> = ({ allTags, allPosts }) => {
       : [...selectedTags, tag];
 
     const params = new URLSearchParams();
+
     newTags.forEach((t) => params.append('tag', t));
     startTransition(() => {
       router.push(`${pathname}?${params.toString()}`);
@@ -63,6 +64,7 @@ const HomeWrapper: React.FC<HomeWrapperProps> = ({ allTags, allPosts }) => {
 
   const handlePageChange = (page: number) => {
     const params = new URLSearchParams(searchParams.toString());
+
     params.set('page', page.toString());
     startTransition(() => {
       router.push(`${pathname}?${params.toString()}`);
