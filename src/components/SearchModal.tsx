@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
@@ -14,20 +14,27 @@ interface SearchModalProps {
 const SearchModal: React.FC<SearchModalProps> = ({ isModalOpen, onClose }) => {
   const [keyword, setKeyword] = useState('');
   const router = useRouter();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+
     if (isModalOpen) {
       document.body.classList.add('overflow-hidden');
+      inputRef.current?.focus();
+      window.addEventListener('keydown', handleKeyDown);
     }
 
     return () => {
       document.body.classList.remove('overflow-hidden');
+      setKeyword('');
+      window.removeEventListener('keydown', handleKeyDown);
     };
-  }, [isModalOpen]);
-
-  if (!isModalOpen) {
-    return null;
-  }
+  }, [isModalOpen, onClose]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,8 +49,16 @@ const SearchModal: React.FC<SearchModalProps> = ({ isModalOpen, onClose }) => {
   };
 
   return (
-    <div className='fixed flex justify-center inset-0 z-50 bg-background-light dark:bg-background-dark'>
-      <div className='w-full max-w-3xl mx-auto'>
+    <div
+      className={`fixed flex justify-center inset-0 z-50 bg-background-light dark:bg-background-dark transition-opacity duration-300 ease-in-out ${
+        isModalOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}
+    >
+      <div
+        className={`w-full max-w-3xl mx-auto transition-transform duration-300 ease-in-out ${
+          isModalOpen ? 'transform-none' : '-translate-y-10'
+        }`}
+      >
         <div className='relative flex justify-center items-center h-16 select-none'>
           <Image
             src='/images/logo-light.svg'
@@ -77,9 +92,10 @@ const SearchModal: React.FC<SearchModalProps> = ({ isModalOpen, onClose }) => {
           onSubmit={handleSearch}
         >
           <input
+            ref={inputRef}
             type='text'
             className='w-full max-w-3xl h-full pl-4 pr-10 shadow-md bg-white rounded-lg dark:text-text-dark dark:bg-darkActive outline-none focus:outline-primary dark:focus:outline-background-light'
-            placeholder='검색어(제목, 내용)를 입력해 주세요.'
+            placeholder='검색어를 입력해 주세요.'
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           />
