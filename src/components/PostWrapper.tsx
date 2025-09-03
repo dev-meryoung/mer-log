@@ -33,6 +33,7 @@ const PostWrapper: React.FC<PostWrapperProps> = ({
 
   return (
     <div
+      data-is-post-page='true'
       className={`transition-opacity duration-500 ease-in-out ${
         isMounted ? 'opacity-100' : 'opacity-0'
       }`}

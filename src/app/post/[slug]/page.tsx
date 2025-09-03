@@ -1,3 +1,5 @@
+export const dynamicParams = false;
+
 import { Metadata } from 'next';
 import PostWrapper from '@/components/PostWrapper';
 import { defaultMetadata } from '@/lib/metadata';
