@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -13,11 +13,20 @@ import ThemeToggleButton from '@/components/ThemeToggleButton';
 const Header = () => {
   const pathname = usePathname();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showProgressBar, setShowProgressBar] = useState(false);
+
+  useEffect(() => {
+    const isPostPage =
+      pathname.startsWith('/post') &&
+      document.querySelector('[data-is-post-page="true"]');
+
+    setShowProgressBar(!!isPostPage);
+  }, [pathname]);
 
   return (
     <>
       <header className='fixed top-0 w-full h-16 px-4 flex items-center justify-center border-b border-gray-200 bg-background-light z-50 select-none overflow-hidden dark:bg-background-dark dark:border-darkActive'>
-        {pathname.startsWith('/post') && <ScrollProgressBar />}
+        {showProgressBar && <ScrollProgressBar />}
         <div className='container flex justify-between items-center'>
           <Link href='/' tabIndex={-1}>
             <Image

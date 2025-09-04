@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const DEFAULT_TITLE = 'mer-log';
+const DEFAULT_TITLE = 'merlog';
 const DEFAULT_DESCRIPTION =
-  '함께하고 싶은 프론트엔드 개발자가 되어가는 과정을 기록하는 기술 블로그, mer-log';
+  '함께하고 싶은 개발자가 되어가는 과정을 기록하는 기술 블로그, merlog';
 const DEFAULT_KEYWORDS = [
   '프론트엔드',
   '개발자',
   '기술 블로그',
+  '머영',
   'Web',
   'Frontend',
   'Developer',
@@ -15,6 +16,8 @@ const DEFAULT_KEYWORDS = [
   'React',
   'Markdown',
   'Blog',
+  'merlog',
+  'mer-log',
 ];
 
 const DEFAULT_IMAGE = {
@@ -46,12 +49,12 @@ export const defaultMetadata = ({
     title,
     description,
     url,
-    siteName: 'mer-log',
+    siteName: 'merlog',
     images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@mer-log',
+    site: '@merlog',
     creator: '@meryoung',
     title,
     description,
