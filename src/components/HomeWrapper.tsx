@@ -1,10 +1,11 @@
 'use client';
 
-import { useEffect, useMemo, useState, useTransition } from 'react';
+import { useMemo, useTransition } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { PostInfo } from '@/lib/posts';
 import PostList from './PostList';
 import TagList from './TagList';
+import TransitionWrapper from './TransitionWrapper';
 
 interface HomeWrapperProps {
   allTags: string[];
@@ -13,14 +14,9 @@ interface HomeWrapperProps {
 
 const HomeWrapper: React.FC<HomeWrapperProps> = ({ allTags, allPosts }) => {
   const [isPending, startTransition] = useTransition();
-  const [isMounted, setIsMounted] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const selectedTags = useMemo(
     () => searchParams.getAll('tag'),
@@ -72,11 +68,7 @@ const HomeWrapper: React.FC<HomeWrapperProps> = ({ allTags, allPosts }) => {
   };
 
   return (
-    <div
-      className={`transition-opacity duration-500 ease-in-out ${
-        isMounted ? 'opacity-100' : 'opacity-0'
-      } ${isPending ? 'opacity-50 pointer-events-none' : ''}`}
-    >
+    <TransitionWrapper isPending={isPending}>
       <TagList
         allTags={allTags}
         selectedTags={selectedTags}
@@ -88,7 +80,7 @@ const HomeWrapper: React.FC<HomeWrapperProps> = ({ allTags, allPosts }) => {
         totalPages={totalPages}
         onPageChange={handlePageChange}
       />
-    </div>
+    </TransitionWrapper>
   );
 };
 

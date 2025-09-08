@@ -39,6 +39,8 @@ const SearchModal: React.FC<SearchModalProps> = ({ isModalOpen, onClose }) => {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
 
+    inputRef.current?.blur();
+
     if (!keyword.trim()) {
       return;
     }
