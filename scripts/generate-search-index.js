@@ -77,7 +77,12 @@ async function generateSearchIndex() {
       .filter(Boolean)
       .sort((a, b) => new Date(b.date) - new Date(a.date));
 
-    const outputPath = path.join(process.cwd(), 'public', 'search-data.json');
+    const outputPath = path.join(
+      process.cwd(),
+      'public',
+      'data',
+      'search-data.json'
+    );
     await fs.writeFile(outputPath, JSON.stringify(validPosts));
   } catch (error) {
     console.error(error);

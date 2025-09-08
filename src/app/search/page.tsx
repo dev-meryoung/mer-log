@@ -10,7 +10,12 @@ const SearchPage = async ({
 }) => {
   const { keyword } = await searchParams;
 
-  const filePath = path.join(process.cwd(), 'public', 'search-data.json');
+  const filePath = path.join(
+    process.cwd(),
+    'public',
+    'data',
+    'search-data.json'
+  );
   const fileContents = await fs.readFile(filePath, 'utf8');
   const allPosts: PostInfo[] = JSON.parse(fileContents);
 
