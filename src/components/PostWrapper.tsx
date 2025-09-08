@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MDXRemoteProps } from 'next-mdx-remote/rsc';
@@ -9,6 +9,7 @@ import { formatDate } from '@/utils/dateUtils';
 import Comments from './Comments';
 import IndexNavigation from './IndexNavigation';
 import PostNavigation from './PostNavigation';
+import TransitionWrapper from './TransitionWrapper';
 
 interface PostWrapperProps {
   postInfo: PostInfo;
@@ -24,19 +25,9 @@ const PostWrapper: React.FC<PostWrapperProps> = ({
   headings,
   prevPost,
   nextPost,
-}) => {
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  return (
-    <div
-      className={`transition-opacity duration-500 ease-in-out ${
-        isMounted ? 'opacity-100' : 'opacity-0'
-      }`}
-    >
+}) => (
+  <TransitionWrapper>
+    <div data-is-post-page='true'>
       <article className='w-full mx-auto p-5 md:p-10 rounded-lg bg-white shadow-md dark:bg-darkActive'>
         <div className='relative'>
           <IndexNavigation headings={headings} />
@@ -77,7 +68,7 @@ const PostWrapper: React.FC<PostWrapperProps> = ({
       <PostNavigation prevPost={prevPost} nextPost={nextPost} />
       <Comments />
     </div>
-  );
-};
+  </TransitionWrapper>
+);
 
 export default PostWrapper;
