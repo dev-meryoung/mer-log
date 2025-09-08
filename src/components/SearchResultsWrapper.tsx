@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useTransition } from 'react';
+import { useTransition } from 'react';
 import {
   notFound,
   usePathname,
@@ -9,6 +9,7 @@ import {
 } from 'next/navigation';
 import { PostInfo } from '@/lib/posts';
 import PostList from './PostList';
+import TransitionWrapper from './TransitionWrapper';
 
 interface SearchResultsWrapperProps {
   initialPosts: PostInfo[];
@@ -20,18 +21,10 @@ const SearchResultsWrapper = ({
   keyword,
 }: SearchResultsWrapperProps) => {
   const [isPending, startTransition] = useTransition();
-  const [isMounted, setIsMounted] = useState(false);
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
   const currentPage = Number(searchParams.get('page')) || 1;
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsMounted(true);
-    }, 10);
-    return () => clearTimeout(timer);
-  }, []);
 
   const postsPerPage = 5;
   const totalPages = Math.ceil(initialPosts.length / postsPerPage);
@@ -50,11 +43,7 @@ const SearchResultsWrapper = ({
   };
 
   return (
-    <div
-      className={`transition-opacity duration-500 ease-in-out ${
-        isMounted ? 'opacity-100' : 'opacity-0'
-      } ${isPending ? 'opacity-50 pointer-events-none' : ''}`}
-    >
+    <TransitionWrapper isPending={isPending}>
       <h1 className='inline-block text-2xl md:text-3xl font-semibold my-4 md:my-8'>
         <span className='text-secondary dark:text-blue-700'>{`🔍'${keyword}'`}</span>
         <span className='text-gray-800 dark:text-gray-200'>
@@ -79,7 +68,7 @@ const SearchResultsWrapper = ({
           </p>
         </div>
       )}
-    </div>
+    </TransitionWrapper>
   );
 };
 

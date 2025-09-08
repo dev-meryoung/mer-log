@@ -57,7 +57,7 @@ const SearchModal: React.FC<SearchModalProps> = ({ isModalOpen, onClose }) => {
       }`}
     >
       <div
-        className={`w-full max-w-3xl mx-auto transition-transform duration-500 ease-in-out ${
+        className={`w-full max-w-3xl mx-auto transition-transform duration-300 ease-in-out ${
           isModalOpen ? 'transform-none' : '-translate-y-10'
         }`}
       >

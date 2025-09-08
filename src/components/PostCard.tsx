@@ -21,7 +21,7 @@ const PostCard: React.FC<PostCardProps> = ({
       <Image
         src={thumbnail}
         alt={title}
-        className='w-full h-full object-cover transition-all duration-500 group-hover:scale-105'
+        className='w-full h-full object-cover transition-all duration-300 group-hover:scale-105'
         width={400}
         height={225}
         sizes='(max-width: 768px) 100vw, 33vw'
