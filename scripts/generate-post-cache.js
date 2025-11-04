@@ -2,6 +2,7 @@ const fs = require('fs/promises');
 const path = require('path');
 const matter = require('gray-matter');
 const { getPlaiceholder } = require('plaiceholder');
+const { Document } = require('flexsearch');
 
 async function generateBlurDataForImage(imagePath) {
   const fullPath = path.join(process.cwd(), 'public', imagePath);
@@ -35,16 +36,57 @@ async function getThumbnailAndBlur(thumbnail) {
   return { thumbnailURL, blurDataURL };
 }
 
-async function generateSearchIndex() {
+async function stripMarkdown(mdContent) {
+  try {
+    const { remark } = await import('remark');
+    const { default: strip } = await import('strip-markdown');
+    const file = await remark().use(strip).process(mdContent);
+
+    return String(file);
+  } catch (error) {
+    console.error(error);
+
+    return '';
+  }
+}
+
+async function generatePostCache() {
   const postsDir = path.join(process.cwd(), 'public', 'posts');
+  const dataDir = path.join(process.cwd(), 'public', 'data');
+  const searchIndexDir = path.join(dataDir, 'search');
+
+  const searchIndex = new Document({
+    charset: 'utf-8',
+    document: {
+      id: 'id',
+      index: ['title', 'description', 'tags', 'content'],
+      store: ['slug'],
+    },
+  });
+  let postCounter = 0;
 
   try {
+    await fs.mkdir(dataDir, { recursive: true });
+    await fs.mkdir(searchIndexDir, { recursive: true });
+
     const postFolders = await fs.readdir(postsDir);
 
     const allPostsData = await Promise.all(
       postFolders.map(async (folderName) => {
         const itemPath = path.join(postsDir, folderName);
-        const stats = await fs.stat(itemPath);
+        let stats;
+
+        try {
+          stats = await fs.stat(itemPath);
+        } catch (error) {
+          return null;
+        }
+
+        try {
+          stats = await fs.stat(itemPath);
+        } catch (error) {
+          return null;
+        }
 
         if (stats.isDirectory()) {
           const filePath = path.join(itemPath, 'index.mdx');
@@ -56,6 +98,18 @@ async function generateSearchIndex() {
               data.thumbnail
             );
 
+            const strippedContent = await stripMarkdown(content);
+            const tagsString = (data.tags || []).join(' ');
+
+            searchIndex.add({
+              id: postCounter++,
+              slug: folderName,
+              title: data.title,
+              description: data.description,
+              tags: tagsString,
+              content: strippedContent,
+            });
+
             return {
               slug: folderName,
               title: data.title,
@@ -64,9 +118,10 @@ async function generateSearchIndex() {
               tags: data.tags,
               thumbnail: thumbnailURL,
               blurDataURL: blurDataURL,
-              content: content,
             };
           } catch (error) {
+            console.log(error);
+
             return null;
           }
         }
@@ -77,17 +132,20 @@ async function generateSearchIndex() {
     const validPosts = allPostsData
       .filter(Boolean)
       .sort((a, b) => new Date(b.date) - new Date(a.date));
+    const listCachePath = path.join(dataDir, 'post-cache.json');
+    await fs.writeFile(listCachePath, JSON.stringify(validPosts));
 
-    const outputPath = path.join(
-      process.cwd(),
-      'public',
-      'data',
-      'post-cache.json'
-    );
-    await fs.writeFile(outputPath, JSON.stringify(validPosts));
+    const exportPromises = [];
+    searchIndex.export((key, data) => {
+      if (!data) return;
+      const filePath = path.join(searchIndexDir, key);
+      exportPromises.push(fs.writeFile(filePath, data, 'utf-8'));
+    });
+
+    await Promise.all(exportPromises);
   } catch (error) {
     console.error(error);
   }
 }
 
-generateSearchIndex();
+generatePostCache();
