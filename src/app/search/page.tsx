@@ -1,7 +1,57 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { Document } from 'flexsearch';
 import SearchResultsWrapper from '@/components/SearchResultsWrapper';
 import { PostInfo } from '@/lib/posts';
+
+const postCacheDefinition = {
+  charset: 'utf-8',
+  document: {
+    id: 'id',
+    index: ['title', 'description', 'tags', 'content'],
+    store: ['slug'],
+  },
+};
+
+async function getSearchIndex() {
+  const searchIndex = new Document(postCacheDefinition);
+  const searchDir = path.join(process.cwd(), 'public', 'data', 'search');
+
+  try {
+    const indexFiles = await fs.readdir(searchDir);
+
+    for (const file of indexFiles) {
+      const filePath = path.join(searchDir, file);
+      const data = await fs.readFile(filePath, 'utf-8');
+      searchIndex.import(file, data);
+    }
+  } catch (error) {
+    console.error(error);
+
+    return new Document(postCacheDefinition);
+  }
+
+  return searchIndex;
+}
+
+async function getAllPostsMap() {
+  const filePath = path.join(
+    process.cwd(),
+    'public',
+    'data',
+    'post-cache.json'
+  );
+  try {
+    const fileContents = await fs.readFile(filePath, 'utf8');
+    const allPosts: PostInfo[] = JSON.parse(fileContents);
+
+    return new Map(allPosts.map((post) => [post.slug, post]));
+  } catch (error) {
+    console.error(error);
+
+    return new Map();
+  }
+}
 
 const SearchPage = async ({
   searchParams,
@@ -10,28 +60,27 @@ const SearchPage = async ({
 }) => {
   const { keyword } = await searchParams;
 
-  const filePath = path.join(
-    process.cwd(),
-    'public',
-    'data',
-    'search-data.json'
-  );
-  const fileContents = await fs.readFile(filePath, 'utf8');
-  const allPosts: PostInfo[] = JSON.parse(fileContents);
+  const [searchIndex, postMap] = await Promise.all([
+    getSearchIndex(),
+    getAllPostsMap(),
+  ]);
 
-  const filteredPosts = keyword
-    ? allPosts.filter((post) => {
-        const target = keyword.toLowerCase();
-        const titleMatch = post.title.toLowerCase().includes(target);
-        const descriptionMatch = post.description
-          .toLowerCase()
-          .includes(target);
-        const tagsMatch = post.tags.some((tag) =>
-          tag.toLowerCase().includes(target)
-        );
-        return titleMatch || descriptionMatch || tagsMatch;
-      })
-    : [];
+  const searchResults = searchIndex.search(keyword, {
+    enrich: true,
+  });
+
+  const uniqueSlugs = new Set<string>();
+  searchResults.forEach((fieldResult) => {
+    fieldResult.result.forEach((hit) => {
+      if (hit.doc && hit.doc.slug) {
+        uniqueSlugs.add(hit.doc.slug as string);
+      }
+    });
+  });
+
+  const filteredPosts = Array.from(uniqueSlugs)
+    .map((slug) => postMap.get(slug))
+    .filter(Boolean) as PostInfo[];
 
   return (
     <SearchResultsWrapper initialPosts={filteredPosts} keyword={keyword} />

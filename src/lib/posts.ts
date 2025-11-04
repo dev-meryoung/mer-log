@@ -15,6 +15,7 @@ export interface PostInfo {
   thumbnail: string;
   date: string;
   tags: string[];
+  content: string;
   slug: string;
   blurDataURL: string;
 }
@@ -46,7 +47,7 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
 
         try {
           const fileContents = await fs.readFile(filePath, 'utf8');
-          const { data } = matter(fileContents);
+          const { data, content } = matter(fileContents);
           const { thumbnailURL, blurDataURL } = await getThumbnailAndBlur(
             data.thumbnail
           );
@@ -57,6 +58,7 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
             date: data.date,
             thumbnail: thumbnailURL,
             tags: data.tags,
+            content,
             slug: folderName,
             blurDataURL,
           } as PostInfo;
