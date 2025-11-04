@@ -14,7 +14,7 @@ const SearchPage = async ({
     process.cwd(),
     'public',
     'data',
-    'search-data.json'
+    'post-cache.json'
   );
   const fileContents = await fs.readFile(filePath, 'utf8');
   const allPosts: PostInfo[] = JSON.parse(fileContents);
@@ -22,14 +22,17 @@ const SearchPage = async ({
   const filteredPosts = keyword
     ? allPosts.filter((post) => {
         const target = keyword.toLowerCase();
-        const titleMatch = post.title.toLowerCase().includes(target);
-        const descriptionMatch = post.description
-          .toLowerCase()
-          .includes(target);
-        const tagsMatch = post.tags.some((tag) =>
-          tag.toLowerCase().includes(target)
-        );
-        return titleMatch || descriptionMatch || tagsMatch;
+        const searchableContent = [
+          post.title,
+          post.description,
+          ...(post.tags || []),
+          post.content,
+        ]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase();
+
+        return searchableContent.includes(target);
       })
     : [];
 
