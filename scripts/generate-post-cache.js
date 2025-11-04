@@ -51,7 +51,7 @@ async function generateSearchIndex() {
 
           try {
             const fileContents = await fs.readFile(filePath, 'utf8');
-            const { data } = matter(fileContents);
+            const { data, content } = matter(fileContents);
             const { thumbnailURL, blurDataURL } = await getThumbnailAndBlur(
               data.thumbnail
             );
@@ -64,8 +64,9 @@ async function generateSearchIndex() {
               tags: data.tags,
               thumbnail: thumbnailURL,
               blurDataURL: blurDataURL,
+              content: content,
             };
-          } catch (e) {
+          } catch (error) {
             return null;
           }
         }
@@ -81,7 +82,7 @@ async function generateSearchIndex() {
       process.cwd(),
       'public',
       'data',
-      'search-data.json'
+      'post-cache.json'
     );
     await fs.writeFile(outputPath, JSON.stringify(validPosts));
   } catch (error) {
