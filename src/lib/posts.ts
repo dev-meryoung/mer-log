@@ -1,6 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { ReactElement } from 'react';
+import { ReactElement, cache } from 'react';
 import matter from 'gray-matter';
 import { notFound } from 'next/navigation';
 import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
@@ -35,7 +35,7 @@ export interface Heading {
   level: number;
 }
 
-export const getAllPosts = async (): Promise<PostInfo[]> => {
+export const getAllPosts = cache(async (): Promise<PostInfo[]> => {
   const postsDir = path.join(process.cwd(), 'public', 'posts');
 
   try {
@@ -76,7 +76,7 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
 
     return [];
   }
-};
+});
 
 export const getAllTags = (posts: PostInfo[]): string[] => {
   const tagFrequency: Record<string, number> = {};
