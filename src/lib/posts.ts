@@ -15,7 +15,7 @@ export interface PostInfo {
   thumbnail: string;
   date: string;
   tags: string[];
-  content: string;
+  content?: string;
   slug: string;
   blurDataURL: string;
 }
