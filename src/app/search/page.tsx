@@ -1,6 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { Document } from 'flexsearch';
+import { notFound } from 'next/navigation';
 import SearchResultsWrapper from '@/components/SearchResultsWrapper';
 import { PostInfo } from '@/lib/posts';
 
@@ -59,13 +60,18 @@ const SearchPage = async ({
   searchParams: Promise<{ [key: string]: string }>;
 }) => {
   const { keyword } = await searchParams;
+  const trimmedKeyword = keyword?.trim();
+
+  if (!trimmedKeyword) {
+    notFound();
+  }
 
   const [searchIndex, postMap] = await Promise.all([
     getSearchIndex(),
     getAllPostsMap(),
   ]);
 
-  const searchResults = searchIndex.search(keyword, {
+  const searchResults = searchIndex.search(trimmedKeyword, {
     enrich: true,
   });
 
@@ -83,7 +89,10 @@ const SearchPage = async ({
     .filter(Boolean) as PostInfo[];
 
   return (
-    <SearchResultsWrapper initialPosts={filteredPosts} keyword={keyword} />
+    <SearchResultsWrapper
+      initialPosts={filteredPosts}
+      keyword={trimmedKeyword}
+    />
   );
 };
 export default SearchPage;
