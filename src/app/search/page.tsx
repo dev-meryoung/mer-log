@@ -1,9 +1,11 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { cache } from 'react';
 import { Document } from 'flexsearch';
 import { notFound } from 'next/navigation';
 import SearchResultsWrapper from '@/components/SearchResultsWrapper';
 import { PostInfo } from '@/lib/posts';
+import { compareDatesDesc } from '@/utils/dateUtils';
 
 const postCacheDefinition = {
   charset: 'utf-8',
@@ -14,7 +16,7 @@ const postCacheDefinition = {
   },
 };
 
-async function getSearchIndex() {
+const getSearchIndex = cache(async () => {
   const searchIndex = new Document(postCacheDefinition);
   const searchDir = path.join(process.cwd(), 'public', 'data', 'search');
 
@@ -33,9 +35,9 @@ async function getSearchIndex() {
   }
 
   return searchIndex;
-}
+});
 
-async function getAllPostsMap() {
+const getAllPostsMap = cache(async () => {
   const filePath = path.join(
     process.cwd(),
     'public',
@@ -52,7 +54,7 @@ async function getAllPostsMap() {
 
     return new Map();
   }
-}
+});
 
 const SearchPage = async ({
   searchParams,
@@ -86,7 +88,8 @@ const SearchPage = async ({
 
   const filteredPosts = Array.from(uniqueSlugs)
     .map((slug) => postMap.get(slug))
-    .filter(Boolean) as PostInfo[];
+    .filter(Boolean)
+    .sort((a, b) => compareDatesDesc(a?.date, b?.date)) as PostInfo[];
 
   return (
     <SearchResultsWrapper
