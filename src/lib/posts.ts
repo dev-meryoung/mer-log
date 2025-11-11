@@ -78,8 +78,7 @@ export const getAllPosts = async (): Promise<PostInfo[]> => {
   }
 };
 
-export const getAllTags = async (): Promise<string[]> => {
-  const posts = await getAllPosts();
+export const getAllTags = (posts: PostInfo[]): string[] => {
   const tagFrequency: Record<string, number> = {};
 
   posts.forEach((post) => {
