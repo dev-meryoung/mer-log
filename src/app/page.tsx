@@ -3,7 +3,7 @@ import { getAllPosts, getAllTags } from '@/lib/posts';
 
 const Home = async () => {
   const allPosts = await getAllPosts();
-  const allTags = await getAllTags();
+  const allTags = getAllTags(allPosts);
 
   return <HomeWrapper allPosts={allPosts} allTags={allTags} />;
 };

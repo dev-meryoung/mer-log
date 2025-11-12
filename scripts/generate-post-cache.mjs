@@ -1,8 +1,8 @@
-const fs = require('fs/promises');
-const path = require('path');
-const matter = require('gray-matter');
-const { getPlaiceholder } = require('plaiceholder');
-const { Document } = require('flexsearch');
+import fs from 'fs/promises';
+import path from 'path';
+import { Document } from 'flexsearch';
+import matter from 'gray-matter';
+import { getPlaiceholder } from 'plaiceholder';
 
 async function generateBlurDataForImage(imagePath) {
   const fullPath = path.join(process.cwd(), 'public', imagePath);
@@ -82,12 +82,6 @@ async function generatePostCache() {
           return null;
         }
 
-        try {
-          stats = await fs.stat(itemPath);
-        } catch (error) {
-          return null;
-        }
-
         if (stats.isDirectory()) {
           const filePath = path.join(itemPath, 'index.mdx');
 
@@ -117,7 +111,7 @@ async function generatePostCache() {
               date: data.date,
               tags: data.tags,
               thumbnail: thumbnailURL,
-              blurDataURL: blurDataURL,
+              blurDataURL,
             };
           } catch (error) {
             console.log(error);
