@@ -2,40 +2,22 @@
 
 import React, { useEffect, useState } from 'react';
 import { MoonIcon, SunIcon } from '@heroicons/react/16/solid';
+import { useTheme } from 'next-themes';
 
 const ThemeToggleButton = () => {
-  const [theme, setTheme] = useState<'light' | 'dark' | undefined>(undefined);
+  const { resolvedTheme, setTheme } = useTheme();
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    try {
-      const storedTheme = localStorage.getItem('theme');
-
-      if (storedTheme === 'dark' || storedTheme === 'light') {
-        setTheme(storedTheme as 'light' | 'dark');
-        document.documentElement.classList.toggle(
-          'dark',
-          storedTheme === 'dark'
-        );
-      } else {
-        const prefersDark = window.matchMedia(
-          '(prefers-color-scheme: dark)'
-        ).matches;
-        const initTheme = prefersDark ? 'dark' : 'light';
-
-        setTheme(initTheme);
-        document.documentElement.classList.toggle('dark', initTheme === 'dark');
-      }
-    } catch (error) {
-      console.error(error);
-    }
+    setIsMounted(true);
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'dark' ? 'light' : 'dark';
+  const currentTheme = resolvedTheme === 'dark' ? 'dark' : 'light';
+  const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-    setTheme(newTheme);
-    localStorage.setItem('theme', newTheme);
-    document.documentElement.classList.toggle('dark', newTheme === 'dark');
+  const toggleTheme = () => {
+    setTheme(nextTheme);
+    document.documentElement.classList.toggle('dark', nextTheme === 'dark');
   };
 
   return (
@@ -45,7 +27,7 @@ const ThemeToggleButton = () => {
       onClick={toggleTheme}
       aria-label='테마 전환'
     >
-      {theme === 'dark' ? (
+      {isMounted && currentTheme === 'dark' ? (
         <SunIcon className='h-5 w-5 text-text-dark' />
       ) : (
         <MoonIcon className='h-5 w-5' />

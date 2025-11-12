@@ -1,72 +1,112 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
+
+const GISCUS_ORIGIN = 'https://giscus.app';
+const DARK_CLASS = 'dark';
 
 const Comments = () => {
-  const getInitialTheme = () =>
-    typeof window !== 'undefined' &&
-    document.documentElement.classList.contains('dark')
+  const observerRef = useRef<MutationObserver | null>(null);
+  const pendingThemeRef = useRef<'light' | 'noborder_dark' | null>(null);
+  const getDomTheme = () =>
+    document.documentElement.classList.contains(DARK_CLASS)
       ? 'noborder_dark'
       : 'light';
 
-  const [theme, setTheme] = useState(getInitialTheme);
-
   useEffect(() => {
-    const checkTheme = () => {
-      const isDark = document.documentElement.classList.contains('dark');
-      setTheme(isDark ? 'noborder_dark' : 'light');
+    const mountGiscus = () => {
+      const giscusContainer = document.getElementById('giscus');
 
+      if (!giscusContainer || document.querySelector('script#giscus-script')) {
+        return;
+      }
+
+      const script = document.createElement('script');
+
+      script.id = 'giscus-script';
+      script.src = 'https://giscus.app/client.js';
+      script.setAttribute('data-repo', 'dev-meryoung/mer-log');
+      script.setAttribute('data-repo-id', 'R_kgDON6ue9Q');
+      script.setAttribute('data-category', 'Comments');
+      script.setAttribute('data-category-id', 'DIC_kwDON6ue9c4CnYFV');
+      script.setAttribute('data-mapping', 'pathname');
+      script.setAttribute('data-strict', '0');
+      script.setAttribute('data-reactions-enabled', '1');
+      script.setAttribute('data-emit-metadata', '0');
+      script.setAttribute('data-input-position', 'bottom');
+      script.setAttribute('data-lang', 'ko');
+      script.setAttribute('data-theme', getDomTheme());
+      script.crossOrigin = 'anonymous';
+      script.async = true;
+
+      giscusContainer.innerHTML = '';
+      giscusContainer.appendChild(script);
+      pendingThemeRef.current = getDomTheme();
+    };
+
+    const postTheme = () => {
+      const theme = getDomTheme();
       const iframe = document.querySelector<HTMLIFrameElement>(
         'iframe.giscus-frame'
       );
 
-      if (iframe) {
-        iframe.contentWindow?.postMessage(
-          {
-            giscus: {
-              setConfig: { theme: isDark ? 'noborder_dark' : 'light' },
-            },
-          },
-          'https://giscus.app'
-        );
+      if (!iframe?.contentWindow) {
+        pendingThemeRef.current = theme;
+        return false;
       }
+
+      iframe.contentWindow.postMessage(
+        {
+          giscus: {
+            setConfig: { theme },
+          },
+        },
+        GISCUS_ORIGIN
+      );
+
+      pendingThemeRef.current = null;
+      return true;
     };
 
-    const observer = new MutationObserver(checkTheme);
+    mountGiscus();
 
-    observer.observe(document.documentElement, {
+    observerRef.current = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (
+          mutation.type === 'attributes' &&
+          mutation.attributeName === 'class'
+        ) {
+          postTheme();
+          break;
+        }
+      }
+    });
+
+    observerRef.current.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['class'],
     });
 
-    checkTheme();
+    const handleMessage = (event: MessageEvent) => {
+      if (
+        event.origin !== GISCUS_ORIGIN ||
+        !event.data?.giscus?.loaded ||
+        !pendingThemeRef.current
+      ) {
+        return;
+      }
 
-    return () => observer.disconnect();
+      postTheme();
+    };
+
+    window.addEventListener('message', handleMessage);
+
+    return () => {
+      observerRef.current?.disconnect();
+      observerRef.current = null;
+      window.removeEventListener('message', handleMessage);
+    };
   }, []);
-
-  useEffect(() => {
-    if (document.querySelector('script#giscus-script')) return;
-
-    const script = document.createElement('script');
-
-    script.id = 'giscus-script';
-    script.src = 'https://giscus.app/client.js';
-    script.setAttribute('data-repo', 'dev-meryoung/mer-log');
-    script.setAttribute('data-repo-id', 'R_kgDON6ue9Q');
-    script.setAttribute('data-category', 'Comments');
-    script.setAttribute('data-category-id', 'DIC_kwDON6ue9c4CnYFV');
-    script.setAttribute('data-mapping', 'pathname');
-    script.setAttribute('data-strict', '0');
-    script.setAttribute('data-reactions-enabled', '1');
-    script.setAttribute('data-emit-metadata', '0');
-    script.setAttribute('data-input-position', 'bottom');
-    script.setAttribute('data-lang', 'ko');
-    script.setAttribute('data-theme', theme);
-    script.crossOrigin = 'anonymous';
-    script.async = true;
-
-    document.getElementById('giscus')?.appendChild(script);
-  }, [theme]);
 
   return (
     <div
