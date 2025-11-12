@@ -36,7 +36,12 @@ const RootLayout = ({
       />
     </head>
     <body className='dark:bg-background-dark'>
-      <ThemeProvider attribute='class'>
+      <ThemeProvider
+        attribute='class'
+        defaultTheme='system'
+        enableSystem={true}
+        enableColorScheme={true}
+      >
         <Header />
         <main className='container flex-1 mx-auto p-4 mt-16'>{children}</main>
         <Footer />
