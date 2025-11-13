@@ -7,10 +7,10 @@ const DARK_CLASS = 'dark';
 
 const Comments = () => {
   const observerRef = useRef<MutationObserver | null>(null);
-  const pendingThemeRef = useRef<'light' | 'noborder_dark' | null>(null);
+  const pendingThemeRef = useRef<'light' | 'transparent_dark' | null>(null);
   const getDomTheme = () =>
     document.documentElement.classList.contains(DARK_CLASS)
-      ? 'noborder_dark'
+      ? 'transparent_dark'
       : 'light';
 
   useEffect(() => {
