@@ -1,6 +1,7 @@
 export const dynamicParams = false;
 
 import { Metadata } from 'next';
+import JsonLd from '@/components/JsonLd';
 import PostWrapper from '@/components/PostWrapper';
 import { defaultMetadata } from '@/lib/metadata';
 import { getAllPosts, getPost } from '@/lib/posts';
@@ -38,15 +39,19 @@ const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
   const post = await getPost(slug);
   const { postInfo, mdxSource, headings, prevPost, nextPost } = post;
+  const postURL = `${BASE_URL}/post/${slug}`;
 
   return (
-    <PostWrapper
-      postInfo={postInfo}
-      mdxSource={mdxSource}
-      headings={headings}
-      prevPost={prevPost}
-      nextPost={nextPost}
-    />
+    <>
+      <JsonLd post={postInfo} url={postURL} />
+      <PostWrapper
+        postInfo={postInfo}
+        mdxSource={mdxSource}
+        headings={headings}
+        prevPost={prevPost}
+        nextPost={nextPost}
+      />
+    </>
   );
 };
 
