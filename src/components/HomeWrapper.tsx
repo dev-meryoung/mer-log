@@ -1,58 +1,43 @@
 'use client';
 
-import { useMemo, useTransition } from 'react';
+import { useTransition } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { PostInfo } from '@/lib/posts';
+import { PostInfo } from '@/types/post';
 import PostList from './PostList';
 import TagList from './TagList';
 import TransitionWrapper from './TransitionWrapper';
 
 interface HomeWrapperProps {
   allTags: string[];
-  allPosts: PostInfo[];
+  posts: PostInfo[];
+  totalPages: number;
+  currentPage: number;
+  selectedTags: string[];
 }
 
-const HomeWrapper: React.FC<HomeWrapperProps> = ({ allTags, allPosts }) => {
+const HomeWrapper: React.FC<HomeWrapperProps> = ({
+  allTags,
+  posts,
+  totalPages,
+  currentPage,
+  selectedTags,
+}) => {
   const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
-
-  const selectedTags = useMemo(
-    () => searchParams.getAll('tag'),
-    [searchParams]
-  );
-  const currentPage = useMemo(
-    () => Number(searchParams.get('page')) || 1,
-    [searchParams]
-  );
-
-  const filteredPosts = useMemo(
-    () =>
-      selectedTags.length > 0
-        ? allPosts.filter((post) =>
-            selectedTags.some((tag) => post.tags.includes(tag))
-          )
-        : allPosts,
-    [selectedTags, allPosts]
-  );
-
-  const postsPerPage = 5;
-  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
-
-  const currentPosts = filteredPosts.slice(
-    (currentPage - 1) * postsPerPage,
-    currentPage * postsPerPage
-  );
 
   const handleTagClick = (tag: string) => {
     const newTags = selectedTags.includes(tag)
       ? selectedTags.filter((t) => t !== tag)
       : [...selectedTags, tag];
 
-    const params = new URLSearchParams();
-
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('tag');
     newTags.forEach((t) => params.append('tag', t));
+
+    params.set('page', '1');
+
     startTransition(() => {
       router.push(`${pathname}?${params.toString()}`);
     });
@@ -75,7 +60,7 @@ const HomeWrapper: React.FC<HomeWrapperProps> = ({ allTags, allPosts }) => {
         onTagClick={handleTagClick}
       />
       <PostList
-        posts={currentPosts}
+        posts={posts}
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}

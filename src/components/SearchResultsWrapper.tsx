@@ -7,7 +7,7 @@ import {
   useRouter,
   useSearchParams,
 } from 'next/navigation';
-import { PostInfo } from '@/lib/posts';
+import { PostInfo } from '@/types/post';
 import PostList from './PostList';
 import TransitionWrapper from './TransitionWrapper';
 

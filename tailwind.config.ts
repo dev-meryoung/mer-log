@@ -1,3 +1,4 @@
+import typography from '@tailwindcss/typography';
 import type { Config } from 'tailwindcss';
 
 export default {
@@ -34,8 +35,8 @@ export default {
           lg: '1024px',
         },
       },
-      
-      typography: (theme: any) => ({
+
+      typography: (theme: (path: string) => string) => ({
         DEFAULT: {
           css: {
             h1: {
@@ -139,5 +140,5 @@ export default {
       }),
     },
   },
-  plugins: [require('@tailwindcss/typography')],
+  plugins: [typography],
 } satisfies Config;
