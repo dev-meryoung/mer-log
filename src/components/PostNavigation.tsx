@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { PostInfo } from '@/lib/posts';
+import { PostInfo } from '@/types/post';
 
 interface PostNavigationProps {
   prevPost: PostInfo | null | undefined;
