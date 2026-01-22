@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { PostInfo } from '@/lib/posts';
+import { PostInfo } from '@/types/post';
 import Pagination from './Pagination';
 import PostCard from './PostCard';
 

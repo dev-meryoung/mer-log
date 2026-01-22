@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { MDXRemoteProps } from 'next-mdx-remote/rsc';
-import { PostInfo, Heading } from '@/lib/posts';
+import { PostInfo, Heading } from '@/types/post';
 import { formatDate } from '@/utils/dateUtils';
 import Comments from './Comments';
 import IndexNavigation from './IndexNavigation';
