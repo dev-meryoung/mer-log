@@ -78,7 +78,7 @@ async function generatePostCache() {
 
         try {
           stats = await fs.stat(itemPath);
-        } catch (error) {
+        } catch {
           return null;
         }
 

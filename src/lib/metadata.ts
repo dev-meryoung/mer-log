@@ -64,4 +64,5 @@ export const defaultMetadata = ({
   alternates: {
     canonical: url,
   },
+  metadataBase: new URL(BASE_URL || 'http://localhost:3000'),
 });
