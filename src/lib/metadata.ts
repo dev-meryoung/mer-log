@@ -1,9 +1,6 @@
 import type { Metadata } from 'next';
+import { SITE_CONFIG } from '@/constants';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const DEFAULT_TITLE = 'merlog';
-const DEFAULT_DESCRIPTION =
-  '함께하고 싶은 개발자가 되어가는 과정을 기록하는 기술 블로그, merlog';
 const DEFAULT_KEYWORDS = [
   '프론트엔드',
   '개발자',
@@ -21,18 +18,18 @@ const DEFAULT_KEYWORDS = [
 ];
 
 const DEFAULT_IMAGE = {
-  url: `${BASE_URL}/images/thumbnail.png`,
+  url: `${SITE_CONFIG.url}${SITE_CONFIG.image}`,
   width: 1200,
   height: 630,
   alt: 'thumbnail',
 };
 
 export const defaultMetadata = ({
-  title = DEFAULT_TITLE,
-  description = DEFAULT_DESCRIPTION,
+  title = SITE_CONFIG.title,
+  description = SITE_CONFIG.description,
   keywords = [],
   image = DEFAULT_IMAGE.url,
-  url = BASE_URL,
+  url = SITE_CONFIG.url,
 }: {
   title?: string;
   description?: string;
@@ -49,20 +46,12 @@ export const defaultMetadata = ({
     title,
     description,
     url,
-    siteName: 'merlog',
-    images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    site: '@merlog',
-    creator: '@meryoung',
-    title,
-    description,
+    siteName: SITE_CONFIG.title,
     images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
   },
   robots: 'index, follow',
   alternates: {
     canonical: url,
   },
-  metadataBase: new URL(BASE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(SITE_CONFIG.url),
 });
