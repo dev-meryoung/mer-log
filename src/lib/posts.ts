@@ -99,11 +99,11 @@ export const getPost = async (slug: string): Promise<PostData> => {
   }
 
   const cachedPost = allPosts[currentIndex];
-  const prevPost = allPosts[currentIndex + 1] || null;
+  const previousPost = allPosts[currentIndex + 1] || null;
   const nextPost = allPosts[currentIndex - 1] || null;
 
-  const postDir = path.join(process.cwd(), 'public', 'posts', slug);
-  const filePath = path.join(postDir, 'index.mdx');
+  const postDirectory = path.join(process.cwd(), 'public', 'posts', slug);
+  const filePath = path.join(postDirectory, 'index.mdx');
 
   try {
     const fileContents = await fs.readFile(filePath, 'utf8');
@@ -139,7 +139,7 @@ export const getPost = async (slug: string): Promise<PostData> => {
       mdxSource: mdxSource as ReactElement<MDXRemoteProps>,
       headings,
       summary: cachedPost.summary,
-      prevPost,
+      previousPost,
       nextPost,
     };
   } catch {

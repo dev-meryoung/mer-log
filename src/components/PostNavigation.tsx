@@ -2,20 +2,20 @@ import Link from 'next/link';
 import { PostInfo } from '@/types/post';
 
 interface PostNavigationProps {
-  prevPost: PostInfo | null | undefined;
+  previousPost: PostInfo | null | undefined;
   nextPost: PostInfo | null | undefined;
 }
 
-const PostNavigation = ({ prevPost, nextPost }: PostNavigationProps) => (
+const PostNavigation = ({ previousPost, nextPost }: PostNavigationProps) => (
   <div className='flex gap-4'>
     <div className='flex w-full justify-center mx-auto rounded-lg bg-white shadow-md mt-4 dark:bg-darkActive'>
-      {prevPost ? (
+      {previousPost ? (
         <Link
-          href={`/post/${prevPost.slug}`}
+          href={`/post/${previousPost.slug}`}
           className='w-full flex flex-col gap-1.5 p-4 md:p-5 hover:text-secondary dark:text-text-dark dark:hover:text-blue-700'
         >
           <p className='text-base md:text-lg font-bold'>← 이전 글</p>
-          <p className='text-sm md:text-base'>{prevPost.title}</p>
+          <p className='text-sm md:text-base'>{previousPost.title}</p>
         </Link>
       ) : (
         <div className='w-full flex flex-col gap-1.5 p-4 md:p-5'>

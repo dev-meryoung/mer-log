@@ -15,7 +15,7 @@ const ThemeToggleButton = () => {
   const currentTheme = resolvedTheme === 'dark' ? 'dark' : 'light';
   const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
 
-  const toggleTheme = () => {
+  const handleThemeToggle = () => {
     setTheme(nextTheme);
     document.documentElement.classList.toggle('dark', nextTheme === 'dark');
   };
@@ -24,7 +24,7 @@ const ThemeToggleButton = () => {
     <button
       type='button'
       className='p-2 rounded-xl hover:bg-gray-200 dark:hover:bg-darkActive'
-      onClick={toggleTheme}
+      onClick={handleThemeToggle}
       aria-label='테마 전환'
     >
       {isMounted && currentTheme === 'dark' ? (

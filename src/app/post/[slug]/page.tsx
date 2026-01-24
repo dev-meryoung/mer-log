@@ -38,7 +38,8 @@ export async function generateStaticParams() {
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
   const post = await getPost(slug);
-  const { postInfo, mdxSource, headings, prevPost, nextPost } = post;
+
+  const { postInfo, mdxSource, headings, previousPost, nextPost } = post;
   const postURL = `${BASE_URL}/post/${slug}`;
 
   return (
@@ -48,7 +49,7 @@ const PostPage = async ({ params }: PostPageProps) => {
         postInfo={postInfo}
         mdxSource={mdxSource}
         headings={headings}
-        prevPost={prevPost}
+        previousPost={previousPost}
         nextPost={nextPost}
       />
     </>

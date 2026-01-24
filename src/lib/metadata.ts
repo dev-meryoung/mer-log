@@ -24,19 +24,21 @@ const DEFAULT_IMAGE = {
   alt: 'thumbnail',
 };
 
+interface DefaultMetadataProps {
+  title?: string;
+  description?: string;
+  keywords?: string[];
+  image?: string;
+  url?: string;
+}
+
 export const defaultMetadata = ({
   title = SITE_CONFIG.title,
   description = SITE_CONFIG.description,
   keywords = [],
   image = DEFAULT_IMAGE.url,
   url = SITE_CONFIG.url,
-}: {
-  title?: string;
-  description?: string;
-  keywords?: string[];
-  image?: string;
-  url?: string;
-}): Metadata => ({
+}: DefaultMetadataProps): Metadata => ({
   title,
   description,
   keywords: [...DEFAULT_KEYWORDS, ...keywords],
