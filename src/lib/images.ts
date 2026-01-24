@@ -3,12 +3,15 @@ import path from 'path';
 import imageSize from 'image-size';
 import { getPlaiceholder } from 'plaiceholder';
 
+const DEFAULT_IMAGE_WIDTH = 1280;
+const DEFAULT_IMAGE_HEIGHT = 720;
+
 const computeDimensions = (buffer: Buffer) => {
   const dimensions = imageSize(buffer);
 
   return {
-    width: dimensions.width || 1280,
-    height: dimensions.height || 720,
+    width: dimensions.width || DEFAULT_IMAGE_WIDTH,
+    height: dimensions.height || DEFAULT_IMAGE_HEIGHT,
   };
 };
 
@@ -24,13 +27,13 @@ export const getImageSize = async (src: string) => {
 
     buffer = fs.readFileSync(fullPath);
   } else {
-    const res = await fetch(src);
+    const response = await fetch(src);
 
-    if (!res.ok) {
+    if (!response.ok) {
       throw new Error(src);
     }
 
-    buffer = Buffer.from(await res.arrayBuffer());
+    buffer = Buffer.from(await response.arrayBuffer());
   }
 
   return computeDimensions(buffer);

@@ -32,6 +32,6 @@ export interface PostData {
   mdxSource: ReactElement<MDXRemoteProps>;
   headings: Heading[];
   summary: string;
-  prevPost?: PostInfo | null;
+  previousPost?: PostInfo | null;
   nextPost?: PostInfo | null;
 }

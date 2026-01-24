@@ -3,8 +3,9 @@ export const dynamicParams = false;
 import { Metadata } from 'next';
 import JsonLd from '@/components/JsonLd';
 import PostWrapper from '@/components/PostWrapper';
+import { getPost } from '@/lib/mdx';
 import { defaultMetadata } from '@/lib/metadata';
-import { getAllPosts, getPost } from '@/lib/posts';
+import { getAllPosts } from '@/lib/posts';
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
@@ -38,7 +39,8 @@ export async function generateStaticParams() {
 const PostPage = async ({ params }: PostPageProps) => {
   const { slug } = await params;
   const post = await getPost(slug);
-  const { postInfo, mdxSource, headings, prevPost, nextPost } = post;
+
+  const { postInfo, mdxSource, headings, previousPost, nextPost } = post;
   const postURL = `${BASE_URL}/post/${slug}`;
 
   return (
@@ -48,7 +50,7 @@ const PostPage = async ({ params }: PostPageProps) => {
         postInfo={postInfo}
         mdxSource={mdxSource}
         headings={headings}
-        prevPost={prevPost}
+        previousPost={previousPost}
         nextPost={nextPost}
       />
     </>
