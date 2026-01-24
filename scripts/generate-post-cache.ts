@@ -24,7 +24,7 @@ async function generateBlurDataForImage(imagePath: string): Promise<string> {
 
   try {
     const fileBuffer = await fs.readFile(fullPath);
-    const { base64 } = await getPlaiceholder(fileBuffer, { size: 10 });
+    const { base64 } = await getPlaiceholder(fileBuffer, { size: 32 });
     return base64;
   } catch {
     const defaultPath = path.join(
@@ -35,7 +35,7 @@ async function generateBlurDataForImage(imagePath: string): Promise<string> {
     );
     try {
       const fileBuffer = await fs.readFile(defaultPath);
-      const { base64 } = await getPlaiceholder(fileBuffer, { size: 10 });
+      const { base64 } = await getPlaiceholder(fileBuffer, { size: 32 });
       return base64;
     } catch {
       return '';
@@ -59,8 +59,13 @@ async function processPost(
 
     if (
       existingCache[folderName] &&
-      existingCache[folderName].__mtime === mtime
+      existingCache[folderName].__mtime === mtime &&
+      existingCache[folderName].__content
     ) {
+      return {
+        ...existingCache[folderName],
+        slug: folderName,
+      };
     }
 
     const fileContents = await fs.readFile(filePath, 'utf8');
@@ -79,11 +84,10 @@ async function processPost(
     let blurDataURL = '';
     if (
       existingCache[folderName] &&
-      existingCache[folderName].__mtime === mtime &&
-      existingCache[folderName].blurDataURL
+      existingCache[folderName].blurDataURL &&
+      existingCache[folderName].thumbnail === thumbnail
     ) {
-      const { blurDataURL: cachedBlur } = existingCache[folderName];
-      blurDataURL = cachedBlur;
+      ({ blurDataURL } = existingCache[folderName]);
     } else {
       blurDataURL = await generateBlurDataForImage(thumbnail);
     }
@@ -102,7 +106,8 @@ async function processPost(
       __mtime: mtime,
       __content: plainText,
     };
-  } catch {
+  } catch (error) {
+    console.error(`Failed to process post ${folderName}:`, error);
     return null;
   }
 }
@@ -156,9 +161,14 @@ async function main() {
     slug: post.slug,
     blurDataURL: post.blurDataURL,
     summary: post.summary,
+    __mtime: post.__mtime,
+    __content: post.__content,
   }));
 
   await fs.writeFile(CACHE_FILE_PATH, JSON.stringify(listCache, null, 2));
 }
 
-main().catch(() => process.exit(1));
+main().catch((error) => {
+  console.error('Build script failed:', error);
+  process.exit(1);
+});

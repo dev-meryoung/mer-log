@@ -13,3 +13,5 @@ export const SITE_CONFIG = {
   },
   image: '/images/thumbnail.png',
 } as const;
+
+export const POSTS_PER_PAGE = 5;
