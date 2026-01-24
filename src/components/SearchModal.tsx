@@ -17,6 +17,12 @@ const SearchModal: React.FC<SearchModalProps> = ({ isModalOpen, onClose }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    if (isModalOpen) {
+      router.prefetch('/search');
+    }
+  }, [isModalOpen, router]);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();

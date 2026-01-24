@@ -14,17 +14,17 @@ interface PostWrapperProps {
   postInfo: PostInfo;
   mdxSource: ReactElement<MDXRemoteProps>;
   headings: Heading[];
-  prevPost?: PostInfo | null;
+  previousPost?: PostInfo | null;
   nextPost?: PostInfo | null;
 }
 
-const PostWrapper: React.FC<PostWrapperProps> = ({
+const PostWrapper = ({
   postInfo,
   mdxSource,
   headings,
-  prevPost,
+  previousPost,
   nextPost,
-}) => (
+}: PostWrapperProps) => (
   <div data-is-post-page='true'>
     <article className='w-full mx-auto p-5 md:p-10 rounded-lg bg-white shadow-md dark:bg-darkActive'>
       <div className='relative'>
@@ -59,7 +59,7 @@ const PostWrapper: React.FC<PostWrapperProps> = ({
         <div className='prose dark:prose-dark max-w-none'>{mdxSource}</div>
       </div>
     </article>
-    <PostNavigation prevPost={prevPost} nextPost={nextPost} />
+    <PostNavigation previousPost={previousPost} nextPost={nextPost} />
     <Comments />
   </div>
 );
