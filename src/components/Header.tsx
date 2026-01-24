@@ -1,12 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import IconButton from '@/components/IconButton';
 import ScrollProgressBar from '@/components/ScrollProgressBar';
-import SearchButton from '@/components/SearchButton';
 import SearchModal from '@/components/SearchModal';
 import ThemeToggleButton from '@/components/ThemeToggleButton';
 
@@ -71,7 +71,13 @@ const Header = () => {
               }
             />
             <ThemeToggleButton />
-            <SearchButton onClick={() => setIsModalOpen(true)} />
+            <IconButton
+              icon={
+                <MagnifyingGlassIcon className='h-5 w-5' strokeWidth={2.5} />
+              }
+              onClick={() => setIsModalOpen(true)}
+              aria-label='검색'
+            />
           </div>
         </div>
       </header>

@@ -10,7 +10,7 @@ const Loading = () => (
         {Array.from({ length: 10 }).map((_, i) => (
           <div
             key={i}
-            className='h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded-3xl'
+            className='h-8 w-16 bg-gray-200 dark:bg-gray-600 rounded-3xl'
           />
         ))}
       </div>

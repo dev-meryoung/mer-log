@@ -1,6 +1,5 @@
 'use client';
 
-import { useTransition } from 'react';
 import {
   notFound,
   usePathname,
@@ -9,7 +8,6 @@ import {
 } from 'next/navigation';
 import { PostInfo } from '@/types/post';
 import PostList from './PostList';
-import TransitionWrapper from './TransitionWrapper';
 
 interface SearchResultsWrapperProps {
   initialPosts: PostInfo[];
@@ -20,7 +18,6 @@ const SearchResultsWrapper = ({
   initialPosts,
   keyword,
 }: SearchResultsWrapperProps) => {
-  const [isPending, startTransition] = useTransition();
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
@@ -37,13 +34,11 @@ const SearchResultsWrapper = ({
     const params = new URLSearchParams(searchParams.toString());
 
     params.set('page', page.toString());
-    startTransition(() => {
-      router.push(`${pathname}?${params.toString()}`);
-    });
+    router.push(`${pathname}?${params.toString()}`);
   };
 
   return (
-    <TransitionWrapper isPending={isPending}>
+    <>
       <h1 className='inline-block text-2xl md:text-3xl font-semibold my-4 md:my-8'>
         <span className='text-secondary dark:text-blue-700'>{`🔍'${keyword}'`}</span>
         <span className='text-gray-800 dark:text-gray-200'>
@@ -68,7 +63,7 @@ const SearchResultsWrapper = ({
           </p>
         </div>
       )}
-    </TransitionWrapper>
+    </>
   );
 };
 
