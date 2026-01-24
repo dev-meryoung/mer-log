@@ -6,7 +6,11 @@ export const formatDate = (date: string | Date): string => {
   return format(dateObj, 'yyyy년 MM월 dd일');
 };
 
-export const compareDatesDesc = (
+export const compareDatesDescending = (
   a: string | undefined,
   b: string | undefined
-): number => new Date(b || '').getTime() - new Date(a || '').getTime();
+): number => {
+  const timeA = a ? new Date(a).getTime() : 0;
+  const timeB = b ? new Date(b).getTime() : 0;
+  return timeB - timeA;
+};

@@ -1,5 +1,5 @@
-import { existsSync, readFileSync } from 'fs';
-import fs from 'fs/promises';
+import fs from 'fs';
+import fsPromises from 'fs/promises';
 import path from 'path';
 import matter from 'gray-matter';
 import pLimit from 'p-limit';
@@ -23,7 +23,7 @@ async function generateBlurDataForImage(imagePath: string): Promise<string> {
   const fullPath = path.join(process.cwd(), 'public', imagePath);
 
   try {
-    const fileBuffer = await fs.readFile(fullPath);
+    const fileBuffer = await fsPromises.readFile(fullPath);
     const { base64 } = await getPlaiceholder(fileBuffer, { size: 32 });
     return base64;
   } catch {
@@ -34,7 +34,7 @@ async function generateBlurDataForImage(imagePath: string): Promise<string> {
       'thumbnail.png'
     );
     try {
-      const fileBuffer = await fs.readFile(defaultPath);
+      const fileBuffer = await fsPromises.readFile(defaultPath);
       const { base64 } = await getPlaiceholder(fileBuffer, { size: 32 });
       return base64;
     } catch {
@@ -50,11 +50,11 @@ async function processPost(
   const itemPath = path.join(POSTS_DIR, folderName);
 
   try {
-    const stats = await fs.stat(itemPath);
+    const stats = await fsPromises.stat(itemPath);
     if (!stats.isDirectory()) return null;
 
     const filePath = path.join(itemPath, 'index.mdx');
-    const fileStats = await fs.stat(filePath);
+    const fileStats = await fsPromises.stat(filePath);
     const mtime = fileStats.mtime.toISOString();
 
     if (
@@ -68,7 +68,7 @@ async function processPost(
       };
     }
 
-    const fileContents = await fs.readFile(filePath, 'utf8');
+    const fileContents = await fsPromises.readFile(filePath, 'utf8');
     const { data, content } = matter(fileContents);
     const {
       title,
@@ -113,29 +113,29 @@ async function processPost(
 }
 
 async function main() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
+  await fsPromises.mkdir(DATA_DIR, { recursive: true });
 
   let existingCache: Record<string, CachedPost> = {};
-  if (existsSync(CACHE_FILE_PATH)) {
+  if (fs.existsSync(CACHE_FILE_PATH)) {
     try {
-      const cached = JSON.parse(readFileSync(CACHE_FILE_PATH, 'utf-8'));
+      const cached = JSON.parse(fs.readFileSync(CACHE_FILE_PATH, 'utf-8'));
       if (Array.isArray(cached)) {
-        existingCache = cached.reduce((acc, item) => {
-          if (item.slug) acc[item.slug] = item;
-          return acc;
+        existingCache = cached.reduce((accumulator, item) => {
+          if (item.slug) accumulator[item.slug] = item;
+          return accumulator;
         }, {});
       }
     } catch {}
   }
 
-  const postFolders = await fs.readdir(POSTS_DIR);
+  const postFolders = await fsPromises.readdir(POSTS_DIR);
   const limit = pLimit(CONCURRENCY_LIMIT);
 
   const posts = await Promise.all(
     postFolders.map((folder) => limit(() => processPost(folder, existingCache)))
   );
 
-  const validPosts = posts.filter((p): p is CachedPost => p !== null);
+  const validPosts = posts.filter((post): post is CachedPost => post !== null);
 
   validPosts.sort(
     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -150,7 +150,10 @@ async function main() {
     content: post.__content || '',
   }));
 
-  await fs.writeFile(SEARCH_INDEX_PATH, JSON.stringify(searchIndex, null, 2));
+  await fsPromises.writeFile(
+    SEARCH_INDEX_PATH,
+    JSON.stringify(searchIndex, null, 2)
+  );
 
   const listCache = validPosts.map((post) => ({
     title: post.title,
@@ -165,7 +168,10 @@ async function main() {
     __content: post.__content,
   }));
 
-  await fs.writeFile(CACHE_FILE_PATH, JSON.stringify(listCache, null, 2));
+  await fsPromises.writeFile(
+    CACHE_FILE_PATH,
+    JSON.stringify(listCache, null, 2)
+  );
 }
 
 main().catch((error) => {
