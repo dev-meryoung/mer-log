@@ -1,25 +1,15 @@
 import { Suspense } from 'react';
-import { notFound } from 'next/navigation';
 import SearchResultsWrapper from '@/components/SearchResultsWrapper';
 import Loading from './loading';
 
-const SearchPage = async ({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string }>;
-}) => {
-  const { keyword } = await searchParams;
-  const trimmedKeyword = keyword?.trim();
+interface SearchPageProps {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
 
-  if (!trimmedKeyword) {
-    notFound();
-  }
-
-  return (
-    <Suspense fallback={<Loading />}>
-      <SearchResultsWrapper keyword={trimmedKeyword} />
-    </Suspense>
-  );
-};
+const SearchPage = ({ searchParams }: SearchPageProps) => (
+  <Suspense fallback={<Loading />}>
+    <SearchResultsWrapper searchParams={searchParams} />
+  </Suspense>
+);
 
 export default SearchPage;
