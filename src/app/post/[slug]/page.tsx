@@ -3,8 +3,9 @@ export const dynamicParams = false;
 import { Metadata } from 'next';
 import JsonLd from '@/components/JsonLd';
 import PostWrapper from '@/components/PostWrapper';
+import { getPost } from '@/lib/mdx';
 import { defaultMetadata } from '@/lib/metadata';
-import { getAllPosts, getPost } from '@/lib/posts';
+import { getAllPosts } from '@/lib/posts';
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
