@@ -14,7 +14,14 @@ const eslintConfig = [
   ...compat.extends('next/core-web-vitals', 'next/typescript'),
 
   {
-    ignores: ['node_modules', 'public', 'build', 'dist', '.next'],
+    ignores: [
+      'node_modules',
+      'public',
+      'build',
+      'dist',
+      '.next',
+      'next-env.d.ts',
+    ],
   },
 
   {
