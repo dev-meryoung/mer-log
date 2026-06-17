@@ -12,7 +12,10 @@ const PostCard: React.FC<PostCardProps> = ({ post, priority = false }) => {
   const { title, description, thumbnail, blurDataURL, date, slug } = post;
 
   return (
-    <div className='group flex flex-col md:flex-row w-full rounded-lg shadow-md bg-white overflow-hidden dark:bg-darkActive min-h-[370px] md:min-h-[196px]'>
+    <Link
+      href={`/post/${slug}`}
+      className='group flex flex-col md:flex-row w-full rounded-lg shadow-md bg-white overflow-hidden dark:bg-darkActive min-h-[370px] md:min-h-[196px]'
+    >
       <div className='relative w-full md:w-1/3 aspect-video overflow-hidden'>
         <Image
           src={thumbnail}
@@ -27,9 +30,6 @@ const PostCard: React.FC<PostCardProps> = ({ post, priority = false }) => {
         />
       </div>
       <div className='relative flex flex-col w-full min-h-[164px] p-4 md:min-h-[188px] md:w-2/3 md:px-8 md:py-6 gap-2 flex-grow'>
-        <Link href={`/post/${slug}`} className='absolute inset-0 z-10'>
-          <span className='sr-only'>{title}</span>
-        </Link>
         <h2 className='font-bold text-lg md:text-xl lg:text-2xl line-clamp-2 group-hover:text-secondary dark:group-hover:text-blue-700 dark:text-text-dark relative z-0'>
           {title}
         </h2>
@@ -40,7 +40,7 @@ const PostCard: React.FC<PostCardProps> = ({ post, priority = false }) => {
           {formatDate(date)}
         </p>
       </div>
-    </div>
+    </Link>
   );
 };
 
