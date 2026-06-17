@@ -5,6 +5,7 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   basePath: string;
+  getPageHref?: (page: number) => string;
   onPageChange?: (page: number) => void;
 }
 
@@ -12,6 +13,7 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   basePath,
+  getPageHref,
   onPageChange,
 }) => {
   const safeCurrentPage = Math.max(1, Math.min(currentPage, totalPages));
@@ -31,6 +33,10 @@ const Pagination: React.FC<PaginationProps> = ({
   const activeClasses = 'bg-secondary text-text-dark dark:bg-blue-700';
 
   const getPageLink = (page: number) => {
+    if (getPageHref) {
+      return getPageHref(page);
+    }
+
     const cleanBasePath = basePath.replace(/\/$/, '');
     return page === 1 ? cleanBasePath || '/' : `${cleanBasePath}/page/${page}`;
   };
@@ -45,7 +51,10 @@ const Pagination: React.FC<PaginationProps> = ({
   if (totalPages <= 1) return null;
 
   return (
-    <div className='my-4 flex justify-center items-center space-x-2 dark:text-text-dark'>
+    <nav
+      className='my-4 flex justify-center items-center space-x-2 dark:text-text-dark'
+      aria-label='페이지네이션'
+    >
       {safeCurrentPage > 1 ? (
         <Link
           href={getPageLink(1)}
@@ -59,7 +68,9 @@ const Pagination: React.FC<PaginationProps> = ({
           처음
         </Link>
       ) : (
-        <span className={`${baseLinkClasses} ${disabledClasses}`}>처음</span>
+        <span className={`${baseLinkClasses} ${disabledClasses}`} aria-disabled>
+          처음
+        </span>
       )}
 
       {currentGroupStart > 1 ? (
@@ -71,12 +82,18 @@ const Pagination: React.FC<PaginationProps> = ({
           이전
         </Link>
       ) : (
-        <span className={`${baseLinkClasses} ${disabledClasses}`}>이전</span>
+        <span className={`${baseLinkClasses} ${disabledClasses}`} aria-disabled>
+          이전
+        </span>
       )}
 
       {paginationGroup.map((page) =>
         page === safeCurrentPage ? (
-          <span key={page} className={`${baseLinkClasses} ${activeClasses}`}>
+          <span
+            key={page}
+            className={`${baseLinkClasses} ${activeClasses}`}
+            aria-current='page'
+          >
             {page}
           </span>
         ) : (
@@ -100,7 +117,9 @@ const Pagination: React.FC<PaginationProps> = ({
           다음
         </Link>
       ) : (
-        <span className={`${baseLinkClasses} ${disabledClasses}`}>다음</span>
+        <span className={`${baseLinkClasses} ${disabledClasses}`} aria-disabled>
+          다음
+        </span>
       )}
 
       {safeCurrentPage < totalPages ? (
@@ -116,9 +135,11 @@ const Pagination: React.FC<PaginationProps> = ({
           끝
         </Link>
       ) : (
-        <span className={`${baseLinkClasses} ${disabledClasses}`}>끝</span>
+        <span className={`${baseLinkClasses} ${disabledClasses}`} aria-disabled>
+          끝
+        </span>
       )}
-    </div>
+    </nav>
   );
 };
 

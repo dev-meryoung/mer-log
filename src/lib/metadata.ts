@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { SITE_CONFIG } from '@/constants';
+import { toAbsoluteUrl, toSameOriginUrl } from './url';
 
 const DEFAULT_KEYWORDS = [
   '프론트엔드',
@@ -18,7 +19,7 @@ const DEFAULT_KEYWORDS = [
 ];
 
 const DEFAULT_IMAGE = {
-  url: `${SITE_CONFIG.url}${SITE_CONFIG.image}`,
+  url: toSameOriginUrl(SITE_CONFIG.image),
   width: 1200,
   height: 630,
   alt: 'thumbnail',
@@ -38,22 +39,33 @@ export const defaultMetadata = ({
   keywords = [],
   image = DEFAULT_IMAGE.url,
   url = SITE_CONFIG.url,
-}: DefaultMetadataProps): Metadata => ({
-  title,
-  description,
-  keywords: [...DEFAULT_KEYWORDS, ...keywords],
-  openGraph: {
-    type: 'website',
-    locale: 'ko_KR',
+}: DefaultMetadataProps): Metadata => {
+  const canonicalUrl = toAbsoluteUrl(url);
+  const imageUrl = image ? toAbsoluteUrl(image) : DEFAULT_IMAGE.url;
+
+  return {
     title,
     description,
-    url,
-    siteName: SITE_CONFIG.title,
-    images: [image ? { ...DEFAULT_IMAGE, url: image } : DEFAULT_IMAGE],
-  },
-  robots: 'index, follow',
-  alternates: {
-    canonical: url,
-  },
-  metadataBase: new URL(SITE_CONFIG.url),
-});
+    keywords: [...DEFAULT_KEYWORDS, ...keywords],
+    openGraph: {
+      type: 'website',
+      locale: 'ko_KR',
+      title,
+      description,
+      url: canonicalUrl,
+      siteName: SITE_CONFIG.title,
+      images: [{ ...DEFAULT_IMAGE, url: imageUrl }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [imageUrl],
+    },
+    robots: 'index, follow',
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    metadataBase: new URL(SITE_CONFIG.url),
+  };
+};

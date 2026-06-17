@@ -17,7 +17,7 @@ const Header = () => {
 
   useEffect(() => {
     const isPostPage =
-      pathname.startsWith('/post') &&
+      pathname.startsWith('/post/') &&
       document.querySelector('[data-is-post-page="true"]');
 
     setShowProgressBar(!!isPostPage);
@@ -28,10 +28,10 @@ const Header = () => {
       <header className='fixed top-0 w-full h-16 px-4 flex items-center justify-center border-b border-gray-200 bg-background-light z-50 select-none overflow-hidden dark:bg-background-dark dark:border-darkActive'>
         {showProgressBar && <ScrollProgressBar />}
         <div className='container flex justify-between items-center'>
-          <Link href='/' tabIndex={-1}>
+          <Link href='/' aria-label='merlog 홈으로 이동'>
             <Image
               src='/images/logo-light.svg'
-              alt='logo'
+              alt=''
               width={150}
               height={100}
               className='w-[150px] h-[100px] block dark:hidden'
@@ -39,7 +39,7 @@ const Header = () => {
             />
             <Image
               src='/images/logo-dark.svg'
-              alt='dark logo'
+              alt=''
               width={150}
               height={100}
               className='w-[150px] h-[100px] hidden dark:block'
@@ -62,6 +62,7 @@ const Header = () => {
                   />
                 </svg>
               }
+              aria-label='GitHub'
               onClick={() =>
                 window.open(
                   'https://github.com/dev-meryoung',

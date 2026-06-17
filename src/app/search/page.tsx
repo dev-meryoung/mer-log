@@ -1,15 +1,24 @@
-import { Suspense } from 'react';
-import SearchResultsWrapper from '@/components/SearchResultsWrapper';
-import Loading from './loading';
+import type { Metadata } from 'next';
+import SearchResultsWrapper, {
+  getSearchResultsData,
+} from '@/components/SearchResultsWrapper';
 
 interface SearchPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
+export const generateMetadata = async ({
+  searchParams,
+}: SearchPageProps): Promise<Metadata> => {
+  const { keyword } = await getSearchResultsData(searchParams);
+
+  return {
+    title: keyword ? `'${keyword}' 검색 결과` : '검색',
+  };
+};
+
 const SearchPage = ({ searchParams }: SearchPageProps) => (
-  <Suspense fallback={<Loading />}>
-    <SearchResultsWrapper searchParams={searchParams} />
-  </Suspense>
+  <SearchResultsWrapper searchParams={searchParams} />
 );
 
 export default SearchPage;

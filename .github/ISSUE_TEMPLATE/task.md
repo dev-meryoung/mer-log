@@ -1,3 +1,11 @@
+---
+name: Task
+about: 작업 이슈
+title: '[Feat] '
+labels: Feature
+assignees: ''
+---
+
 ## 📄 작업 설명
 
 _No response_
@@ -9,7 +17,3 @@ _No response_
 ## 📝 메모
 
 _No response_
-
-## 🔗 관련 이슈
-
-- Closes #

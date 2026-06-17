@@ -1,7 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
 import { ReactElement } from 'react';
-import matter from 'gray-matter';
 import type { Element, Root, Text } from 'hast';
 import { notFound } from 'next/navigation';
 import { compileMDX, MDXRemoteProps } from 'next-mdx-remote/rsc';
@@ -9,6 +8,7 @@ import rehypePrettyCode from 'rehype-pretty-code';
 import { visit } from 'unist-util-visit';
 import MDXComponents from '@/components/MDXComponents';
 import type { PostData, Heading } from '@/types/post';
+import { parseMdxFrontmatter } from './frontmatter';
 import { getAllPosts } from './posts';
 
 function rehypeExtractHeadings(options: { headings: Heading[] }) {
@@ -52,7 +52,7 @@ export const getPost = async (slug: string): Promise<PostData> => {
 
   try {
     const fileContents = await fs.readFile(filePath, 'utf8');
-    const { content } = matter(fileContents);
+    const { content } = parseMdxFrontmatter(fileContents);
     const headings: Heading[] = [];
 
     const { content: mdxSource } = await compileMDX<MDXRemoteProps>({

@@ -1,4 +1,5 @@
 import { SITE_CONFIG } from '@/constants';
+import { toSameOriginUrl } from '@/lib/url';
 import { PostInfo } from '@/types/post';
 
 interface JsonLdProps {
@@ -6,13 +7,16 @@ interface JsonLdProps {
   url: string;
 }
 
+const serializeJsonLd = (value: unknown): string =>
+  JSON.stringify(value).replace(/</g, '\\u003c');
+
 const JsonLd: React.FC<JsonLdProps> = ({ post, url }) => {
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: post.title,
     description: post.description,
-    image: post.thumbnail ? [post.thumbnail] : [],
+    image: post.thumbnail ? [toSameOriginUrl(post.thumbnail)] : [],
     datePublished: new Date(post.date).toISOString(),
     author: {
       '@type': 'Person',
@@ -24,7 +28,7 @@ const JsonLd: React.FC<JsonLdProps> = ({ post, url }) => {
       name: SITE_CONFIG.title,
       logo: {
         '@type': 'ImageObject',
-        url: `${SITE_CONFIG.url}${SITE_CONFIG.logo.light}`,
+        url: toSameOriginUrl(SITE_CONFIG.logo.light),
       },
     },
     mainEntityOfPage: {
@@ -37,7 +41,7 @@ const JsonLd: React.FC<JsonLdProps> = ({ post, url }) => {
   return (
     <script
       type='application/ld+json'
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
     />
   );
 };
