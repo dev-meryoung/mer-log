@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { toSameOriginUrl } from '@/lib/url';
 
 export const dynamic = 'force-static';
 
@@ -9,7 +10,7 @@ const robots = (): MetadataRoute.Robots => ({
       allow: '/',
     },
   ],
-  sitemap: 'https://www.merlog.kr/sitemap.xml',
+  sitemap: toSameOriginUrl('/sitemap.xml'),
 });
 
 export default robots;

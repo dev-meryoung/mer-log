@@ -1,20 +1,55 @@
 import type { MetadataRoute } from 'next';
-import { getAllPosts } from '@/lib/posts';
+import { getAllPosts, getAllTags } from '@/lib/posts';
+import { toSameOriginUrl } from '@/lib/url';
+import { getTotalPages } from '@/utils/paginationUtils';
 
 export const dynamic = 'force-static';
 
 const sitemap = async (): Promise<MetadataRoute.Sitemap> => {
-  const baseUrl = 'https://www.merlog.kr';
   const posts = await getAllPosts();
+  const tags = getAllTags(posts);
+  const latestPostDate = posts[0]?.date ? new Date(posts[0].date) : undefined;
+  const totalPostPages = getTotalPages(posts.length);
 
-  const urls = posts.map((post) => ({
-    url: `${baseUrl}/post/${post.slug}`,
-    lastModified: new Date(post.date).toISOString(),
-  }));
+  const urls: MetadataRoute.Sitemap = [
+    {
+      url: toSameOriginUrl('/'),
+      lastModified: latestPostDate,
+    },
+  ];
 
-  urls.unshift({
-    url: baseUrl,
-    lastModified: new Date().toISOString(),
+  for (let page = 2; page <= totalPostPages; page++) {
+    urls.push({
+      url: toSameOriginUrl(`/page/${page}`),
+      lastModified: latestPostDate,
+    });
+  }
+
+  posts.forEach((post) => {
+    urls.push({
+      url: toSameOriginUrl(`/post/${post.slug}`),
+      lastModified: new Date(post.date),
+    });
+  });
+
+  tags.forEach((tag) => {
+    const encodedTag = encodeURIComponent(tag);
+    const filteredPostCount = posts.filter((post) =>
+      post.tags.includes(tag)
+    ).length;
+    const totalTagPages = getTotalPages(filteredPostCount);
+
+    urls.push({
+      url: toSameOriginUrl(`/tags/${encodedTag}`),
+      lastModified: latestPostDate,
+    });
+
+    for (let page = 2; page <= totalTagPages; page++) {
+      urls.push({
+        url: toSameOriginUrl(`/tags/${encodedTag}/page/${page}`),
+        lastModified: latestPostDate,
+      });
+    }
   });
 
   return urls;

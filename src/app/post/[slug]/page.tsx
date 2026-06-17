@@ -6,12 +6,11 @@ import PostWrapper from '@/components/PostWrapper';
 import { getPost } from '@/lib/mdx';
 import { defaultMetadata } from '@/lib/metadata';
 import { getAllPosts } from '@/lib/posts';
+import { toSameOriginUrl } from '@/lib/url';
 
 interface PostPageProps {
   params: Promise<{ slug: string }>;
 }
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const generateMetadata = async ({
   params,
@@ -19,7 +18,7 @@ export const generateMetadata = async ({
   const { slug } = await params;
   const post = await getPost(slug);
   const { postInfo, summary } = post;
-  const postURL = `${BASE_URL}/post/${slug}`;
+  const postURL = toSameOriginUrl(`/post/${slug}`);
 
   return defaultMetadata({
     title: postInfo.title,
@@ -41,7 +40,7 @@ const PostPage = async ({ params }: PostPageProps) => {
   const post = await getPost(slug);
 
   const { postInfo, mdxSource, headings, previousPost, nextPost } = post;
-  const postURL = `${BASE_URL}/post/${slug}`;
+  const postURL = toSameOriginUrl(`/post/${slug}`);
 
   return (
     <>
