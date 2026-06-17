@@ -5,6 +5,7 @@ interface PaginationProps {
   currentPage: number;
   totalPages: number;
   basePath: string;
+  getPageHref?: (page: number) => string;
   onPageChange?: (page: number) => void;
 }
 
@@ -12,6 +13,7 @@ const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
   basePath,
+  getPageHref,
   onPageChange,
 }) => {
   const safeCurrentPage = Math.max(1, Math.min(currentPage, totalPages));
@@ -31,6 +33,10 @@ const Pagination: React.FC<PaginationProps> = ({
   const activeClasses = 'bg-secondary text-text-dark dark:bg-blue-700';
 
   const getPageLink = (page: number) => {
+    if (getPageHref) {
+      return getPageHref(page);
+    }
+
     const cleanBasePath = basePath.replace(/\/$/, '');
     return page === 1 ? cleanBasePath || '/' : `${cleanBasePath}/page/${page}`;
   };

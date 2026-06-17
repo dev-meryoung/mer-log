@@ -7,6 +7,7 @@ interface PostListProps {
   currentPage: number;
   totalPages: number;
   basePath?: string;
+  getPageHref?: (page: number) => string;
   onPageChange?: (page: number) => void;
 }
 
@@ -15,6 +16,7 @@ const PostList: React.FC<PostListProps> = ({
   currentPage,
   totalPages,
   basePath = '',
+  getPageHref,
   onPageChange,
 }) => (
   <div className='py-2 md:py-5'>
@@ -40,6 +42,7 @@ const PostList: React.FC<PostListProps> = ({
         currentPage={currentPage}
         totalPages={totalPages}
         basePath={basePath}
+        getPageHref={getPageHref}
         onPageChange={onPageChange}
       />
     )}
